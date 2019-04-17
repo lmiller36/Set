@@ -58,14 +58,9 @@
 <script type="text/javascript">
 
 	let game = new Game();
+document.game = game;
 
-
-	let cards = document.getElementById("Cards")
-	for (var i = 0; i < 12; i++){
-		let card = game.cards[i];
-		console.log(card);
-		cards.appendChild(card.getCardImage());
-	}
+game.addCards(12);
 	
 
 

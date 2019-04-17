@@ -18,7 +18,9 @@ var Shading = Object.freeze({
 
 class Game {
     constructor(){
+       this.selectedCards = {};
        this.cards = this.generateCards();
+       this.usedCards = 0;
    }
 
    generateCards(){
@@ -38,18 +40,109 @@ class Game {
             }
         }
     }
-    return cards;
+    return cards.sort(function(a, b){return 0.5 - Math.random()});;
 }
+
+addCards(numCards){
+    let cards = document.getElementById("Cards")
+
+    var count = 0;
+
+
+    while(count < numCards && this.usedCards < this.cards.length){
+        let card = game.cards[this.usedCards];
+        cards.appendChild(card.getCardImage());
+        count++;
+        this.usedCards++;
+    }
+
+
+    game.usedCards += numCards;
+}
+
+addOrRemoveFromSelection(selectedCard,shouldAdd){
+
+    let id = selectedCard.getID(true);
+    if(shouldAdd)
+        this.selectedCards[id] = selectedCard;
+    else
+       delete this.selectedCards[id]; 
+
+   if(Object.keys(this.selectedCards).length == 3){
+    let isSet = this.checkSet();
+    if(isSet){
+        var cardID;
+        for(cardID in this.selectedCards){
+            //let card = this.selectedCards[cardID];
+            let div_id = cardID+"_div";
+            let div = document.getElementById(div_id);
+            div.parentElement.removeChild(div);
+        }
+
+        this.addCards(3);
+
+    }
+    else
+     for(var cardID in this.selectedCards) this.selectedCards[cardID].toggleBorder();
+
+
+        this.selectedCards = {};
+
+
+}
+}
+
+//In order to be a set, each attribute (color,shape,shading, & number) must differ or be the same
+checkSet(){
+    let cardIds = Object.keys(this.selectedCards);
+    let card1 = this.selectedCards[cardIds[0]]
+    let card2 = this.selectedCards[cardIds[1]]
+    let card3 = this.selectedCards[cardIds[2]]
+
+    console.log(card1);
+    console.log(card2);
+    console.log(card3);
+
+    //Color
+    let colorsMatch = (card1.color == card2.color) && (card2.color == card3.color);
+    let colorsDiffer = (card1.color != card2.color) && (card1.color != card3.color) && (card2.color != card3.color);
+
+    if(!(colorsMatch || colorsDiffer)) return false;
+
+    //Shape
+    let shapesMatch = (card1.shape == card2.shape) && (card2.shape == card3.shape);
+    let shapesDiffer = (card1.shape != card2.shape) && (card1.shape != card3.shape) && (card2.shape != card3.shape);
+
+    if(!(shapesMatch || shapesDiffer)) return false;
+
+
+    //Shading
+    let shadingsMatch = (card1.shading == card2.shading) && (card2.shading == card3.shading);
+    let shadingsDiffer = (card1.shading != card2.shading) && (card1.shading != card3.shading) && (card2.shading != card3.shading);
+
+    if(!(shadingsMatch || shadingsDiffer)) return false;
+
+    //Number
+    let numbersMatch = (card1.number == card2.number) && (card2.number == card3.number);
+    let numbersDiffer = (card1.number != card2.number) && (card1.number != card3.number) && (card2.number != card3.number);
+
+    if(!(numbersMatch || numbersDiffer)) return false;
+
+    return true;
+}
+
 
 }
 
 class Card {
 
-    constructor(color, shape, shading, number) {
+    constructor(color, shape, shading, number,addOrRemoveFromSelection) {
         this.color = color;
         this.shape = shape;
         this.shading = shading;
         this.number = number;
+        this.isSelected = false;
+        this.addOrRemoveFromSelection = addOrRemoveFromSelection;
     }
 
     getID(includeNumber){
@@ -87,9 +180,27 @@ getCardImage(){
 
     </div>`;
 
-        //adjust picture location
-        img_div.innerHTML = svg
-        return img_div;
-    }
+    img_div.innerHTML = svg;
+
+    img_div.addEventListener("click", () => {this.click();});
+
+
+    return img_div;
+}
+
+toggleBorder(){
+ let card = document.getElementById(this.getID(true)+"_card")
+   // card.style.background = "red;";
+   let attribute = this.isSelected ? 'border: 3px solid black;' : 'border: 3px solid blue;';
+   card.setAttribute('style',attribute);
+
+   this.isSelected = !this.isSelected;
+}
+
+click() {
+    this.toggleBorder();
+    document.game.addOrRemoveFromSelection(this,this.isSelected);
+
+}
 
 }
