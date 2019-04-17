@@ -16,6 +16,33 @@ var Shading = Object.freeze({
     'striped': 'striped'
 });
 
+class Game {
+    constructor(){
+       this.cards = this.generateCards();
+   }
+
+   generateCards(){
+    let colors = Object.keys(Color);
+    let shapes = Object.keys(Shape);
+    let shadings = Object.keys(Shading);
+    var color,shape,shading;
+    let cards = [];
+
+    for (var i = 1; i <= 3; i++){
+        for (color in Color){
+            for(shape in Shape){
+                for (shading in Shading){
+                    let card = new Card(color,shape,shading,i);
+                    cards.push(card);
+                }
+            }
+        }
+    }
+    return cards;
+}
+
+}
+
 class Card {
 
     constructor(color, shape, shading, number) {
@@ -49,12 +76,14 @@ getCardImage(){
     var svg = 
     `<div id="`+id+"_card"+`" class = "card">
     <div class="image-container">
-    <img class="" src = "`+this.getImagePng()+`"/>
-    <img class="" src = "`+this.getImagePng()+`"/>
-    <img class="" src = "`+this.getImagePng()+`"/>
+    <img class="" src = "`+this.getImagePng()+`"/>`
+    +
+    (this.number >= 2 ? `<img class="" src = "`+this.getImagePng()+`"/>` :"")
+    +
+    (this.number == 3 ? `<img class="" src = "`+this.getImagePng()+`"/>` :"")
+    +
 
-
-    </div>
+    `</div>
 
     </div>`;
 

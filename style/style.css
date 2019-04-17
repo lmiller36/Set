@@ -6,14 +6,48 @@
 	/*padding: 10px;*/
 }
 
+.row{
+	display: table;
+	width: 100%;
+}
+
 .cards_container {
 	text-align: center;
 }
 .card-div{
-	.padding-bottom: 10px;
+	padding-bottom: 10px;
+	display: table-cell;
+}
+
+#parent {
+	list-style: none;
+	width: 100%;
+	height: 90px;
+	margin: 0;
+	padding: 0;
+	white-space: nowrap;
+	overflow-x: auto;
+	overflow-y: hidden;
+}
+
+.column {
+	float: left;
+	width: 33.33%;
+	padding: 10px;
+	height: 300px; /* Should be removed. Only for demonstration */
+}
+
+/* Clear floats after the columns */
+.row:after {
+	content: "";
+	display: table;
+	clear: both;
 }
 
 .cards{
+	content: "";
+	display: table;
+	clear: both;
 	width: 400px;
 	height: 400px;
 	position: absolute;
@@ -26,8 +60,12 @@
 .card {
 	border-radius: 15px;
 	border: 3px solid black;
-	width: 100px;
-	height: 158px; 
+	float: left;
+	width: 20%;
+	padding: 10px;
+	height: 300px;
+	/*width: 100px;
+	height: 158px; */
 } 
 
 .shape{

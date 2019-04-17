@@ -33,22 +33,40 @@
 
 <div id = "Cards" class="cards"/>
 
+<!-- <ul id="parent">
+	<li>Box #1</li>
+	<li>Box #2</li>
+	<li>Box #3</li>
+</ul>
+-->
+
+<!-- <div class="row">
+	<div class="column" style="background-color:#aaa;">
+		<h2>Column 1</h2>
+		<p>Some text..</p>
+	</div>
+	<div class="column" style="background-color:#bbb;">
+		<h2>Column 2</h2>
+		<p>Some text..</p>
+	</div>
+	<div class="column" style="background-color:#ccc;">
+		<h2>Column 3</h2>
+		<p>Some text..</p>
+	</div>
+</div> -->
 
 <script type="text/javascript">
-	let card = new Card(Color.red,Shape.diamond,Shading.solid,1);
-	console.log(card);
-	let cardDiv = card.getCardImage();
+
+	let game = new Game();
+
 
 	let cards = document.getElementById("Cards")
-	cards.appendChild(cardDiv);
-
-	let card2 = new Card(Color.green,Shape.diamond,Shading.solid,1);
-	let cardDiv2 = card2.getCardImage();
-	cards.appendChild(cardDiv2);
-
-		let card3 = new Card(Color.blue,Shape.diamond,Shading.solid,1);
-	let cardDiv3 = card2.getCardImage();
-	cards.appendChild(cardDiv3);
+	for (var i = 0; i < 12; i++){
+		let card = game.cards[i];
+		console.log(card);
+		cards.appendChild(card.getCardImage());
+	}
+	
 
 
 </script>
