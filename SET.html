@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8" />
+	<title>Lorne"s Puzzler</title>
+	<script type="text/javascript" src="SET_Logic.js"></script>
+	<script type="text/javascript" src="./StartMenu/StartMenu.js"></script>
+
+	<link rel="stylesheet" href="./style/style.css">
+	<style>
+</style>
+</head>
+<body>
+<!-- 	<button type="button" onclick="solvePuzzle()">Solve</button>
+-->	<div id="puzzle"></div>
+
+<button id="showMenuButton" onmouseover="hoverButton()" onclick="on()" ><img src="./imgs/menu.png" height="30px" width="30px" display="none"></button>
+
+<div id="overlay" class="overlay">
+	<div class="whiteText" id="text">Welcome to Puzzler! </div>
+	<br/>
+	<div class="whiteText leftAlign" id="key1">Please choose an image to use for your puzzle! </div>
+
+
+	<br/>
+
+	<button id="submitPuzzle" class="" onclick = "off()">Submit</button>
+
+
+	<button id="close-image" class="close-image" onclick = "off()"><img src="./imgs/left_arrows.png" height="50px" width="50px"></button>
+
+</div>
+
+<div id = "Cards" class="cards"/>
+
+
+<script type="text/javascript">
+	let card = new Card(Color.red,Shape.diamond,Shading.solid,1);
+	console.log(card);
+	let cardDiv = card.getCardImage();
+
+	let cards = document.getElementById("Cards")
+	cards.appendChild(cardDiv);
+
+	let card2 = new Card(Color.green,Shape.diamond,Shading.solid,1);
+	let cardDiv2 = card2.getCardImage();
+	cards.appendChild(cardDiv2);
+
+		let card3 = new Card(Color.blue,Shape.diamond,Shading.solid,1);
+	let cardDiv3 = card2.getCardImage();
+	cards.appendChild(cardDiv3);
+
+
+</script>
+
+
+<script>
+
+	function hideElement(elementId){
+		var element = document.getElementById(elementId);
+		if(element){
+
+			element.style.display = "none"
+		}
+	}
+
+	function showElement(elementId){
+		var element = document.getElementById(elementId);
+		if(element){
+
+			element.style.display = "block"
+		}
+	}
+
+
+	hideElement("showMenuButton")
+	off();
+
+
+
+// on();
+
+
+</script>
+<script>
+     	//document.puzzle = new Puzzle(500,500,6,6);
+     	
+     </script>
+ </body>
+ </html>
