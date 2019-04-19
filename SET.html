@@ -5,15 +5,15 @@
 	<title>Lorne"s Puzzler</title>
 	<script type="text/javascript" src="SET_Logic.js"></script>
 	<script type="text/javascript" src="./StartMenu/StartMenu.js"></script>
-
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="./style/style.css">
-	<style>
-</style>
+
 </head>
 <body>
 <!-- 	<button type="button" onclick="solvePuzzle()">Solve</button>
 -->	<div id="puzzle"></div>
-
+<!-- 
 <button id="showMenuButton" onmouseover="hoverButton()" onclick="on()" ><img src="./imgs/menu.png" height="30px" width="30px" display="none"></button>
 
 <div id="overlay" class="overlay">
@@ -29,12 +29,41 @@
 
 	<button id="close-image" class="close-image" onclick = "off()"><img src="./imgs/left_arrows.png" height="50px" width="50px"></button>
 
+</div> -->
+<button class="w3-button w3-teal w3-xlarge w3-left" onclick="openLeftMenu()">&#9776;</button>
+
+<!-- <div class="w3-sidebar w3-bar-block w3-card w3-animate-left" style="display:none" id="leftMenu">
+	<button onclick="closeLeftMenu()" class="w3-bar-item w3-button w3-large">Close &times;</button>
+	<a href="#" class="w3-bar-item w3-button">Link 1</a>
+	<a href="#" class="w3-bar-item w3-button">Link 2</a>
+	<a href="#" class="w3-bar-item w3-button">Link 3</a>
+</div> -->
+
+<div class="w3-sidebar w3-bar-block w3-black w3-xxlarge w3-animate-left" style="display:none" id="leftMenu">
+	<button onclick="closeLeftMenu()" class="w3-bar-item w3-button w3-large">Close &times;</button>
+	<a href="#" class="w3-bar-item w3-button"><i class="fa fa-home"></i></a> 
+	<a href="#" class="w3-bar-item w3-button"><i class="fa fa-search"></i></a> 
+	<a href="#" class="w3-bar-item w3-button"><i class="fa fa-envelope"></i></a> 
+	<a href="#" class="w3-bar-item w3-button"><i class="fa fa-globe"></i></a>
+	<a href="#" class="w3-bar-item w3-button"><i class="fa fa-trash"></i></a> 
 </div>
 
 
-<div id = "Cards" class="cards"/>
-<button id="showSet" class="" onclick = "showSet()">Show Set</button>
-<button id="addCards" class="" onclick = "addCards()">Add Cards</button>
+<div id = "game" class = "game">
+	<div class="w3-bar w3-light-grey w3-border centered  w3-xxlarge" style="width:100%">
+		<a href="#" onclick="addCards()" class="w3-bar-item w3-button"><i class="fa fa-plus"></i></a>
+		<a href="#" class="w3-bar-item w3-button"><i class="fa fa-question-circle"></i></a>
+		<a href="#" class="w3-bar-item w3-button"><i class="fa fa-search"></i></a>
+		<a href="#" class="w3-bar-item w3-button"><i class="fa fa-random"></i></a>
+		<a href="#" class="w3-bar-item w3-button"><i class="fa fa-lightbulb-o"></i></a>
+
+
+	</div>
+
+
+	<div id = "Cards" class="cards"/>
+</div>
+
 
 <script type="text/javascript">
 
@@ -42,13 +71,21 @@
 	document.game = game;
 
 	game.addCards(12);
-	
+
 
 
 </script>
 
 
 <script>
+
+	function openLeftMenu() {
+		document.getElementById("leftMenu").style.display = "block";
+	}
+
+	function closeLeftMenu() {
+		document.getElementById("leftMenu").style.display = "none";
+	}
 
 	function addCards(){
 		document.game.addCards(3);
@@ -75,8 +112,8 @@
 	}
 
 
-	hideElement("showMenuButton")
-	off();
+	//hideElement("showMenuButton")
+	// off();
 
 
 
