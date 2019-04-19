@@ -31,36 +31,17 @@
 
 </div>
 
+
 <div id = "Cards" class="cards"/>
-
-<!-- <ul id="parent">
-	<li>Box #1</li>
-	<li>Box #2</li>
-	<li>Box #3</li>
-</ul>
--->
-
-<!-- <div class="row">
-	<div class="column" style="background-color:#aaa;">
-		<h2>Column 1</h2>
-		<p>Some text..</p>
-	</div>
-	<div class="column" style="background-color:#bbb;">
-		<h2>Column 2</h2>
-		<p>Some text..</p>
-	</div>
-	<div class="column" style="background-color:#ccc;">
-		<h2>Column 3</h2>
-		<p>Some text..</p>
-	</div>
-</div> -->
+<button id="showSet" class="" onclick = "showSet()">Show Set</button>
+<button id="addCards" class="" onclick = "addCards()">Add Cards</button>
 
 <script type="text/javascript">
 
 	let game = new Game();
-document.game = game;
+	document.game = game;
 
-game.addCards(12);
+	game.addCards(12);
 	
 
 
@@ -68,6 +49,14 @@ game.addCards(12);
 
 
 <script>
+
+	function addCards(){
+		document.game.addCards(3);
+	}
+
+	function showSet(){
+		document.game.highlightSet();
+	}
 
 	function hideElement(elementId){
 		var element = document.getElementById(elementId);

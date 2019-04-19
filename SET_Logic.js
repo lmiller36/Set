@@ -18,12 +18,18 @@ var Shading = Object.freeze({
 
 class Game {
     constructor(){
-       this.selectedCards = {};
-       this.cards = this.generateCards();
-       this.usedCards = 0;
-   }
+     this.selectedCards = {};
+     this.cards = this.generateCards();
+     this.usedCards = 0;
+     this.visibleCardsCount = 0;
+     this.visibleCards = {};
+ }
 
-   generateCards(){
+ highlightSet(){
+    console.log(this.visibleCards)
+}
+
+generateCards(){
     let colors = Object.keys(Color);
     let shapes = Object.keys(Shape);
     let shadings = Object.keys(Shading);
@@ -52,12 +58,31 @@ addCards(numCards){
     while(count < numCards && this.usedCards < this.cards.length){
         let card = game.cards[this.usedCards];
         cards.appendChild(card.getCardImage());
+        this.visibleCards[card.getID(true)] = card;
         count++;
         this.usedCards++;
+        this.visibleCardsCount ++;
     }
 
 
+    //Increase Width of Cards to accommodate added cards
+    this.changeWidth();
+
     game.usedCards += numCards;
+}
+
+changeWidth(){
+    let cards = document.getElementById("Cards")
+
+    let visibleCardsKeys = Object.keys(this.visibleCards)
+    let cardKey = visibleCardsKeys[0];
+    let firstCard = document.getElementById(cardKey+"_card")
+    let borderCHANGE_SOON = 6;
+    let cardWidth = firstCard.scrollWidth + borderCHANGE_SOON;
+    let newCardsWidth = (this.visibleCardsCount / 3) * cardWidth;
+
+    let attribute = 'width: '+newCardsWidth+'px';
+    cards.setAttribute('style',attribute);
 }
 
 addOrRemoveFromSelection(selectedCard,shouldAdd){
@@ -66,24 +91,34 @@ addOrRemoveFromSelection(selectedCard,shouldAdd){
     if(shouldAdd)
         this.selectedCards[id] = selectedCard;
     else
-       delete this.selectedCards[id]; 
+     delete this.selectedCards[id]; 
 
-   if(Object.keys(this.selectedCards).length == 3){
+ if(Object.keys(this.selectedCards).length == 3){
     let isSet = this.checkSet();
-    if(isSet){
+    if(isSet | true){
         var cardID;
         for(cardID in this.selectedCards){
+            console.log(cardID)
+            delete this.visibleCards[id]; 
+
             //let card = this.selectedCards[cardID];
             let div_id = cardID+"_div";
             let div = document.getElementById(div_id);
             div.parentElement.removeChild(div);
+            this.visibleCardsCount --;
+
         }
 
-        this.addCards(3);
+        //only add cards if no extra cards are on the table
+        if(this.visibleCardsCount < 12)
+            this.addCards(3);
+
+        //readjust width
+        this.changeWidth();
 
     }
     else
-     for(var cardID in this.selectedCards) this.selectedCards[cardID].toggleBorder();
+       for(var cardID in this.selectedCards) this.selectedCards[cardID].toggleBorder();
 
 
         this.selectedCards = {};
@@ -189,7 +224,7 @@ getCardImage(){
 }
 
 toggleBorder(){
- let card = document.getElementById(this.getID(true)+"_card")
+   let card = document.getElementById(this.getID(true)+"_card")
    // card.style.background = "red;";
    let attribute = this.isSelected ? 'border: 3px solid black;' : 'border: 3px solid blue;';
    card.setAttribute('style',attribute);
