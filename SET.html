@@ -4,6 +4,7 @@
 	<meta charset="UTF-8" />
 	<title>Lorne"s Puzzler</title>
 	<script type="text/javascript" src="SET_Logic.js"></script>
+	<script src="jquery-3.4.0.js"></script>
 	<script type="text/javascript" src="./StartMenu/StartMenu.js"></script>
 	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -54,7 +55,7 @@
 		<a href="#" onclick="addCards()" class="w3-bar-item w3-button"><i class="fa fa-plus"></i></a>
 		<a href="#" class="w3-bar-item w3-button"><i class="fa fa-question-circle"></i></a>
 		<a href="#" class="w3-bar-item w3-button"><i class="fa fa-search"></i></a>
-		<a href="#" class="w3-bar-item w3-button"><i class="fa fa-random"></i></a>
+		<a href="#" onclick="shuffleCards()" class="w3-bar-item w3-button"><i class="fa fa-random"></i></a>
 		<a href="#" class="w3-bar-item w3-button"><i class="fa fa-lightbulb-o"></i></a>
 
 
@@ -72,12 +73,23 @@
 
 	game.addCards(12);
 
+$(function () {
+    var parent = $("#shuffle");
+    var divs = parent.children();
+    while (divs.length) {
+        parent.append(divs.splice(Math.floor(Math.random() * divs.length), 1)[0]);
+    }
+});
 
 
 </script>
 
 
 <script>
+
+	function shuffleCards(){
+		document.game.shuffle();
+	}
 
 	function openLeftMenu() {
 		document.getElementById("leftMenu").style.display = "block";
