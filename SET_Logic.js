@@ -109,7 +109,8 @@ class Game {
         //Increase Width of Cards to accommodate added cards
         this.changeWidth();
 
-        game.usedCards += numCards;
+        //change cards remaining counter
+        document.getElementById("cardsRemaining").innerText = "Cards Remaining: " + (this.cards.length - this.usedCards);
     }
 
     changeWidth() {
@@ -136,7 +137,7 @@ class Game {
 
         if (Object.keys(this.selectedCards).length == 3) {
             let isSet = this.checkSet();
-            if (isSet | true) {
+            if (isSet) {
                 var cardID;
                 for (cardID in this.selectedCards) {
 

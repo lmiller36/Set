@@ -50,6 +50,7 @@
 }
 
 .game{
+	padding-top: 150px;
 	margin: 0;
 	position: absolute;
 	top: 50%;
@@ -110,7 +111,18 @@
 	margin: auto;
 }
 
+.title{
+	text-align: center;
+	vertical-align: top;
+	display: block;
+	font-size: 100px;
+	margin:auto;
 
+}
+
+.outline{
+		border: 1px solid black;
+}
 
 .moveDown{
 	position: absolute;
