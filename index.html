@@ -3,48 +3,27 @@
 <head>
 
 <!-- 	<img src="./imgs/set_box.png" width ></img>
- -->	<meta charset="UTF-8" />
-	<title>Lorne's Set Game</title>
-	<script type="text/javascript" src="SET_Logic.js"></script>
-	<script src="jquery-3.4.0.js"></script>
-	<script type="text/javascript" src="./StartMenu/StartMenu.js"></script>
-	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	<link rel="stylesheet" href="./style/style.css">
+-->	<meta charset="UTF-8" />
+<title>Lorne's Set Game</title>
+<script type="text/javascript" src="SET_Logic.js"></script>
+<script src="jquery-3.4.0.js"></script>
+<script type="text/javascript" src="./StartMenu/StartMenu.js"></script>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="./style/style.css">
 
 </head>
 <body>
 	<p class = "title"> Lorne's Set Applet </p>
-<div id='page' style='width: 600px'>
-  <h1 id="cardsRemaining" style='border:2px black solid; font-size:42px; width:fit-content; width:-webkit-fit-content; width:-moz-fit-content;'></h1>
-</div>
-<!-- 	<button type="button" onclick="solvePuzzle()">Solve</button>
--->	<div id="puzzle"></div>
-<!-- 
-<button id="showMenuButton" onmouseover="hoverButton()" onclick="on()" ><img src="./imgs/menu.png" height="30px" width="30px" display="none"></button>
+	<div id='page' style='width: 600px'>
+		<h1 id="cardsRemaining" style='border:2px black solid; font-size:42px; width:fit-content; width:-webkit-fit-content; width:-moz-fit-content;'></h1>
+	</div>
 
-<div id="overlay" class="overlay">
-	<div class="whiteText" id="text">Welcome to Puzzler! </div>
-	<br/>
-	<div class="whiteText leftAlign" id="key1">Please choose an image to use for your puzzle! </div>
+	<div id="puzzle"></div>
 
-
-	<br/>
-
-	<button id="submitPuzzle" class="" onclick = "off()">Submit</button>
-
-
-	<button id="close-image" class="close-image" onclick = "off()"><img src="./imgs/left_arrows.png" height="50px" width="50px"></button>
-
-</div> -->
+</div> 
 <button class="w3-button w3-teal w3-xlarge w3-left" onclick="openLeftMenu()">&#9776;</button>
 
-<!-- <div class="w3-sidebar w3-bar-block w3-card w3-animate-left" style="display:none" id="leftMenu">
-	<button onclick="closeLeftMenu()" class="w3-bar-item w3-button w3-large">Close &times;</button>
-	<a href="#" class="w3-bar-item w3-button">Link 1</a>
-	<a href="#" class="w3-bar-item w3-button">Link 2</a>
-	<a href="#" class="w3-bar-item w3-button">Link 3</a>
-</div> -->
 
 <div class="w3-sidebar w3-bar-block w3-black w3-xxlarge w3-animate-left" style="display:none" id="leftMenu">
 	<button onclick="closeLeftMenu()" class="w3-bar-item w3-button w3-large">Close &times;</button>
@@ -68,19 +47,16 @@
 			<i class="fa fa-search" title="Show Set"></i>
 		</a>
 		<a href="#" onclick="shuffleCards()" class="w3-bar-item w3-button">
-			<i class="fa fa-random" title="Add 3 cards"></i>
+			<i class="fa fa-random" title="Shuffle cards"></i>
 		</a>
-		<a href="#" class="w3-bar-item w3-button">
-			<i class="fa fa-lightbulb-o" title="Add 3 cards"></i>
+		<a href="#" onclick="giveHint()" class="w3-bar-item w3-button">
+			<i class="fa fa-lightbulb-o" title="Hint"></i>
 		</a>
 	</div>
 
 
 	<div id = "Cards" class="cards"/>
 </div>
-
-
-
 
 <script type="text/javascript">
 
@@ -112,25 +88,29 @@
 		document.game.addCards(3);
 	}
 
+	function giveHint(){
+		document.game.highlightSet(false);
+	}
+
 	function showSet(){
-		document.game.highlightSet();
+		document.game.highlightSet(true);
 	}
 
-	function hideElement(elementId){
-		var element = document.getElementById(elementId);
-		if(element){
+	// function hideElement(elementId){
+	// 	var element = document.getElementById(elementId);
+	// 	if(element){
 
-			element.style.display = "none"
-		}
-	}
+	// 		element.style.display = "none"
+	// 	}
+	// }
 
-	function showElement(elementId){
-		var element = document.getElementById(elementId);
-		if(element){
+	// function showElement(elementId){
+	// 	var element = document.getElementById(elementId);
+	// 	if(element){
 
-			element.style.display = "block"
-		}
-	}
+	// 		element.style.display = "block"
+	// 	}
+	// }
 
 
 	//hideElement("showMenuButton")
