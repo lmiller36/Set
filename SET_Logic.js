@@ -25,8 +25,100 @@ class Game {
         this.visibleCards = {};
     }
 
-    highlightSet() {
-        console.log(this.visibleCards)
+    highlightSet(highlightEntireSet) {
+        let attributes = this.randomize(["color", "shape", "shading", "number"]);
+
+
+        let set = this.setFinder(attributes);
+
+        //Return if no set is found
+        if (!set) return;
+
+        //highlight entire set
+        if (highlightEntireSet)
+            set.forEach((card) => {
+                card.toggleBorder('red', false);
+            });
+
+        //highlight a single card
+        else
+            set[0].toggleBorder('pink', false);
+
+
+        //  console.log(separated)
+        //this.setFinder(attributes);
+    }
+
+    setFinder(attributes) {
+        let visibleCards = Object.values(this.visibleCards);
+        let separated = this.separateByAttribute(visibleCards, attributes[0]);
+        let firstAttributeDifferent = this.permuteDictionary(separated);
+
+        if (firstAttributeDifferent) return firstAttributeDifferent;
+
+        for (var key in separated) {
+            //console.log(key);
+            let sameAttribute = separated[key]
+            //  console.log(sameAttribute);
+            let sameAttributeSeparated = this.separateByAttribute(sameAttribute, attributes[1]);
+
+            let firstAttributeSame = this.permuteDictionary(sameAttributeSeparated);
+            if (firstAttributeSame) return firstAttributeSame;
+            //    console.log(sameAttributeSeparated);
+        }
+
+        //no set found
+        return null;
+    }
+
+    permuteDictionary(dict) {
+        let keys = Object.keys(dict);
+        // console.log(keys)
+        var key;
+
+        //for a set to be possible, there must be present all 3 different options in an attribute
+        if (keys.length != 3) return null;
+
+        let key1, key2, key3;
+        key1 = keys[0];
+        key2 = keys[1];
+        key3 = keys[2];
+
+        for (var i = 0; i < dict[key1].length; i++) {
+            let card1 = dict[key1][i];
+            for (var j = 0; j < dict[key2].length; j++) {
+                let card2 = dict[key2][j];
+                for (var k = 0; k < dict[key3].length; k++) {
+                    let card3 = dict[key3][k];
+                    let isSet = this.checkSet(card1, card2, card3);
+                    if (isSet)
+                        return [card1, card2, card3]
+                    // console.log(card1.getID(true) + " " + card2.getID(true) + " " + card3.getID(true))
+                    // console.log(isSet)
+                }
+            }
+        }
+
+
+
+    }
+
+    separateByAttribute(arr, attribute) {
+        let category1 = [];
+        let category2 = [];
+        let category3 = [];
+
+        let categories = [];
+
+        arr.forEach((card) => {
+            let cardProperty = card[attribute];
+            if (!categories[cardProperty]) categories[cardProperty] = [];
+
+            categories[cardProperty].push(card);
+        });
+        // console.log(categories);
+
+        return categories;
     }
 
     generateCards() {
@@ -49,14 +141,14 @@ class Game {
         return this.randomize(cards);
     }
 
-    randomize(arr){
+    randomize(arr) {
         return arr.sort(function(a, b) {
             return 0.5 - Math.random()
         });;
     }
 
-    removeCardFromScreen(cardID,shouldRemoveFromVisibleCards) {
-        if(shouldRemoveFromVisibleCards)
+    removeCardFromScreen(cardID, shouldRemoveFromVisibleCards) {
+        if (shouldRemoveFromVisibleCards)
             delete this.visibleCards[cardID];
 
         //let card = this.selectedCards[cardID];
@@ -67,20 +159,24 @@ class Game {
 
     //Randomizes order of cards on the screen
     shuffle() {
-    
+
         //remove divs from screen
-        Object.keys(this.visibleCards).forEach((cardID) => { this.removeCardFromScreen(cardID,false)})
+        Object.keys(this.visibleCards).forEach((cardID) => {
+            this.removeCardFromScreen(cardID, false)
+        })
 
         //Add divs back in a randomized order
-        this.randomize(Object.keys(this.visibleCards)).forEach((cardID) => { this.addCardToScreen(this.visibleCards[cardID],true)})
+        this.randomize(Object.keys(this.visibleCards)).forEach((cardID) => {
+            this.addCardToScreen(this.visibleCards[cardID], true)
+        })
 
     }
 
 
 
-    addCardToScreen(card,shouldAddCardToVisibleCards) {
+    addCardToScreen(card, shouldAddCardToVisibleCards) {
 
-        if(shouldAddCardToVisibleCards)
+        if (shouldAddCardToVisibleCards)
             this.visibleCards[card.getID(true)] = card;
 
         let cards = document.getElementById("Cards")
@@ -92,13 +188,14 @@ class Game {
 
     addCards(numCards) {
 
+
         var count = 0;
 
 
         while (count < numCards && this.usedCards < this.cards.length) {
             let card = game.cards[this.usedCards];
 
-            this.addCardToScreen(card,true);
+            this.addCardToScreen(card, true);
 
             count++;
             this.usedCards++;
@@ -111,6 +208,7 @@ class Game {
 
         //change cards remaining counter
         document.getElementById("cardsRemaining").innerText = "Cards Remaining: " + (this.cards.length - this.usedCards);
+
     }
 
     changeWidth() {
@@ -136,12 +234,16 @@ class Game {
             delete this.selectedCards[id];
 
         if (Object.keys(this.selectedCards).length == 3) {
-            let isSet = this.checkSet();
+            let cardIds = Object.keys(this.selectedCards);
+            let card1 = this.selectedCards[cardIds[0]]
+            let card2 = this.selectedCards[cardIds[1]]
+            let card3 = this.selectedCards[cardIds[2]]
+            let isSet = this.checkSet(card1, card2, card3);
             if (isSet) {
                 var cardID;
                 for (cardID in this.selectedCards) {
 
-                    this.removeCardFromScreen(cardID,true);
+                    this.removeCardFromScreen(cardID, true);
                     this.visibleCardsCount--;
 
                 }
@@ -154,25 +256,22 @@ class Game {
                 this.changeWidth();
 
             } else
-            for (var cardID in this.selectedCards) this.selectedCards[cardID].toggleBorder();
+                for (var cardID in this.selectedCards) this.selectedCards[cardID].toggleBorder();
 
 
-                this.selectedCards = {};
+            this.selectedCards = {};
 
 
         }
     }
 
     //In order to be a set, each attribute (color,shape,shading, & number) must differ or be the same
-    checkSet() {
-        let cardIds = Object.keys(this.selectedCards);
-        let card1 = this.selectedCards[cardIds[0]]
-        let card2 = this.selectedCards[cardIds[1]]
-        let card3 = this.selectedCards[cardIds[2]]
+    checkSet(card1, card2, card3) {
 
-        console.log(card1);
-        console.log(card2);
-        console.log(card3);
+
+        // console.log(card1);
+        // console.log(card2);
+        // console.log(card3);
 
         //Color
         let colorsMatch = (card1.color == card2.color) && (card2.color == card3.color);
@@ -207,13 +306,13 @@ class Game {
 
 class Card {
 
-    constructor(color, shape, shading, number, addOrRemoveFromSelection) {
+    constructor(color, shape, shading, number) {
         this.color = color;
         this.shape = shape;
         this.shading = shading;
         this.number = number;
         this.isSelected = false;
-        this.addOrRemoveFromSelection = addOrRemoveFromSelection;
+        //this.addOrRemoveFromSelection = addOrRemoveFromSelection;
     }
 
     getID(includeNumber) {
@@ -222,29 +321,29 @@ class Card {
         else return withoutNumber + "_" + this.number
     }
 
-getImagePng() {
-    return "./shapes/" + this.getID(false) + ".png";
-}
+    getImagePng() {
+        return "./shapes/" + this.getID(false) + ".png";
+    }
 
-getCardImage() {
+    getCardImage() {
 
-    let id = this.getID(true);
-    var img_div = document.createElement('div');
-    img_div.id = id + "_div";
-    img_div.class = "card-div";
+        let id = this.getID(true);
+        var img_div = document.createElement('div');
+        img_div.id = id + "_div";
+        img_div.class = "card-div";
         //img_div.src = this.getImagePng();
 
 
 
 
         var svg =
-        `<div id="` + id + "_card" + `" class = "card">
+            `<div id="` + id + "_card" + `" class = "card">
         <div class="image-container">
         <img class="" src = "` + this.getImagePng() + `"/>` +
-        (this.number >= 2 ? `<img class="" src = "` + this.getImagePng() + `"/>` : "") +
-        (this.number == 3 ? `<img class="" src = "` + this.getImagePng() + `"/>` : "") +
+            (this.number >= 2 ? `<img class="" src = "` + this.getImagePng() + `"/>` : "") +
+            (this.number == 3 ? `<img class="" src = "` + this.getImagePng() + `"/>` : "") +
 
-        `</div>
+            `</div>
 
         </div>`;
 
@@ -258,17 +357,19 @@ getCardImage() {
         return img_div;
     }
 
-    toggleBorder() {
+
+    toggleBorder(color, toggleIsSelected) {
         let card = document.getElementById(this.getID(true) + "_card")
         // card.style.background = "red;";
-        let attribute = this.isSelected ? 'border: 3px solid black;' : 'border: 3px solid blue;';
+        let attribute = this.isSelected ? 'border: 3px solid black;' : 'border: 3px solid ' + color + ';';
         card.setAttribute('style', attribute);
 
-        this.isSelected = !this.isSelected;
+        if (toggleIsSelected)
+            this.isSelected = !this.isSelected;
     }
 
     click() {
-        this.toggleBorder();
+        this.toggleBorder('blue', true);
         document.game.addOrRemoveFromSelection(this, this.isSelected);
 
     }
