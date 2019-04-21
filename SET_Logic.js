@@ -25,39 +25,115 @@ class Game {
         this.visibleCards = {};
     }
 
-    highlightSet() {
-        console.log(this.visibleCards)
+    highlightSet() {      
+        let attributes = ["color","shape","shading","number"] 
+
+        let set = this.setFinder(attributes);
+
+        console.log(set);
+
+      //  console.log(separated)
+        //this.setFinder(attributes);
     }
 
-    generateCards() {
-        let colors = Object.keys(Color);
-        let shapes = Object.keys(Shape);
-        let shadings = Object.keys(Shading);
-        var color, shape, shading;
-        let cards = [];
+    setFinder(attributes){
+      let visibleCards = Object.values(this.visibleCards); 
+      let separated = this.separateByAttribute(visibleCards,attributes[0]);
+      let firstAttributeDifferent = this.permuteDictionary(separated);  
 
-        for (var i = 1; i <= 3; i++) {
-            for (color in Color) {
-                for (shape in Shape) {
-                    for (shading in Shading) {
-                        let card = new Card(color, shape, shading, i);
-                        cards.push(card);
-                    }
+      if(firstAttributeDifferent) return firstAttributeDifferent;
+
+      for (var key in separated){
+            //console.log(key);
+            let sameAttribute = separated[key]
+          //  console.log(sameAttribute);
+          let sameAttributeSeparated = this.separateByAttribute(sameAttribute,attributes[1]);
+
+          let firstAttributeSame = this.permuteDictionary(sameAttributeSeparated);  
+          if(firstAttributeSame) return firstAttributeSame;
+                    //    console.log(sameAttributeSeparated);
+                }
+            }
+
+            permuteDictionary(dict){
+                let keys = Object.keys(dict);
+    // console.log(keys)
+    var key;
+
+    //for a set to be possible, there must be present all 3 different options in an attribute
+    if(keys.length != 3) return null;
+
+    let key1,key2,key3;
+    key1 = keys[0];
+    key2 = keys[1];
+    key3 = keys[2];
+
+    for(var i = 0; i < dict[key1].length; i++){
+        let card1 = dict[key1][i];
+        for(var j = 0; j < dict[key2].length; j++){
+         let card2 = dict[key2][j];
+         for(var k = 0; k < dict[key3].length;k++){
+            let card3 = dict[key3][k];
+            let isSet = this.checkSet(card1,card2,card3);
+            if(isSet)
+                return [card1,card2,card3]
+               // console.log(card1.getID(true) + " " + card2.getID(true) + " " + card3.getID(true))
+            // console.log(isSet)
+        }
+    }
+}
+
+
+
+}
+
+separateByAttribute(arr,attribute){
+  let category1 = [];
+  let category2 = [];
+  let category3 = [];
+
+  let categories = [];
+
+  arr.forEach((card) => {
+    let cardProperty = card[attribute];
+    if(!categories[cardProperty]) categories[cardProperty] = [];
+
+    categories[cardProperty].push(card);
+});
+  // console.log(categories);
+
+  return categories; 
+}
+
+generateCards() {
+    let colors = Object.keys(Color);
+    let shapes = Object.keys(Shape);
+    let shadings = Object.keys(Shading);
+    var color, shape, shading;
+    let cards = [];
+
+    for (var i = 1; i <= 3; i++) {
+        for (color in Color) {
+            for (shape in Shape) {
+                for (shading in Shading) {
+                    let card = new Card(color, shape, shading, i);
+                    cards.push(card);
                 }
             }
         }
-        return this.randomize(cards);
     }
+    return this.randomize(cards);
+}
 
-    randomize(arr){
-        return arr.sort(function(a, b) {
-            return 0.5 - Math.random()
-        });;
-    }
+randomize(arr){
+    return arr.sort(function(a, b) {
+        return 0.5 - Math.random()
+    });;
+}
 
-    removeCardFromScreen(cardID,shouldRemoveFromVisibleCards) {
-        if(shouldRemoveFromVisibleCards)
-            delete this.visibleCards[cardID];
+removeCardFromScreen(cardID,shouldRemoveFromVisibleCards) {
+    if(shouldRemoveFromVisibleCards)
+        delete this.visibleCards[cardID];
 
         //let card = this.selectedCards[cardID];
         let div_id = cardID + "_div";
@@ -67,7 +143,7 @@ class Game {
 
     //Randomizes order of cards on the screen
     shuffle() {
-    
+
         //remove divs from screen
         Object.keys(this.visibleCards).forEach((cardID) => { this.removeCardFromScreen(cardID,false)})
 
@@ -136,7 +212,11 @@ class Game {
             delete this.selectedCards[id];
 
         if (Object.keys(this.selectedCards).length == 3) {
-            let isSet = this.checkSet();
+            let cardIds = Object.keys(this.selectedCards);
+            let card1 = this.selectedCards[cardIds[0]]
+            let card2 = this.selectedCards[cardIds[1]]
+            let card3 = this.selectedCards[cardIds[2]]
+            let isSet = this.checkSet(card1,card2,card3);
             if (isSet) {
                 var cardID;
                 for (cardID in this.selectedCards) {
@@ -164,15 +244,12 @@ class Game {
     }
 
     //In order to be a set, each attribute (color,shape,shading, & number) must differ or be the same
-    checkSet() {
-        let cardIds = Object.keys(this.selectedCards);
-        let card1 = this.selectedCards[cardIds[0]]
-        let card2 = this.selectedCards[cardIds[1]]
-        let card3 = this.selectedCards[cardIds[2]]
+    checkSet(card1,card2,card3) {
 
-        console.log(card1);
-        console.log(card2);
-        console.log(card3);
+
+        // console.log(card1);
+        // console.log(card2);
+        // console.log(card3);
 
         //Color
         let colorsMatch = (card1.color == card2.color) && (card2.color == card3.color);
@@ -207,13 +284,13 @@ class Game {
 
 class Card {
 
-    constructor(color, shape, shading, number, addOrRemoveFromSelection) {
+    constructor(color, shape, shading, number) {
         this.color = color;
         this.shape = shape;
         this.shading = shading;
         this.number = number;
         this.isSelected = false;
-        this.addOrRemoveFromSelection = addOrRemoveFromSelection;
+        //this.addOrRemoveFromSelection = addOrRemoveFromSelection;
     }
 
     getID(includeNumber) {
