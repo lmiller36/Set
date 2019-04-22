@@ -24,8 +24,22 @@ class Game {
         this.visibleCardsCount = 0;
         this.visibleCards = {};
 
+        // this.startTime = ;
+        // console.log(this.startTime);
+
         //intialize with twelve cards
         this.addCards(12);
+
+        this.startTimer(Date.now());
+    }
+
+    startTimer(startTime){
+       // Update the count down every 1 second
+        var x = setInterval(function() {
+            let now = Math.floor((Date.now() - startTime) / 1000 );
+            document.getElementById("timer").innerText = now
+
+        }, 1000);
     }
 
     highlightSet(highlightEntireSet) {
@@ -248,10 +262,10 @@ class Game {
                 this.changeWidth();
 
             } else
-                for (var cardID in this.selectedCards) this.selectedCards[cardID].toggleBorder();
+            for (var cardID in this.selectedCards) this.selectedCards[cardID].toggleBorder();
 
 
-            this.selectedCards = {};
+                this.selectedCards = {};
 
 
         }
@@ -307,29 +321,29 @@ class Card {
         else return withoutNumber + "_" + this.number
     }
 
-    getImagePng() {
-        return "./shapes/" + this.getID(false) + ".png";
-    }
+getImagePng() {
+    return "./shapes/" + this.getID(false) + ".png";
+}
 
-    getCardImage() {
+getCardImage() {
 
-        let id = this.getID(true);
-        var img_div = document.createElement('div');
-        img_div.id = id + "_div";
-        img_div.class = "card-div";
+    let id = this.getID(true);
+    var img_div = document.createElement('div');
+    img_div.id = id + "_div";
+    img_div.class = "card-div";
         //img_div.src = this.getImagePng();
 
 
 
 
         var svg =
-            `<div id="` + id + "_card" + `" class = "card">
+        `<div id="` + id + "_card" + `" class = "card">
         <div class="image-container">
         <img class="" src = "` + this.getImagePng() + `"/>` +
-            (this.number >= 2 ? `<img class="" src = "` + this.getImagePng() + `"/>` : "") +
-            (this.number == 3 ? `<img class="" src = "` + this.getImagePng() + `"/>` : "") +
+        (this.number >= 2 ? `<img class="" src = "` + this.getImagePng() + `"/>` : "") +
+        (this.number == 3 ? `<img class="" src = "` + this.getImagePng() + `"/>` : "") +
 
-            `</div>
+        `</div>
 
         </div>`;
 

@@ -50,22 +50,30 @@
 }
 
 .game{
-	padding-top: 150px;
+/*	padding-top: 150px;
 	margin: 0;
 	position: absolute;
 	top: 50%;
 	left: 50%;
-	transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);*/
 	display:none;
 }
 
-.mainMenu{
-		padding-top: 150px;
+.centeredDiv{
+			padding-top: 150px;
 	margin: 0;
 	position: absolute;
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
+}
+
+.mainMenu{
+
+}
+
+.main-menu-button{
+	left:0%;
 }
 
 .cards{
