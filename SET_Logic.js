@@ -23,6 +23,9 @@ class Game {
         this.usedCards = 0;
         this.visibleCardsCount = 0;
         this.visibleCards = {};
+
+        //intialize with twelve cards
+        this.addCards(12);
     }
 
     highlightSet(highlightEntireSet) {
@@ -43,10 +46,6 @@ class Game {
         //highlight a single card
         else
             set[0].toggleBorder('pink', false);
-
-
-        //  console.log(separated)
-        //this.setFinder(attributes);
     }
 
     setFinder(attributes) {
@@ -57,14 +56,11 @@ class Game {
         if (firstAttributeDifferent) return firstAttributeDifferent;
 
         for (var key in separated) {
-            //console.log(key);
             let sameAttribute = separated[key]
-            //  console.log(sameAttribute);
             let sameAttributeSeparated = this.separateByAttribute(sameAttribute, attributes[1]);
 
             let firstAttributeSame = this.permuteDictionary(sameAttributeSeparated);
             if (firstAttributeSame) return firstAttributeSame;
-            //    console.log(sameAttributeSeparated);
         }
 
         //no set found
@@ -73,7 +69,6 @@ class Game {
 
     permuteDictionary(dict) {
         let keys = Object.keys(dict);
-        // console.log(keys)
         var key;
 
         //for a set to be possible, there must be present all 3 different options in an attribute
@@ -93,8 +88,6 @@ class Game {
                     let isSet = this.checkSet(card1, card2, card3);
                     if (isSet)
                         return [card1, card2, card3]
-                    // console.log(card1.getID(true) + " " + card2.getID(true) + " " + card3.getID(true))
-                    // console.log(isSet)
                 }
             }
         }
@@ -116,7 +109,6 @@ class Game {
 
             categories[cardProperty].push(card);
         });
-        // console.log(categories);
 
         return categories;
     }
@@ -193,7 +185,7 @@ class Game {
 
 
         while (count < numCards && this.usedCards < this.cards.length) {
-            let card = game.cards[this.usedCards];
+            let card = this.cards[this.usedCards];
 
             this.addCardToScreen(card, true);
 
@@ -268,11 +260,6 @@ class Game {
     //In order to be a set, each attribute (color,shape,shading, & number) must differ or be the same
     checkSet(card1, card2, card3) {
 
-
-        // console.log(card1);
-        // console.log(card2);
-        // console.log(card3);
-
         //Color
         let colorsMatch = (card1.color == card2.color) && (card2.color == card3.color);
         let colorsDiffer = (card1.color != card2.color) && (card1.color != card3.color) && (card2.color != card3.color);
@@ -312,7 +299,6 @@ class Card {
         this.shading = shading;
         this.number = number;
         this.isSelected = false;
-        //this.addOrRemoveFromSelection = addOrRemoveFromSelection;
     }
 
     getID(includeNumber) {

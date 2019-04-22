@@ -15,55 +15,59 @@
 </head>
 <body>
 	<p class = "title"> Lorne's Set Applet </p>
-	<div id='page' style='width: 600px'>
+<!-- 	<div id='page' style='width: 600px'>
 		<h1 id="cardsRemaining" style='border:2px black solid; font-size:42px; width:fit-content; width:-webkit-fit-content; width:-moz-fit-content;'></h1>
+	</div> -->
+
+
+	<button class="w3-button w3-teal w3-xlarge w3-left" onclick="openLeftMenu()">&#9776;</button>
+
+	<div id = "MainMenu" class="mainMenu">
+		<div><button class="btn centered" onclick="initializeGame()"><i class="fa fa-user"></i> Single </button></div>
+		<div><button class="btn centered"><i class="fa fa-users"></i> Multiplayer </button></div>
+		<div><button class="btn centered"><i class="fa fa-question-circle"></i> How to play</button></div>
+		<div><button class="btn centered"><i class="fa fa-info-circle"></i> Contributions </button></div>
+		<div><button class="btn centered" onclick = "closeTab()""><i class="fa fa-times"></i> Exit </button></div>
 	</div>
 
-	<div id="puzzle"></div>
+<!-- 	<div class="w3-sidebar w3-bar-block w3-black w3-xxlarge w3-animate-left" style="display:none" id="leftMenu">
+		<button onclick="closeLeftMenu()" class="w3-bar-item w3-button w3-large">Close &times;</button>
+		<a href="#" class="w3-bar-item w3-button"><i class="fa fa-home"></i></a> 
+		<a href="#" class="w3-bar-item w3-button"><i class="fa fa-search"></i></a> 
+		<a href="#" class="w3-bar-item w3-button"><i class="fa fa-envelope"></i></a> 
+		<a href="#" class="w3-bar-item w3-button"><i class="fa fa-globe"></i></a>
+		<a href="#" class="w3-bar-item w3-button"><i class="fa fa-trash"></i></a> 
+	</div> -->
 
-</div> 
-<button class="w3-button w3-teal w3-xlarge w3-left" onclick="openLeftMenu()">&#9776;</button>
+	<div id = "Game" class = "game">
+		<div class="w3-bar w3-light-grey w3-border centered  w3-xxlarge" style="width:100%">
+			<a href="#" onclick="addCards()" class="w3-bar-item w3-button">
+				<i class="fa fa-plus" title="Add 3 cards"></i>
+			</a>
+			<a href="#" class="w3-bar-item w3-button">
+				<i class="fa fa-question-circle" title="Help"></i>
+			</a>
+			<a href="#" class="w3-bar-item w3-button" onclick="showSet()">
+				<i class="fa fa-search" title="Show Set"></i>
+			</a>
+			<a href="#" onclick="shuffleCards()" class="w3-bar-item w3-button">
+				<i class="fa fa-random" title="Shuffle cards"></i>
+			</a>
+			<a href="#" onclick="giveHint()" class="w3-bar-item w3-button">
+				<i class="fa fa-lightbulb-o" title="Hint"></i>
+			</a>
+		</div>
 
 
-<div class="w3-sidebar w3-bar-block w3-black w3-xxlarge w3-animate-left" style="display:none" id="leftMenu">
-	<button onclick="closeLeftMenu()" class="w3-bar-item w3-button w3-large">Close &times;</button>
-	<a href="#" class="w3-bar-item w3-button"><i class="fa fa-home"></i></a> 
-	<a href="#" class="w3-bar-item w3-button"><i class="fa fa-search"></i></a> 
-	<a href="#" class="w3-bar-item w3-button"><i class="fa fa-envelope"></i></a> 
-	<a href="#" class="w3-bar-item w3-button"><i class="fa fa-globe"></i></a>
-	<a href="#" class="w3-bar-item w3-button"><i class="fa fa-trash"></i></a> 
-</div>
-
-
-<div id = "game" class = "game">
-	<div class="w3-bar w3-light-grey w3-border centered  w3-xxlarge" style="width:100%">
-		<a href="#" onclick="addCards()" class="w3-bar-item w3-button">
-			<i class="fa fa-plus" title="Add 3 cards"></i>
-		</a>
-		<a href="#" class="w3-bar-item w3-button">
-			<i class="fa fa-question-circle" title="Help"></i>
-		</a>
-		<a href="#" class="w3-bar-item w3-button" onclick="showSet()">
-			<i class="fa fa-search" title="Show Set"></i>
-		</a>
-		<a href="#" onclick="shuffleCards()" class="w3-bar-item w3-button">
-			<i class="fa fa-random" title="Shuffle cards"></i>
-		</a>
-		<a href="#" onclick="giveHint()" class="w3-bar-item w3-button">
-			<i class="fa fa-lightbulb-o" title="Hint"></i>
-		</a>
+		<div id = "Cards" class="cards"/>
 	</div>
 
+	<script type="text/javascript">
 
-	<div id = "Cards" class="cards"/>
-</div>
+	// let game = new Game();
+	// document.game = game;
 
-<script type="text/javascript">
-
-	let game = new Game();
-	document.game = game;
-
-	game.addCards(12);
+	// game.addCards(12);
 
 
 
@@ -72,16 +76,34 @@
 
 <script>
 
-	function shuffleCards(){
-		document.game.shuffle();
-	}
-
 	function openLeftMenu() {
 		document.getElementById("leftMenu").style.display = "block";
 	}
 
 	function closeLeftMenu() {
 		document.getElementById("leftMenu").style.display = "none";
+	}
+
+
+	//Game Functions
+	function initializeGame(){
+		//document.getElementById("myDIV").style.display = "none";
+
+		//Hide Main Menu
+		document.getElementById("MainMenu").style.display = "none";
+
+
+		//Show Game
+		document.getElementById("Game").style.display = "block";
+
+		//Initialize game
+		let game = new Game();
+		document.game = game;
+
+	}
+
+	function shuffleCards(){
+		document.game.shuffle();
 	}
 
 	function addCards(){
@@ -96,35 +118,11 @@
 		document.game.highlightSet(true);
 	}
 
-	// function hideElement(elementId){
-	// 	var element = document.getElementById(elementId);
-	// 	if(element){
-
-	// 		element.style.display = "none"
-	// 	}
-	// }
-
-	// function showElement(elementId){
-	// 	var element = document.getElementById(elementId);
-	// 	if(element){
-
-	// 		element.style.display = "block"
-	// 	}
-	// }
-
-
-	//hideElement("showMenuButton")
-	// off();
-
-
-
-// on();
+	function closeTab(){
+		window.close();
+	}
 
 
 </script>
-<script>
-     	//document.puzzle = new Puzzle(500,500,6,6);
-     	
-     </script>
- </body>
- </html>
+</body>
+</html>
