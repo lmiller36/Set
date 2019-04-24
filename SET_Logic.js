@@ -23,6 +23,23 @@ class Game {
         this.usedCards = 0;
         this.visibleCardsCount = 0;
         this.visibleCards = {};
+
+        // this.startTime = ;
+        // console.log(this.startTime);
+
+        //intialize with twelve cards
+        this.addCards(12);
+
+        this.startTimer(Date.now());
+    }
+
+    startTimer(startTime){
+       // Update the count down every 1 second
+        var x = setInterval(function() {
+            let now = Math.floor((Date.now() - startTime) / 1000 );
+            document.getElementById("timer").innerText = now
+
+        }, 1000);
     }
 
     highlightSet(highlightEntireSet) {
@@ -43,10 +60,6 @@ class Game {
         //highlight a single card
         else
             set[0].toggleBorder('pink', false);
-
-
-        //  console.log(separated)
-        //this.setFinder(attributes);
     }
 
     setFinder(attributes) {
@@ -57,14 +70,11 @@ class Game {
         if (firstAttributeDifferent) return firstAttributeDifferent;
 
         for (var key in separated) {
-            //console.log(key);
             let sameAttribute = separated[key]
-            //  console.log(sameAttribute);
             let sameAttributeSeparated = this.separateByAttribute(sameAttribute, attributes[1]);
 
             let firstAttributeSame = this.permuteDictionary(sameAttributeSeparated);
             if (firstAttributeSame) return firstAttributeSame;
-            //    console.log(sameAttributeSeparated);
         }
 
         //no set found
@@ -73,7 +83,6 @@ class Game {
 
     permuteDictionary(dict) {
         let keys = Object.keys(dict);
-        // console.log(keys)
         var key;
 
         //for a set to be possible, there must be present all 3 different options in an attribute
@@ -93,8 +102,6 @@ class Game {
                     let isSet = this.checkSet(card1, card2, card3);
                     if (isSet)
                         return [card1, card2, card3]
-                    // console.log(card1.getID(true) + " " + card2.getID(true) + " " + card3.getID(true))
-                    // console.log(isSet)
                 }
             }
         }
@@ -116,7 +123,6 @@ class Game {
 
             categories[cardProperty].push(card);
         });
-        // console.log(categories);
 
         return categories;
     }
@@ -193,7 +199,7 @@ class Game {
 
 
         while (count < numCards && this.usedCards < this.cards.length) {
-            let card = game.cards[this.usedCards];
+            let card = this.cards[this.usedCards];
 
             this.addCardToScreen(card, true);
 
@@ -256,10 +262,10 @@ class Game {
                 this.changeWidth();
 
             } else
-                for (var cardID in this.selectedCards) this.selectedCards[cardID].toggleBorder();
+            for (var cardID in this.selectedCards) this.selectedCards[cardID].toggleBorder();
 
 
-            this.selectedCards = {};
+                this.selectedCards = {};
 
 
         }
@@ -267,11 +273,6 @@ class Game {
 
     //In order to be a set, each attribute (color,shape,shading, & number) must differ or be the same
     checkSet(card1, card2, card3) {
-
-
-        // console.log(card1);
-        // console.log(card2);
-        // console.log(card3);
 
         //Color
         let colorsMatch = (card1.color == card2.color) && (card2.color == card3.color);
@@ -312,7 +313,6 @@ class Card {
         this.shading = shading;
         this.number = number;
         this.isSelected = false;
-        //this.addOrRemoveFromSelection = addOrRemoveFromSelection;
     }
 
     getID(includeNumber) {
@@ -321,29 +321,29 @@ class Card {
         else return withoutNumber + "_" + this.number
     }
 
-    getImagePng() {
-        return "./shapes/" + this.getID(false) + ".png";
-    }
+getImagePng() {
+    return "./shapes/" + this.getID(false) + ".png";
+}
 
-    getCardImage() {
+getCardImage() {
 
-        let id = this.getID(true);
-        var img_div = document.createElement('div');
-        img_div.id = id + "_div";
-        img_div.class = "card-div";
+    let id = this.getID(true);
+    var img_div = document.createElement('div');
+    img_div.id = id + "_div";
+    img_div.class = "card-div";
         //img_div.src = this.getImagePng();
 
 
 
 
         var svg =
-            `<div id="` + id + "_card" + `" class = "card">
+        `<div id="` + id + "_card" + `" class = "card">
         <div class="image-container">
         <img class="" src = "` + this.getImagePng() + `"/>` +
-            (this.number >= 2 ? `<img class="" src = "` + this.getImagePng() + `"/>` : "") +
-            (this.number == 3 ? `<img class="" src = "` + this.getImagePng() + `"/>` : "") +
+        (this.number >= 2 ? `<img class="" src = "` + this.getImagePng() + `"/>` : "") +
+        (this.number == 3 ? `<img class="" src = "` + this.getImagePng() + `"/>` : "") +
 
-            `</div>
+        `</div>
 
         </div>`;
 
