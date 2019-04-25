@@ -1,50 +1,79 @@
 <!DOCTYPE html>
 <html>
 <head>
-
-<!-- 	<img src="./imgs/set_box.png" width ></img>
--->	<meta charset="UTF-8" />
-<title>Lorne's Set Game</title>
-<script type="text/javascript" src="SET_Logic.js"></script>
-<script src="jquery-3.4.0.js"></script>
-<script type="text/javascript" src="./StartMenu/StartMenu.js"></script>
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="./style/style.css">
-
+	<meta charset="UTF-8" />
+	<title>Lorne's Set Game</title>
+	<script type="text/javascript" src="SET_Logic.js"></script>
+	<script src="jquery-3.4.0.js"></script>
+	<script type="text/javascript" src="./StartMenu/StartMenu.js"></script>
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="./style/style.css">
 </head>
 <body>
-	<p class = "title"> Lorne's Set Applet </p>
-
-
+	<p class = "title"> Lorne's Set Game </p>
 	<div id = "MainMenu" class="mainMenu centeredDiv">
-		<div><button class="btn centered" onclick="initializeGame()"><i class="fa fa-user"></i> Single </button></div>
-		<div><button class="btn centered"><i class="fa fa-users"></i> Multiplayer </button></div>
-		<div><button class="btn centered"><i class="fa fa-question-circle"></i> How to play</button></div>
-		<div><button class="btn centered"><i class="fa fa-info-circle"></i> Contributions </button></div>
-		<div><button class="btn centered" onclick = "closeTab()""><i class="fa fa-times"></i> Exit </button></div>
-	</div>
-
-	<div id = "Game" class = "game">
-
-
-		<div><button class="w3-button w3-teal w3-xlarge w3-left" onclick="openLeftMenu()"><i class="fa fa-bars"></i> Menu </button></div>
-
-		<div class="w3-sidebar w3-bar-block w3-black w3-xxlarge w3-animate-left" style="display:none; width:300px;" id="leftMenu">
-			<button onclick="closeLeftMenu()" class="w3-bar-item w3-button w3-large">Close &times;</button>
-			<a href="#" onclick = "destroyGame()" class="w3-bar-item w3-button"><i class="fa fa-home" title = "Main Menu"></i> Main Menu </a> 
-			<a href="#" class="w3-bar-item w3-button"><i class="fa fa-search"></i></a> 
-			<a href="#" class="w3-bar-item w3-button"><i class="fa fa-envelope"></i></a> 
-			<a href="#" class="w3-bar-item w3-button"><i class="fa fa-globe"></i></a>
-			<a href="#" class="w3-bar-item w3-button"><i class="fa fa-trash"></i></a> 
+		<div>
+			<button class="btn centered" onclick="initializeGame()">
+				<i class="fa fa-user"></i> Single 
+			</button>
 		</div>
+		<div>
+			<button class="btn centered">
+				<i class="fa fa-users"></i> Multiplayer 
+			</button>
+		</div>
+		<div>
+			<button class="btn centered" onclick="openHelpScreen()">
+				<i class="fa fa-question-circle"></i> How to play
 
+			</button>
+		</div>
+		<div>
+			<button class="btn centered">
+				<i class="fa fa-info-circle"></i> Contributions 
+			</button>
+		</div>
+		<div>
+			<button class="btn centered" onclick = "closeTab()"">
+				<i class="fa fa-times"></i> Exit 
+			</button>
+		</div>
+	</div>
+	<div id = "Game" class = "game">
+		<div>
+			<button class="w3-button w3-teal w3-xlarge w3-left" onclick="openLeftMenu()">
+				<i class="fa fa-bars"></i> Menu 
+			</button>
+		</div>
+		<div id = "leftMenu" class="w3-sidebar w3-bar-block w3-black w3-xxlarge w3-animate-left" style = "display:none; width:300px;">
+			<button onclick="closeLeftMenu()" class="w3-bar-item w3-button w3-large">Close &times;</button>
+			<a href="#" onclick = "destroyGame()" class="w3-bar-item w3-button">
+				<i class="fa fa-home" title = "Main Menu"></i> Main Menu 
+			</a>
+			<a href="#" class="w3-bar-item w3-button">
+				<i class="fa fa-search"></i>
+			</a>
+			<a href="#" class="w3-bar-item w3-button">
+				<i class="fa fa-envelope"></i>
+			</a>
+			<a href="#" class="w3-bar-item w3-button">
+				<i class="fa fa-globe"></i>
+			</a>
+			<a href="#" class="w3-bar-item w3-button">
+				<i class="fa fa-trash"></i>
+			</a>
+		</div>
+		<div id = "past-sets-wrapper" class = "past-sets">
+			<p class = "centered-past-sets">Past Sets</p>
+			<div id = "past-sets"></div>
+		</div>
 		<div id = "CardsAndMenu" class = "centeredDiv">
-			<div id='page' class = "" ><!-- style='width: 600px' -->
+			<div id='page' class = "" >
+				<!-- style='width: 600px' -->
 				<h1 id="cardsRemaining" style=' font-size:42px; width:fit-content; width:-webkit-fit-content; width:-moz-fit-content;'></h1>
 				<h1 id="timer" style=' font-size:42px; width:fit-content; width:-webkit-fit-content; width:-moz-fit-content;'>0</h1>
 			</div>
-
 			<div class="w3-bar w3-light-grey w3-border centered  w3-xxlarge" style="width:100%">
 				<a href="#" onclick="addCards()" class="w3-bar-item w3-button">
 					<i class="fa fa-plus" title="Add 3 cards"></i>
@@ -62,34 +91,34 @@
 					<i class="fa fa-lightbulb-o" title="Hint"></i>
 				</a>
 			</div>
-
-			<div id = "Cards" class="cards" />
+			<div id = "Cards" class="cards" /></div>
 		</div>
 	</div>
-</div>
+	<script>
+		$(function(){
+			var includes = $('[data-include]');
+			jQuery.each(includes, function(){
+				var file = 'views/' + $(this).data('include') + '.html';
+				$(this).load(file);
+			});
+		});
+	</script>
+	<script>
 
 
-<script type="text/javascript">
+		function openHelpScreen(){
+			document.getElementById("MainMenu").style.display = "none";
+			document.getElementById("RulesScreen").style.display = "block";
 
-	// let game = new Game();
-	// document.game = game;
+		}
 
-	// game.addCards(12);
+		function openLeftMenu() {
+			document.getElementById("leftMenu").style.display = "block";
+		}
 
-
-
-</script>
-
-
-<script>
-
-	function openLeftMenu() {
-		document.getElementById("leftMenu").style.display = "block";
-	}
-
-	function closeLeftMenu() {
-		document.getElementById("leftMenu").style.display = "none";
-	}
+		function closeLeftMenu() {
+			document.getElementById("leftMenu").style.display = "none";
+		}
 
 
 	//Game Functions
@@ -110,7 +139,7 @@
 
 	}
 
-		function destroyGame(){
+	function destroyGame(){
 
 		//Hide Main Menu
 		document.getElementById("MainMenu").style.display = "block";
@@ -141,10 +170,255 @@
 	}
 
 	function closeTab(){
+		window.open('', '_self', ''); 
 		window.close();
+	}
+
+	function hideRules(){
+		document.getElementById("RulesScreen").style.display = "none";
+		document.getElementById("MainMenu").style.display = "block";
+
 	}
 
 
 </script>
+<!-- <object type="text/html" data="SetRules.html" id = "RulesScreen" class = "rules"/> -->
+
+<div id = "RulesScreen" class = "rules">
+	<h1 class="title-help-screen centered-help-screen"> How to Play Set <h1 />
+
+		<a href="#" class="w3-bar-item w3-button" onclick = "hideRules()">
+			<i class="fa fa-arrow-left"> Main Menu </i>
+		</a>
+
+		<div id = "instructions" class = "centered-help-screen">
+			<p> In this game, the goal is to find sets as quickly as possible. In Set, there are four attributes:
+			</p>
+			<div id = "shape" >
+				<p> Shape </p>
+				<div id = "shapes examples" class = "">
+					<div id="" class="example-card example-card-centered">
+						<div class="image-container-help-screen">
+							<img class="" src="http://smart-games.org/images/diamond_open_blue.png"/>
+							<img class="" src="http://smart-games.org/images/diamond_open_blue.png"/>
+							<img class="" src="http://smart-games.org/images/diamond_open_blue.png"/>
+						</div>
+					</div>
+					<div id="" class="example-card example-card-centered">
+						<div class="image-container-help-screen">
+							<img class="" src="http://smart-games.org/images/squiggle_open_blue.png"/>
+							<img class="" src="http://smart-games.org/images/squiggle_open_blue.png"/>
+							<img class="" src="http://smart-games.org/images/squiggle_open_blue.png"/>
+						</div>
+					</div>
+					<div id="" class="example-card example-card-centered">
+						<div class="image-container-help-screen">
+							<img class="" src="http://smart-games.org/images/oval_open_blue.png"/>
+							<img class="" src="http://smart-games.org/images/oval_open_blue.png"/>
+							<img class="" src="http://smart-games.org/images/oval_open_blue.png"/>
+						</div>
+					</div>
+				</div>
+			</div>
+			<br />
+			<div id = "color" >
+				<p> Color </p>
+				<div id = "color examples" class = "">
+					<div id="" class="example-card example-card-centered">
+						<div class="image-container-help-screen">
+							<img class="" src="http://smart-games.org/images/diamond_solid_red.png"/>
+						</div>
+					</div>
+					<div id="" class="example-card example-card-centered">
+						<div class="image-container-help-screen">
+							<img class="" src="http://smart-games.org/images/diamond_solid_blue.png"/>
+						</div>
+					</div>
+					<div id="" class="example-card example-card-centered">
+						<div class="image-container-help-screen">
+							<img class="" src="http://smart-games.org/images/diamond_solid_green.png"/>
+						</div>
+					</div>
+				</div>
+			</div>
+			<br />
+			<div id = "number" >
+				<p> Number </p>
+				<div id = "number examples" class = "">
+					<div id="" class="example-card example-card-centered">
+						<div class="image-container-help-screen">
+							<img class="" src="http://smart-games.org/images/diamond_striped_red.png"/>
+							<img class="hidden" src="http://smart-games.org/images/diamond_striped_red.png"/>
+							<img class="" src="http://smart-games.org/images/diamond_striped_red.png"/>
+						</div>
+					</div>
+					<div id="" class="example-card example-card-centered">
+						<div class="image-container-help-screen">
+							<img class="hidden" src="http://smart-games.org/images/diamond_striped_red.png"/>
+							<img class="" src="http://smart-games.org/images/diamond_striped_red.png"/>
+							<img class="hidden" src="http://smart-games.org/images/diamond_striped_red.png"/>
+						</div>
+					</div>
+					<div id="" class="example-card example-card-centered">
+						<div class="image-container-help-screen">
+							<img class="" src="http://smart-games.org/images/diamond_striped_red.png"/>
+							<img class="" src="http://smart-games.org/images/diamond_striped_red.png"/>
+							<img class="" src="http://smart-games.org/images/diamond_striped_red.png"/>
+						</div>
+					</div>
+				</div>
+			</div>
+			<br/>
+			<div id = "shading" >
+				<p> Shading </p>
+				<div id = "shading examples" class = "">
+					<div id="" class="example-card example-card-centered">
+						<div class="image-container-help-screen">
+							<img class="" src="http://smart-games.org/images/oval_open_green.png"/>
+							<img class="" src="http://smart-games.org/images/oval_open_green.png"/>
+						</div>
+					</div>
+					<div id="" class="example-card example-card-centered">
+						<div class="image-container-help-screen">
+							<img class="" src="http://smart-games.org/images/oval_striped_green.png"/>
+							<img class="" src="http://smart-games.org/images/oval_striped_green.png"/>
+						</div>
+					</div>
+					<div id="" class="example-card example-card-centered">
+						<div class="image-container-help-screen">
+							<img class="" src="http://smart-games.org/images/oval_solid_green.png"/>
+							<img class="" src="http://smart-games.org/images/oval_solid_green.png"/>
+						</div>
+					</div>
+				</div>
+			</div>
+			<br />
+			<h1 class="centered-help-screen"> How to spot sets </h1>
+			<p> A set is made of three cards. For a set to be valid, each attribute must either be all different or all the same.</p>
+			<div id = "valid-set-1" >
+				<div id = "valid-set-1-div" class = "">
+					<div id="" class="example-card example-card-centered">
+						<div class="image-container-help-screen">
+							<img class="" src="http://smart-games.org/images/diamond_open_blue.png"/>
+						</div>
+					</div>
+					<div id="" class="example-card example-card-centered">
+						<div class="image-container-help-screen">
+							<img class="" src="http://smart-games.org/images/squiggle_open_green.png"/>
+						</div>
+					</div>
+					<div id="" class="example-card example-card-centered">
+						<div class="image-container-help-screen">
+							<img class="" src="http://smart-games.org/images/oval_open_red.png"/>
+						</div>
+					</div>
+				</div>
+				<p> This set is valid as all cards have the same number & shading, while differing in shape and color. </p>
+			</div>
+			<br/>
+			<div id = "valid-set-2" >
+				<div id = "valid-set-2-div" class = "">
+					<div id="" class="example-card example-card-centered">
+						<div class="image-container-help-screen">
+							<img class="hidden" src="http://smart-games.org/images/oval_striped_green.png"/>
+							<img class="" src="http://smart-games.org/images/oval_striped_green.png"/>
+							<img class="hidden" src="http://smart-games.org/images/oval_striped_green.png"/>
+						</div>
+					</div>
+					<div id="" class="example-card example-card-centered">
+						<div class="image-container-help-screen">
+							<img class="" src="http://smart-games.org/images/oval_striped_green.png"/>
+							<img class="hidden" src="http://smart-games.org/images/oval_striped_green.png"/>
+							<img class="" src="http://smart-games.org/images/oval_striped_green.png"/>
+						</div>
+					</div>
+					<div id="" class="example-card example-card-centered">
+						<div class="image-container-help-screen">
+							<img class="" src="http://smart-games.org/images/oval_striped_green.png"/>
+							<img class="" src="http://smart-games.org/images/oval_striped_green.png"/>
+							<img class="" src="http://smart-games.org/images/oval_striped_green.png"/>
+						</div>
+					</div>
+				</div>
+				<p> This set is also valid. </p>
+			</div>
+			<br/>
+			<p> Here are some more examples</p>
+			<br/>
+			<div id = "valid-set-1" >
+				<div id = "valid-set-1-div" class = "">
+					<div id="" class="example-card example-card-centered">
+						<div class="image-container-help-screen">
+							<img class="" src="http://smart-games.org/images/diamond_open_blue.png"/>
+						</div>
+					</div>
+					<div id="" class="example-card example-card-centered">
+						<div class="image-container-help-screen">
+							<img class="" src="http://smart-games.org/images/squiggle_open_green.png"/>
+						</div>
+					</div>
+					<div id="" class="example-card example-card-centered">
+						<div class="image-container-help-screen">
+							<img class="" src="http://smart-games.org/images/oval_open_red.png"/>
+						</div>
+					</div>
+				</div>
+				<p> This set is valid as all cards have the same number & shading, while differing in shape and color. </p>
+			</div>
+			<br/>
+			<div id = "invalid-set-1" >
+				<div id = "invalid-set--div" class = "">
+					<div id="" class="example-card example-card-centered">
+						<div class="image-container-help-screen">
+							<img class="" src="http://smart-games.org/images/oval_open_red.png"/>
+							<img class="" src="http://smart-games.org/images/oval_open_red.png"/>
+							<img class="" src="http://smart-games.org/images/oval_open_red.png"/>
+						</div>
+					</div>
+					<div id="" class="example-card example-card-centered">
+						<div class="image-container-help-screen">
+							<img class="" src="http://smart-games.org/images/squiggle_open_red.png"/>
+							<img class="" src="http://smart-games.org/images/squiggle_open_red.png"/>
+							<img class="" src="http://smart-games.org/images/squiggle_open_red.png"/>
+						</div>
+					</div>
+					<div id="" class="example-card example-card-centered">
+						<div class="image-container-help-screen">
+							<img class="" src="http://smart-games.org/images/oval_open_red.png"/>
+							<img class="" src="http://smart-games.org/images/oval_open_red.png"/>
+							<img class="" src="http://smart-games.org/images/oval_open_red.png"/>
+						</div>
+					</div>
+				</div>
+				<p> Not a valid set (Shapes do not all match or differ). </p>
+			</div>
+			<br/>
+			<div id = "invalid-set-2" >
+				<div id = "invalid-set-2-div" class = "">
+					<div id="" class="example-card example-card-centered">
+						<div class="image-container-help-screen">
+							<img class="" src="http://smart-games.org/images/diamond_open_green.png"/>
+							<img class="" src="http://smart-games.org/images/diamond_open_green.png"/>
+						</div>
+					</div>
+					<div id="" class="example-card example-card-centered">
+						<div class="image-container-help-screen">
+							<img class="" src="http://smart-games.org/images/oval_open_blue.png"/>
+							<img class="" src="http://smart-games.org/images/oval_open_blue.png"/>
+						</div>
+					</div>
+					<div id="" class="example-card example-card-centered">
+						<div class="image-container-help-screen">
+							<img class="" src="http://smart-games.org/images/squiggle_striped_red.png"/>
+							<img class="" src="http://smart-games.org/images/squiggle_striped_red.png"/>
+						</div>
+					</div>
+				</div>
+				<p> This set is not valid (see shading). </p>
+			</div>
+		</div>
+
+	</div>
+
 </body>
 </html>
