@@ -23,6 +23,7 @@ class Game {
         this.usedCards = 0;
         this.visibleCardsCount = 0;
         this.visibleCards = {};
+        this.sets = [];
 
         // this.startTime = ;
         // console.log(this.startTime);
@@ -35,18 +36,18 @@ class Game {
 
     startTimer(startTime){
        // Update the count down every 1 second
-        var x = setInterval(function() {
-            let now = Math.floor((Date.now() - startTime) / 1000 );
-            document.getElementById("timer").innerText = now
+       var x = setInterval(function() {
+        let now = Math.floor((Date.now() - startTime) / 1000 );
+        document.getElementById("timer").innerText = now
 
-        }, 1000);
-    }
+    }, 1000);
+   }
 
-    highlightSet(highlightEntireSet) {
-        let attributes = this.randomize(["color", "shape", "shading", "number"]);
+   highlightSet(highlightEntireSet) {
+    let attributes = this.randomize(["color", "shape", "shading", "number"]);
 
 
-        let set = this.setFinder(attributes);
+    let set = this.setFinder(attributes);
 
         //Return if no set is found
         if (!set) return;
@@ -194,6 +195,8 @@ class Game {
 
     addCards(numCards) {
 
+        //A max of 24 cards on the screen will be imposed
+        if(this.visibleCardsCount >= 24) return;
 
         var count = 0;
 
@@ -231,6 +234,102 @@ class Game {
         cards.setAttribute('style', attribute);
     }
 
+    addSetToPastSets(set){
+
+        if(!set || set.length != 3) return;
+        // let setDiv = 
+        // + set[0].getCardImage()
+        // + set[1].getCardImage()
+        // + set[2].getCardImage()
+
+        let setDiv2 = document.createElement('div');
+        setDiv2.id = "set-" + this.sets.length;
+        setDiv2.className = 'centered-mini-card-set';
+
+        let miniCard1 = set[0].getMiniCard();
+        let miniCard2 = set[1].getMiniCard();
+        let miniCard3 = set[2].getMiniCard();
+
+
+        setDiv2.appendChild(miniCard1);
+        setDiv2.appendChild(miniCard2);
+        setDiv2.appendChild(miniCard3);
+
+
+        // let miniCard1 = document.createElement('div');
+        // miniCard1.id = "";
+        // miniCard1.className = "mini-card mini-card-centered";
+
+        // setDiv2.innerHTML = `
+        //         <div id="" class="mini-card mini-card-centered">
+        //             <div class="image-container-mini-card">
+        //                 <img class="" src="http://smart-games.org/images/diamond_open_blue.png" width = "36" height = "14.5"/>
+        //                 <img class="" src="http://smart-games.org/images/diamond_open_blue.png" width = "36" height = "14.5"/>
+        //                 <img class="" src="http://smart-games.org/images/diamond_open_blue.png" width = "36" height = "14.5"/>
+        //             </div>
+        //         </div>
+        //         <div id="" class="mini-card mini-card-centered">
+        //             <div class="image-container-mini-card">
+        //                 <img class="" src="http://smart-games.org/images/diamond_open_blue.png" width = "36" height = "14.5"/>
+        //                 <img class="" src="http://smart-games.org/images/diamond_open_blue.png" width = "36" height = "14.5"/>
+        //                 <img class="" src="http://smart-games.org/images/diamond_open_blue.png" width = "36" height = "14.5"/>
+        //             </div>
+        //         </div>
+        //         <div id="" class="mini-card mini-card-centered">
+        //             <div class="image-container-mini-card">
+        //                 <img class="" src="http://smart-games.org/images/diamond_open_blue.png" width = "36" height = "14.5"/>
+        //                 <img class="" src="http://smart-games.org/images/diamond_open_blue.png" width = "36" height = "14.5"/>
+        //                 <img class="" src="http://smart-games.org/images/diamond_open_blue.png" width = "36" height = "14.5"/>
+        //             </div>
+        //         </div>
+        // `;
+
+        // let setDiv = `          
+        // <div id = "set1" class = "centered-mini-card-set">
+        //         <div id="" class="mini-card mini-card-centered">
+        //             <div class="image-container-mini-card">
+        //                 <img class="" src="http://smart-games.org/images/diamond_open_blue.png" width = "36" height = "14.5"/>
+        //                 <img class="" src="http://smart-games.org/images/diamond_open_blue.png" width = "36" height = "14.5"/>
+        //                 <img class="" src="http://smart-games.org/images/diamond_open_blue.png" width = "36" height = "14.5"/>
+        //             </div>
+        //         </div>
+        //         <div id="" class="mini-card mini-card-centered">
+        //             <div class="image-container-mini-card">
+        //                 <img class="" src="http://smart-games.org/images/diamond_open_blue.png" width = "36" height = "14.5"/>
+        //                 <img class="" src="http://smart-games.org/images/diamond_open_blue.png" width = "36" height = "14.5"/>
+        //                 <img class="" src="http://smart-games.org/images/diamond_open_blue.png" width = "36" height = "14.5"/>
+        //             </div>
+        //         </div>
+        //         <div id="" class="mini-card mini-card-centered">
+        //             <div class="image-container-mini-card">
+        //                 <img class="" src="http://smart-games.org/images/diamond_open_blue.png" width = "36" height = "14.5"/>
+        //                 <img class="" src="http://smart-games.org/images/diamond_open_blue.png" width = "36" height = "14.5"/>
+        //                 <img class="" src="http://smart-games.org/images/diamond_open_blue.png" width = "36" height = "14.5"/>
+        //             </div>
+        //         </div>
+        //     </div>`;
+
+
+        // var img_div = document.createElement('div');
+        // img_div.id = "set-" + this.sets.length;
+        // img_div.className = "centered-mini-card-set";
+
+        // //add set cards
+        // img_div.appendChild(set[0].getMiniCard())
+        // img_div.appendChild(set[1].getMiniCard())
+        // img_div.appendChild(set[1].getMiniCard())
+
+
+        // console.log(set);
+        // console.log(img_div)
+
+
+        let pastSets = document.getElementById("Past Sets")
+        pastSets.appendChild(setDiv2)
+
+        // pastSets.appendChild(img_div);
+    }
+
     addOrRemoveFromSelection(selectedCard, shouldAdd) {
 
         let id = selectedCard.getID(true);
@@ -245,7 +344,7 @@ class Game {
             let card2 = this.selectedCards[cardIds[1]]
             let card3 = this.selectedCards[cardIds[2]]
             let isSet = this.checkSet(card1, card2, card3);
-            if (isSet) {
+            if (isSet | true) {
                 var cardID;
                 for (cardID in this.selectedCards) {
 
@@ -260,6 +359,12 @@ class Game {
 
                 //readjust width
                 this.changeWidth();
+
+                //add set to past sets
+                let set = Object.values(this.selectedCards);
+                this.sets.push(set);
+                this.addSetToPastSets(set)
+
 
             } else
             for (var cardID in this.selectedCards) this.selectedCards[cardID].toggleBorder();
@@ -325,12 +430,38 @@ getImagePng() {
     return "./shapes/" + this.getID(false) + ".png";
 }
 
+getMiniCard(){
+    let id = this.getID(true);
+
+
+    var miniCard = document.createElement('div');
+    miniCard.id = id + " mini-card-div";
+    miniCard.className = "mini-card mini-card-centered";
+
+    let miniCardImageContainer = document.createElement('div');
+    miniCardImageContainer.id = id + " mini-card-image-container";
+    miniCardImageContainer.className = "image-container-mini-card";
+
+    for(var i = 0; i < this.number; i ++){
+        let img1 = document.createElement('img');
+        img1.src = this.getImagePng();
+        img1.width = "36";
+        img1.height = "14.5";
+        img1.id = "mini-card-img-"+id+"-"+i;
+        miniCardImageContainer.appendChild(img1);
+    }
+
+    miniCard.appendChild(miniCardImageContainer);
+
+    return miniCard;
+}
+
 getCardImage() {
 
     let id = this.getID(true);
     var img_div = document.createElement('div');
     img_div.id = id + "_div";
-    img_div.class = "card-div";
+    // img_div.className = "card-div";
         //img_div.src = this.getImagePng();
 
 
