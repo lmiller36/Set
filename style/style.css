@@ -41,6 +41,15 @@
 	align-items:center;
 }
 
+.past-sets{
+	position: absolute;
+	right: 50px;
+	width:300px; 
+	height:600px; 
+	border: 3px solid black;
+	overflow-y: auto;
+}
+
 .mini-card {
 	border-radius: 7.5px;
 	border: 3px solid black;
@@ -54,12 +63,19 @@
 } 
 
 .mini-card-centered {
-	display:inline-block
+/*	display:inline-block*/
+}
+
+.centered-past-sets{
+	text-align: center;
+	/*display: block;*/
+	padding-bottom: 10px;
+	padding-top: 10px;
 }
 
 .centered-mini-card-set{
 	text-align: center;
-	display: block;
+	display: flex;
 	padding-bottom: 10px;
 	padding-top: 10px;
 }
@@ -135,14 +151,6 @@
 .centered-text{
 	text-align: center;
 	display: block;
-}
-
-.past-sets{
-	position: absolute;
-	right: 50px;
-	width:300px; 
-	height:600px; 
-	border: 3px solid black;
 }
 
 

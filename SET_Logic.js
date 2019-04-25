@@ -236,11 +236,8 @@ class Game {
 
     addSetToPastSets(set){
 
+        //check that set is valid and of length 3
         if(!set || set.length != 3) return;
-        // let setDiv = 
-        // + set[0].getCardImage()
-        // + set[1].getCardImage()
-        // + set[2].getCardImage()
 
         let setDiv2 = document.createElement('div');
         setDiv2.id = "set-" + this.sets.length;
@@ -250,84 +247,18 @@ class Game {
         let miniCard2 = set[1].getMiniCard();
         let miniCard3 = set[2].getMiniCard();
 
+        miniCard1.style.marginLeft = '37.5px';
 
         setDiv2.appendChild(miniCard1);
         setDiv2.appendChild(miniCard2);
         setDiv2.appendChild(miniCard3);
 
 
-        // let miniCard1 = document.createElement('div');
-        // miniCard1.id = "";
-        // miniCard1.className = "mini-card mini-card-centered";
+      
+        let pastSets = document.getElementById("past-sets")
 
-        // setDiv2.innerHTML = `
-        //         <div id="" class="mini-card mini-card-centered">
-        //             <div class="image-container-mini-card">
-        //                 <img class="" src="http://smart-games.org/images/diamond_open_blue.png" width = "36" height = "14.5"/>
-        //                 <img class="" src="http://smart-games.org/images/diamond_open_blue.png" width = "36" height = "14.5"/>
-        //                 <img class="" src="http://smart-games.org/images/diamond_open_blue.png" width = "36" height = "14.5"/>
-        //             </div>
-        //         </div>
-        //         <div id="" class="mini-card mini-card-centered">
-        //             <div class="image-container-mini-card">
-        //                 <img class="" src="http://smart-games.org/images/diamond_open_blue.png" width = "36" height = "14.5"/>
-        //                 <img class="" src="http://smart-games.org/images/diamond_open_blue.png" width = "36" height = "14.5"/>
-        //                 <img class="" src="http://smart-games.org/images/diamond_open_blue.png" width = "36" height = "14.5"/>
-        //             </div>
-        //         </div>
-        //         <div id="" class="mini-card mini-card-centered">
-        //             <div class="image-container-mini-card">
-        //                 <img class="" src="http://smart-games.org/images/diamond_open_blue.png" width = "36" height = "14.5"/>
-        //                 <img class="" src="http://smart-games.org/images/diamond_open_blue.png" width = "36" height = "14.5"/>
-        //                 <img class="" src="http://smart-games.org/images/diamond_open_blue.png" width = "36" height = "14.5"/>
-        //             </div>
-        //         </div>
-        // `;
-
-        // let setDiv = `          
-        // <div id = "set1" class = "centered-mini-card-set">
-        //         <div id="" class="mini-card mini-card-centered">
-        //             <div class="image-container-mini-card">
-        //                 <img class="" src="http://smart-games.org/images/diamond_open_blue.png" width = "36" height = "14.5"/>
-        //                 <img class="" src="http://smart-games.org/images/diamond_open_blue.png" width = "36" height = "14.5"/>
-        //                 <img class="" src="http://smart-games.org/images/diamond_open_blue.png" width = "36" height = "14.5"/>
-        //             </div>
-        //         </div>
-        //         <div id="" class="mini-card mini-card-centered">
-        //             <div class="image-container-mini-card">
-        //                 <img class="" src="http://smart-games.org/images/diamond_open_blue.png" width = "36" height = "14.5"/>
-        //                 <img class="" src="http://smart-games.org/images/diamond_open_blue.png" width = "36" height = "14.5"/>
-        //                 <img class="" src="http://smart-games.org/images/diamond_open_blue.png" width = "36" height = "14.5"/>
-        //             </div>
-        //         </div>
-        //         <div id="" class="mini-card mini-card-centered">
-        //             <div class="image-container-mini-card">
-        //                 <img class="" src="http://smart-games.org/images/diamond_open_blue.png" width = "36" height = "14.5"/>
-        //                 <img class="" src="http://smart-games.org/images/diamond_open_blue.png" width = "36" height = "14.5"/>
-        //                 <img class="" src="http://smart-games.org/images/diamond_open_blue.png" width = "36" height = "14.5"/>
-        //             </div>
-        //         </div>
-        //     </div>`;
-
-
-        // var img_div = document.createElement('div');
-        // img_div.id = "set-" + this.sets.length;
-        // img_div.className = "centered-mini-card-set";
-
-        // //add set cards
-        // img_div.appendChild(set[0].getMiniCard())
-        // img_div.appendChild(set[1].getMiniCard())
-        // img_div.appendChild(set[1].getMiniCard())
-
-
-        // console.log(set);
-        // console.log(img_div)
-
-
-        let pastSets = document.getElementById("Past Sets")
-        pastSets.appendChild(setDiv2)
-
-        // pastSets.appendChild(img_div);
+        //node 0 is text so insert after that
+        pastSets.insertBefore(setDiv2,pastSets.childNodes[0]);
     }
 
     addOrRemoveFromSelection(selectedCard, shouldAdd) {
