@@ -136,7 +136,7 @@
 	function initializeGame(){
 
 		//Initialize game
-		let game = new Game();
+		let game = new Game(GameType.single);
 		document.game = game;
 		
 
@@ -262,7 +262,7 @@
 		function startGame(){
 
 
-			let game = new Game();
+			let game = new Game(GameType.multiplayer);
 			document.game = game;
 			closeLeftMenu();
 
@@ -282,7 +282,7 @@
 			document.session.sendMessage(json);
 		}
 
-		initializeMultiplayer();
+		// initializeMultiplayer();
 
 	</script>
 	

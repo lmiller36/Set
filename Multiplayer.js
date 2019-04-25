@@ -51,7 +51,7 @@ class Session{
 				if(sender != this.userKey){
 					let cards = data.cards;
 					console.log(cards)
-					let game = new Game(cards);
+					let game = new Game(GameType.multiplayer,cards);
 					game.startGame();
 					document.game = game;
 				}
@@ -64,31 +64,42 @@ class Session{
 
 				break;
 
-			case (SessionAction.receivedSet):
+		case (SessionAction.receivedSet):
+				console.log("receivedSet")
 
+			//someone else found a set
+			if(sender != this.userKey){
+				let cards = data.cards;
+				console.log(cards);
+				console.log("receivedSet2")
+
+				document.game.performSetActions(cards);
 			}
+			break;
+
 		}
-
-		subscribeSession(){
-			this.pubnub.addListener({
-				message: (msg) => {
-					this.receiveMessage(msg);
-				}
-			})
-
-			this.pubnub.subscribe({
-				channels: [this.key]
-			});
-		}
-
-		sendMessage(msg){
-			msg.senderKey = this.userKey;
-			msg.senderName = "username";
-
-			this.pubnub.publish({
-				message: msg,
-				channel: this.key
-			});
-		}
-
 	}
+
+	subscribeSession(){
+		this.pubnub.addListener({
+			message: (msg) => {
+				this.receiveMessage(msg);
+			}
+		})
+
+		this.pubnub.subscribe({
+			channels: [this.key]
+		});
+	}
+
+	sendMessage(msg){
+		msg.senderKey = this.userKey;
+		msg.senderName = "username";
+
+		this.pubnub.publish({
+			message: msg,
+			channel: this.key
+		});
+	}
+
+}
