@@ -9,6 +9,10 @@
 	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="./style/style.css">
+	<script src="./pubnub.4.21.7.js"></script>
+	<script src="./Multiplayer.js"></script>
+
+
 </head>
 <body>
 	<p class = "title"> Lorne's Set Game </p>
@@ -19,7 +23,7 @@
 			</button>
 		</div>
 		<div>
-			<button class="btn centered">
+			<button class="btn centered" onclick = "initializeMultiplayer()">
 				<i class="fa fa-users"></i> Multiplayer 
 			</button>
 		</div>
@@ -121,21 +125,22 @@
 		}
 
 
+		function initializeMultiplayer(){
+			let session = new Session();
+			document.getElementById("MainMenu").style.display = "none";
+			document.getElementById("InitalizingMultiplayer").style.display = "block";
+		}
+
+
 	//Game Functions
 	function initializeGame(){
-
-		//Hide Main Menu
-		document.getElementById("MainMenu").style.display = "none";
-
-
-		//Show Game
-		document.getElementById("Game").style.display = "block";
 
 		//Initialize game
 		let game = new Game();
 		document.game = game;
+		
 
-		closeLeftMenu();
+		game.startGame();
 
 	}
 
@@ -182,7 +187,106 @@
 
 
 </script>
-<!-- <object type="text/html" data="SetRules.html" id = "RulesScreen" class = "rules"/> -->
+
+
+<div id = "InitalizingMultiplayer" style = "display: none" class= "centered-help-screen">
+<!-- 	<button>
+		iniatialize game
+	</button> -->
+
+	
+	<input type="radio" name="sessionState" value="Create Game" onclick="initalizeAsHost()"> Create Game<br>
+	<input type="radio" name="sessionState" value="Join Game" onclick="initalizeAsGuest()"> Join Game<br>
+	<br><br>
+	<p id = "linkText">Enter link:</p>
+	<input id = "link" type="text" name="link" value="" >
+	<button onclick = "joinHost()">submit</button>
+	<button onclick = "testMsg()">msg</button>
+
+	<br/><br/>
+
+	<div id = "players-div">
+		<p id = "">Players in game:</p>
+		<ul id = "players-in-game">
+			<li>Coffee</li>
+			<li>Tea</li>
+			<li>Milk</li>
+		</ul>  
+		<button onclick="startGame()">Start Game</button>
+	</div>
+
+
+
+
+	<script type="text/javascript">
+		function initalizeAsHost(){
+			let session = new Session();
+			document.session = session;
+			session.subscribeSession();
+
+			let link = document.getElementById("link")
+			link.value = session.key
+
+			document.getElementById("linkText").innerText =  "Send link to other players"
+
+		}	
+
+		function initalizeAsGuest(){
+
+
+			let link = document.getElementById("link")
+			link.value = ""
+
+			document.getElementById("linkText").innerText =  "Paste Link Here:"
+
+		}	
+
+		function joinHost(){
+
+			let link = document.getElementById("link")
+			let key = link.value;
+
+			let session = new Session(key);
+			document.session = session;
+			session.subscribeSession();
+
+			let json = {
+				"username" : "name",
+				"userKey" : session.keyName
+			}
+			session.sendMessage(json);
+
+			
+		}
+
+		function startGame(){
+
+
+			let game = new Game();
+			document.game = game;
+			closeLeftMenu();
+
+			let json = {
+				"action": SessionAction.startGame,
+				"data" : {
+					"cards" : game.getCardsInOrder()
+				}
+			};
+
+			document.session.sendMessage(json);
+		}
+
+
+		function testMsg(){
+			let json = {}
+			document.session.sendMessage(json);
+		}
+
+		initializeMultiplayer();
+
+	</script>
+	
+</div>
 
 <div id = "RulesScreen" class = "rules">
 	<h1 class="title-help-screen centered-help-screen"> How to Play Set <h1 />
@@ -419,6 +523,10 @@
 		</div>
 
 	</div>
+
+
+
+
 
 </body>
 </html>

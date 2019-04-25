@@ -17,21 +17,63 @@ var Shading = Object.freeze({
 });
 
 class Game {
-    constructor() {
+    constructor(cardsOrder) {
         this.selectedCards = {};
-        this.cards = this.generateCards();
+
+        if(!cardsOrder)
+            this.cards = this.generateCards();
+        else 
+            this.cards = this.retrieveCards(cardsOrder);
+
+
         this.usedCards = 0;
         this.visibleCardsCount = 0;
         this.visibleCards = {};
         this.sets = [];
 
-        // this.startTime = ;
-        // console.log(this.startTime);
+    }
+
+    retrieveCards(cardsOrder){
+      return cardsOrder.map(function (cardID) { 
+        let attributes = cardID.split('_');
+
+        let shape = attributes[0];
+        let shading = attributes[1];
+        let color = attributes[2];
+
+        let number = parseInt(attributes[3]);
+
+//color, shape, shading, number
+
+return new Card(color,shape,shading,number);
+
+});
+  }
+
+  getCardsInOrder(){
+     return this.cards.map(function (card) { return card.getID(true)});
+ }
+
+ startGame(){
+
+        //Hide Main Menu
+        document.getElementById("MainMenu").style.display = "none";
+
+        //Hide Multiplayer screen
+         document.getElementById("InitalizingMultiplayer").style.display = "none";
+         
+        //Show Game
+        document.getElementById("Game").style.display = "block";
+
+        closeLeftMenu();
 
         //intialize with twelve cards
         this.addCards(12);
 
+        //start timer
         this.startTimer(Date.now());
+
+
     }
 
     startTimer(startTime){
@@ -106,9 +148,6 @@ class Game {
                 }
             }
         }
-
-
-
     }
 
     separateByAttribute(arr, attribute) {
@@ -254,7 +293,7 @@ class Game {
         setDiv2.appendChild(miniCard3);
 
 
-      
+
         let pastSets = document.getElementById("past-sets")
 
         //node 0 is text so insert after that
