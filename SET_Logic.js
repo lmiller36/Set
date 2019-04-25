@@ -16,22 +16,71 @@ var Shading = Object.freeze({
     'striped': 'striped'
 });
 
+var GameType = Object.freeze({
+    'single': 'single',
+    'multiplayerSameScreen': 'multiplayerSameScreen',
+    'multiplayer': 'multiplayer'
+});
+
 class Game {
-    constructor() {
+    constructor(gameType,cardsOrder) {
         this.selectedCards = {};
-        this.cards = this.generateCards();
+
+        if(!cardsOrder)
+            this.cards = this.generateCards();
+        else 
+            this.cards = this.retrieveCards(cardsOrder);
+
+
         this.usedCards = 0;
         this.visibleCardsCount = 0;
         this.visibleCards = {};
         this.sets = [];
+        this.gameType = gameType
 
-        // this.startTime = ;
-        // console.log(this.startTime);
+    }
+
+    retrieveCards(cardsOrder){
+      return cardsOrder.map(function (cardID) { 
+        let attributes = cardID.split('_');
+
+        let shape = attributes[0];
+        let shading = attributes[1];
+        let color = attributes[2];
+
+        let number = parseInt(attributes[3]);
+
+//color, shape, shading, number
+
+return new Card(color,shape,shading,number);
+
+});
+  }
+
+  getCardsInOrder(){
+   return this.cards.map(function (card) { return card.getID(true)});
+}
+
+startGame(){
+
+        //Hide Main Menu
+        document.getElementById("MainMenu").style.display = "none";
+
+        //Hide Multiplayer screen
+        document.getElementById("InitalizingMultiplayer").style.display = "none";
+
+        //Show Game
+        document.getElementById("Game").style.display = "block";
+
+        closeLeftMenu();
 
         //intialize with twelve cards
         this.addCards(12);
 
+        //start timer
         this.startTimer(Date.now());
+
+
     }
 
     startTimer(startTime){
@@ -106,9 +155,6 @@ class Game {
                 }
             }
         }
-
-
-
     }
 
     separateByAttribute(arr, attribute) {
@@ -155,12 +201,19 @@ class Game {
     }
 
     removeCardFromScreen(cardID, shouldRemoveFromVisibleCards) {
+        // console.log(cardID);
+        // console.log(shouldRemoveFromVisibleCards)
+        // console.log(this);
+
         if (shouldRemoveFromVisibleCards)
             delete this.visibleCards[cardID];
 
         //let card = this.selectedCards[cardID];
         let div_id = cardID + "_div";
         let div = document.getElementById(div_id);
+        // console.log(div);
+        // console.log(div_id);
+
         div.parentElement.removeChild(div);
     }
 
@@ -179,8 +232,6 @@ class Game {
 
     }
 
-
-
     addCardToScreen(card, shouldAddCardToVisibleCards) {
 
         if (shouldAddCardToVisibleCards)
@@ -188,8 +239,6 @@ class Game {
 
         let cards = document.getElementById("Cards")
         cards.appendChild(card.getCardImage());
-
-
 
     }
 
@@ -235,6 +284,7 @@ class Game {
     }
 
     addSetToPastSets(set){
+        console.log(set);
 
         //check that set is valid and of length 3
         if(!set || set.length != 3) return;
@@ -254,7 +304,7 @@ class Game {
         setDiv2.appendChild(miniCard3);
 
 
-      
+
         let pastSets = document.getElementById("past-sets")
 
         //node 0 is text so insert after that
@@ -276,25 +326,25 @@ class Game {
             let card3 = this.selectedCards[cardIds[2]]
             let isSet = this.checkSet(card1, card2, card3);
             if (isSet | true) {
-                var cardID;
-                for (cardID in this.selectedCards) {
 
-                    this.removeCardFromScreen(cardID, true);
-                    this.visibleCardsCount--;
 
+                //if in multiplayer, inform other players this user has found a set
+                if(this.gameType == GameType.multiplayer){
+                    let json = {
+                        "action": SessionAction.receivedSet,
+                        "data" : {
+                            "cards" : cardIds
+                        }
+                    };
+
+                    document.session.sendMessage(json);
                 }
 
-                //only add cards if no extra cards are on the table
-                if (this.visibleCardsCount < 12)
-                    this.addCards(3);
+                let setCardsIds = Object.keys(this.selectedCards);
+                console.log(setCardsIds);
 
-                //readjust width
-                this.changeWidth();
-
-                //add set to past sets
-                let set = Object.values(this.selectedCards);
-                this.sets.push(set);
-                this.addSetToPastSets(set)
+                
+                this.performSetActions(setCardsIds);
 
 
             } else
@@ -306,6 +356,45 @@ class Game {
 
         }
     }
+
+    performSetActions(setCardsIDs){
+      var cardID;
+
+      this.selectedCards = {};
+      console.log(setCardsIDs);
+      console.log(this);
+
+      let setCards = [this.visibleCards[setCardsIDs[0]],this.visibleCards[setCardsIDs[1]],this.visibleCards[setCardsIDs[2]]]
+
+         //add set to past sets
+         // let set = 
+         // console.log(set);
+         // console.log(Object.values(this.selectedCards));
+         this.sets.push(setCards);
+         this.addSetToPastSets(setCards)
+
+         setCardsIDs.forEach((cardID) => {
+            // let cardID = card.getID(true);
+           this.removeCardFromScreen(cardID, true);
+           this.visibleCardsCount--;
+       });
+
+      // for (cardID in setCards) {
+      //   console.log(cardID);
+      //   this.removeCardFromScreen(cardID, true);
+      //   this.visibleCardsCount--;
+
+      //   }
+
+                //only add cards if no extra cards are on the table
+                if (this.visibleCardsCount < 12)
+                    this.addCards(3);
+
+                //readjust width
+                this.changeWidth();
+
+
+            }
 
     //In order to be a set, each attribute (color,shape,shading, & number) must differ or be the same
     checkSet(card1, card2, card3) {
