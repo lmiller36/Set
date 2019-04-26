@@ -1,3 +1,5 @@
+/** Game Enumerations **/
+
 var Color = Object.freeze({
     'red': 'red',
     'blue': 'blue',
@@ -23,11 +25,15 @@ var GameType = Object.freeze({
 });
 
 class Game {
+
     constructor(gameType,cardsOrder) {
         this.selectedCards = {};
 
+        //cards must be created and randomized
         if(!cardsOrder)
             this.cards = this.generateCards();
+
+        //user is a guest in a multiplayer game & card order is already determined
         else 
             this.cards = this.retrieveCards(cardsOrder);
 
@@ -41,6 +47,8 @@ class Game {
 
     }
 
+    //ONLY USED IN MULTIPLAYER
+    //create cards array to match ordering of host
     retrieveCards(cardsOrder){
       return cardsOrder.map(function (cardID) { 
         let attributes = cardID.split('_');
@@ -51,18 +59,19 @@ class Game {
 
         let number = parseInt(attributes[3]);
 
-//color, shape, shading, number
+        return new Card(color,shape,shading,number);
 
-return new Card(color,shape,shading,number);
-
-});
+    });
   }
 
-  getCardsInOrder(){
+    //ONLY USED IN MULTIPLAYER
+    //creates array of card ID's in matching order
+    getCardsInOrder(){
      return this.cards.map(function (card) { return card.getID(true)});
  }
 
- startGame(){
+//performs starting actions to begin gameplay
+startGame(){
 
         //Hide Main Menu
         document.getElementById("MainMenu").style.display = "none";
@@ -84,6 +93,7 @@ return new Card(color,shape,shading,number);
 
     }
 
+    //starts timer and ,if needed, pauses the timer
     startTimer(startTime){
        // Update the count down every 1 second
        var x = setInterval(function() {
@@ -98,16 +108,17 @@ return new Card(color,shape,shading,number);
     }, 1000);
    }
 
+   //finds set and highlights a single card or the entire set
    highlightSet(highlightEntireSet) {
-    console.log(this);
-    console.log(highlightEntireSet);
-    let attributes = this.randomize(["color", "shape", "shading", "number"]);
 
+    //randomizes order of attributes so a single property is not favored in set algorithm
+            //number,color,shape,shading
+            let attributes = this.randomize(["color", "shape", "shading", "number"]);
 
-    let set = this.setFinder(attributes);
+    //finds a set, if one is present
+    let set = this.setFinder(Object.values(this.visibleCards),attributes);
 
         //Return if no set is found or if cards are already highlighted
-
         if (!set || this.cardsHighlighted != 0) return;
 
         //highlight entire set
@@ -125,23 +136,63 @@ return new Card(color,shape,shading,number);
         }
     }
 
-    setFinder(attributes) {
-        let visibleCards = Object.values(this.visibleCards);
-        let separated = this.separateByAttribute(visibleCards, attributes[0]);
-        let firstAttributeDifferent = this.permuteDictionary(separated);
+    //algorithm for finding a set
+    //Note: The current implementation favors the first attribute being all different, i.e. if 
+    //the first attribute is color, a set of with a red, blue, & green card will be favored
 
+    setFinder(visibleCards,attributes) {
+
+        //base case to exit recursion
+        //set not present
+        if(attributes.length == 0 ) return;
+
+        //separates cards into a dictionary with the attribute's enumeration names as keys
+        //i.e. if the first attribute is 'Shape', then the keys will be a subset of ['diamond','oval',squiggle]
+        // let visibleCards = Object.values(this.visibleCards);
+        let separated = this.separateByAttribute(visibleCards, attributes[0]);
+
+        //if a set is found, return the set
+        //this set will always have all three values of the first attribute
+        let firstAttributeDifferent = this.permuteDictionary(separated);
         if (firstAttributeDifferent) return firstAttributeDifferent;
 
-        for (var key in separated) {
-            let sameAttribute = separated[key]
-            let sameAttributeSeparated = this.separateByAttribute(sameAttribute, attributes[1]);
 
-            let firstAttributeSame = this.permuteDictionary(sameAttributeSeparated);
-            if (firstAttributeSame) return firstAttributeSame;
-        }
+
+
+        //remove first attribute in list
+        let newAttributes = attributes.splice(1);
+
+            //check if sets are present where the set all share the same value for the first attribute
+            for (var key in separated) {
+
+             let sameAttribute = separated[key]
+
+             let set = this.setFinder(sameAttribute,newAttributes)
+             if(set) return set;
+         }
 
         //no set found
         return null;
+    }
+
+    permuteArr(arr){
+        if(arr.length < 3) return;
+
+        let cardPermutations = []
+
+        for(var i = 0; i < arr.length - 2; i++){
+            let card1 = arr[i];
+            for (var j = 1; j < arr.length - 1; j++){
+                let card2 = arr[j];
+                for(var k = 2; k < arr.length;k++){
+                    let card3 = arr[k];
+                    let cards = [card1,card2,card3];
+                    cardPermutations.push(cards);
+                }
+            }
+        }
+        console.log(cardPermutations);
+
     }
 
     permuteDictionary(dict) {
@@ -214,18 +265,12 @@ return new Card(color,shape,shading,number);
     }
 
     removeCardFromScreen(cardID, shouldRemoveFromVisibleCards) {
-        // console.log(cardID);
-        // console.log(shouldRemoveFromVisibleCards)
-        // console.log(this);
 
         if (shouldRemoveFromVisibleCards)
             delete this.visibleCards[cardID];
 
-        //let card = this.selectedCards[cardID];
         let div_id = cardID + "_div";
         let div = document.getElementById(div_id);
-        // console.log(div);
-        // console.log(div_id);
 
         div.parentElement.removeChild(div);
     }

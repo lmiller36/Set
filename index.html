@@ -5,8 +5,8 @@
 	<title>Lorne's Set Game</title>
 	<script type="text/javascript" src="SET_Logic.js"></script>
 	<script src="jquery-3.4.0.js"></script>
-	<script type="text/javascript" src="./StartMenu/StartMenu.js"></script>
-	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<!-- 	<script type="text/javascript" src="./StartMenu/StartMenu.js"></script>
+ -->	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="./style/style.css">
 	<script src="./pubnub.4.21.7.js"></script>
@@ -116,7 +116,7 @@
 					<a href="#" onclick="giveHint()" class="w3-bar-item w3-button">
 						<i class="fa fa-lightbulb-o" title="Hint"></i>
 					</a>
-						<a href="#" onclick="pause()" class="w3-bar-item w3-button">
+					<a href="#" onclick="pause()" class="w3-bar-item w3-button">
 						<i class="fa fa-lightbulb-o" title="Hint"></i>
 					</a>
 				</div>
@@ -350,6 +350,10 @@
 			};
 			document.session.sendMessage(json);
 		}
+
+		initializeSinglePlayerGame();
+		toggleOffline();
+		showSet();
 
 	</script>
 	
