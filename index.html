@@ -67,6 +67,9 @@
 			<a href="#" class="w3-bar-item w3-button">
 				<i class="fa fa-trash"></i>
 			</a>
+
+			<button onclick="toggleOffline()">toggle offline</button>
+
 		</div>
 		<div id = "past-sets-wrapper" class = "past-sets">
 			<p class = "centered-past-sets">Past Sets</p>
@@ -79,21 +82,41 @@
 				<h1 id="timer" style=' font-size:42px; width:fit-content; width:-webkit-fit-content; width:-moz-fit-content;'>0</h1>
 			</div>
 			<div class="w3-bar w3-light-grey w3-border centered  w3-xxlarge" style="width:100%">
-				<a href="#" onclick="addCards()" class="w3-bar-item w3-button">
-					<i class="fa fa-plus" title="Add 3 cards"></i>
-				</a>
-				<a href="#" class="w3-bar-item w3-button">
-					<i class="fa fa-question-circle" title="Help"></i>
-				</a>
-				<a href="#" class="w3-bar-item w3-button" onclick="showSet()">
-					<i class="fa fa-search" title="Show Set"></i>
-				</a>
-				<a href="#" onclick="shuffleCards()" class="w3-bar-item w3-button">
-					<i class="fa fa-random" title="Shuffle cards"></i>
-				</a>
-				<a href="#" onclick="giveHint()" class="w3-bar-item w3-button">
-					<i class="fa fa-lightbulb-o" title="Hint"></i>
-				</a>
+				<div id = "offlineMenu" style = "display: none;" class="">
+					<button onclick="addCards()" class="w3-bar-item w3-button">
+						Add cards
+					</button>
+					<button onclick="" class="w3-bar-item w3-button">
+						Help
+					</button>
+					<button onclick="showSet()" class="w3-bar-item w3-button">
+						Show Set
+					</button>	
+					<button onclick="shuffleCards()" class="w3-bar-item w3-button">
+						Shuffle
+					</button>
+					<button onclick="giveHint()" class="w3-bar-item w3-button">
+						Hint
+					</button>	
+				</div>
+				<div id = "onlineMenu">
+					<a href="#" onclick="addCards()" class="w3-bar-item w3-button">
+						<i class="fa fa-plus" title="Add 3 cards"></i>
+					</a>
+					<a href="#" class="w3-bar-item w3-button">
+						<i class="fa fa-question-circle" title="Help"></i>
+					</a>
+					<a href="#" class="w3-bar-item w3-button" onclick="showSet()">
+						<i class="fa fa-search" title="Show Set"></i>
+					</a>
+					<a href="#" onclick="shuffleCards()" class="w3-bar-item w3-button">
+						<i class="fa fa-random" title="Shuffle cards"></i>
+					</a>
+					<a href="#" onclick="giveHint()" class="w3-bar-item w3-button">
+						<i class="fa fa-lightbulb-o" title="Hint"></i>
+					</a>
+				</div>
+				
 			</div>
 			<div id = "Cards" class="cards" /></div>
 		</div>
@@ -219,6 +242,20 @@
 
 
 	<script type="text/javascript">
+
+		//switch menu to buttons if offline
+		function toggleOffline(){
+			if(document.offline){
+				document.offline = false;
+			} 
+			else{
+				document.offline = true;
+			}
+
+			document.getElementById("offlineMenu").style.display = document.offline ? "block" : "none";
+			document.getElementById("onlineMenu").style.display = !document.offline ? "block" : "none";
+		}
+
 		function initalizeAsHost(){
 			let session = new Session();
 			document.session = session;
@@ -303,23 +340,23 @@
 				<div id = "shapes examples" class = "">
 					<div id="" class="example-card example-card-centered">
 						<div class="image-container-help-screen">
-							<img class="" src="http://smart-games.org/images/diamond_open_blue.png"/>
-							<img class="" src="http://smart-games.org/images/diamond_open_blue.png"/>
-							<img class="" src="http://smart-games.org/images/diamond_open_blue.png"/>
+							<img class="" src="./shapes/diamond_open_blue.png"/>
+							<img class="" src="./shapes/diamond_open_blue.png"/>
+							<img class="" src="./shapes/diamond_open_blue.png"/>
 						</div>
 					</div>
 					<div id="" class="example-card example-card-centered">
 						<div class="image-container-help-screen">
-							<img class="" src="http://smart-games.org/images/squiggle_open_blue.png"/>
-							<img class="" src="http://smart-games.org/images/squiggle_open_blue.png"/>
-							<img class="" src="http://smart-games.org/images/squiggle_open_blue.png"/>
+							<img class="" src="./shapes/squiggle_open_blue.png"/>
+							<img class="" src="./shapes/squiggle_open_blue.png"/>
+							<img class="" src="./shapes/squiggle_open_blue.png"/>
 						</div>
 					</div>
 					<div id="" class="example-card example-card-centered">
 						<div class="image-container-help-screen">
-							<img class="" src="http://smart-games.org/images/oval_open_blue.png"/>
-							<img class="" src="http://smart-games.org/images/oval_open_blue.png"/>
-							<img class="" src="http://smart-games.org/images/oval_open_blue.png"/>
+							<img class="" src="./shapes/oval_open_blue.png"/>
+							<img class="" src="./shapes/oval_open_blue.png"/>
+							<img class="" src="./shapes/oval_open_blue.png"/>
 						</div>
 					</div>
 				</div>
@@ -330,17 +367,17 @@
 				<div id = "color examples" class = "">
 					<div id="" class="example-card example-card-centered">
 						<div class="image-container-help-screen">
-							<img class="" src="http://smart-games.org/images/diamond_solid_red.png"/>
+							<img class="" src="./shapes/diamond_solid_red.png"/>
 						</div>
 					</div>
 					<div id="" class="example-card example-card-centered">
 						<div class="image-container-help-screen">
-							<img class="" src="http://smart-games.org/images/diamond_solid_blue.png"/>
+							<img class="" src="./shapes/diamond_solid_blue.png"/>
 						</div>
 					</div>
 					<div id="" class="example-card example-card-centered">
 						<div class="image-container-help-screen">
-							<img class="" src="http://smart-games.org/images/diamond_solid_green.png"/>
+							<img class="" src="./shapes/diamond_solid_green.png"/>
 						</div>
 					</div>
 				</div>
@@ -351,23 +388,23 @@
 				<div id = "number examples" class = "">
 					<div id="" class="example-card example-card-centered">
 						<div class="image-container-help-screen">
-							<img class="" src="http://smart-games.org/images/diamond_striped_red.png"/>
-							<img class="hidden" src="http://smart-games.org/images/diamond_striped_red.png"/>
-							<img class="" src="http://smart-games.org/images/diamond_striped_red.png"/>
+							<img class="" src="./shapes/diamond_striped_red.png"/>
+							<img class="hidden" src="./shapes/diamond_striped_red.png"/>
+							<img class="" src="./shapes/diamond_striped_red.png"/>
 						</div>
 					</div>
 					<div id="" class="example-card example-card-centered">
 						<div class="image-container-help-screen">
-							<img class="hidden" src="http://smart-games.org/images/diamond_striped_red.png"/>
-							<img class="" src="http://smart-games.org/images/diamond_striped_red.png"/>
-							<img class="hidden" src="http://smart-games.org/images/diamond_striped_red.png"/>
+							<img class="hidden" src="./shapes/diamond_striped_red.png"/>
+							<img class="" src="./shapes/diamond_striped_red.png"/>
+							<img class="hidden" src="./shapes/diamond_striped_red.png"/>
 						</div>
 					</div>
 					<div id="" class="example-card example-card-centered">
 						<div class="image-container-help-screen">
-							<img class="" src="http://smart-games.org/images/diamond_striped_red.png"/>
-							<img class="" src="http://smart-games.org/images/diamond_striped_red.png"/>
-							<img class="" src="http://smart-games.org/images/diamond_striped_red.png"/>
+							<img class="" src="./shapes/diamond_striped_red.png"/>
+							<img class="" src="./shapes/diamond_striped_red.png"/>
+							<img class="" src="./shapes/diamond_striped_red.png"/>
 						</div>
 					</div>
 				</div>
@@ -378,20 +415,20 @@
 				<div id = "shading examples" class = "">
 					<div id="" class="example-card example-card-centered">
 						<div class="image-container-help-screen">
-							<img class="" src="http://smart-games.org/images/oval_open_green.png"/>
-							<img class="" src="http://smart-games.org/images/oval_open_green.png"/>
+							<img class="" src="./shapes/oval_open_green.png"/>
+							<img class="" src="./shapes/oval_open_green.png"/>
 						</div>
 					</div>
 					<div id="" class="example-card example-card-centered">
 						<div class="image-container-help-screen">
-							<img class="" src="http://smart-games.org/images/oval_striped_green.png"/>
-							<img class="" src="http://smart-games.org/images/oval_striped_green.png"/>
+							<img class="" src="./shapes/oval_striped_green.png"/>
+							<img class="" src="./shapes/oval_striped_green.png"/>
 						</div>
 					</div>
 					<div id="" class="example-card example-card-centered">
 						<div class="image-container-help-screen">
-							<img class="" src="http://smart-games.org/images/oval_solid_green.png"/>
-							<img class="" src="http://smart-games.org/images/oval_solid_green.png"/>
+							<img class="" src="./shapes/oval_solid_green.png"/>
+							<img class="" src="./shapes/oval_solid_green.png"/>
 						</div>
 					</div>
 				</div>
@@ -403,17 +440,17 @@
 				<div id = "valid-set-1-div" class = "">
 					<div id="" class="example-card example-card-centered">
 						<div class="image-container-help-screen">
-							<img class="" src="http://smart-games.org/images/diamond_open_blue.png"/>
+							<img class="" src="./shapes/diamond_open_blue.png"/>
 						</div>
 					</div>
 					<div id="" class="example-card example-card-centered">
 						<div class="image-container-help-screen">
-							<img class="" src="http://smart-games.org/images/squiggle_open_green.png"/>
+							<img class="" src="./shapes/squiggle_open_green.png"/>
 						</div>
 					</div>
 					<div id="" class="example-card example-card-centered">
 						<div class="image-container-help-screen">
-							<img class="" src="http://smart-games.org/images/oval_open_red.png"/>
+							<img class="" src="./shapes/oval_open_red.png"/>
 						</div>
 					</div>
 				</div>
@@ -424,23 +461,23 @@
 				<div id = "valid-set-2-div" class = "">
 					<div id="" class="example-card example-card-centered">
 						<div class="image-container-help-screen">
-							<img class="hidden" src="http://smart-games.org/images/oval_striped_green.png"/>
-							<img class="" src="http://smart-games.org/images/oval_striped_green.png"/>
-							<img class="hidden" src="http://smart-games.org/images/oval_striped_green.png"/>
+							<img class="hidden" src="./shapes/oval_striped_green.png"/>
+							<img class="" src="./shapes/oval_striped_green.png"/>
+							<img class="hidden" src="./shapes/oval_striped_green.png"/>
 						</div>
 					</div>
 					<div id="" class="example-card example-card-centered">
 						<div class="image-container-help-screen">
-							<img class="" src="http://smart-games.org/images/oval_striped_green.png"/>
-							<img class="hidden" src="http://smart-games.org/images/oval_striped_green.png"/>
-							<img class="" src="http://smart-games.org/images/oval_striped_green.png"/>
+							<img class="" src="./shapes/oval_striped_green.png"/>
+							<img class="hidden" src="./shapes/oval_striped_green.png"/>
+							<img class="" src="./shapes/oval_striped_green.png"/>
 						</div>
 					</div>
 					<div id="" class="example-card example-card-centered">
 						<div class="image-container-help-screen">
-							<img class="" src="http://smart-games.org/images/oval_striped_green.png"/>
-							<img class="" src="http://smart-games.org/images/oval_striped_green.png"/>
-							<img class="" src="http://smart-games.org/images/oval_striped_green.png"/>
+							<img class="" src="./shapes/oval_striped_green.png"/>
+							<img class="" src="./shapes/oval_striped_green.png"/>
+							<img class="" src="./shapes/oval_striped_green.png"/>
 						</div>
 					</div>
 				</div>
@@ -453,17 +490,17 @@
 				<div id = "valid-set-1-div" class = "">
 					<div id="" class="example-card example-card-centered">
 						<div class="image-container-help-screen">
-							<img class="" src="http://smart-games.org/images/diamond_open_blue.png"/>
+							<img class="" src="./shapes/diamond_open_blue.png"/>
 						</div>
 					</div>
 					<div id="" class="example-card example-card-centered">
 						<div class="image-container-help-screen">
-							<img class="" src="http://smart-games.org/images/squiggle_open_green.png"/>
+							<img class="" src="./shapes/squiggle_open_green.png"/>
 						</div>
 					</div>
 					<div id="" class="example-card example-card-centered">
 						<div class="image-container-help-screen">
-							<img class="" src="http://smart-games.org/images/oval_open_red.png"/>
+							<img class="" src="./shapes/oval_open_red.png"/>
 						</div>
 					</div>
 				</div>
@@ -474,23 +511,23 @@
 				<div id = "invalid-set--div" class = "">
 					<div id="" class="example-card example-card-centered">
 						<div class="image-container-help-screen">
-							<img class="" src="http://smart-games.org/images/oval_open_red.png"/>
-							<img class="" src="http://smart-games.org/images/oval_open_red.png"/>
-							<img class="" src="http://smart-games.org/images/oval_open_red.png"/>
+							<img class="" src="./shapes/oval_open_red.png"/>
+							<img class="" src="./shapes/oval_open_red.png"/>
+							<img class="" src="./shapes/oval_open_red.png"/>
 						</div>
 					</div>
 					<div id="" class="example-card example-card-centered">
 						<div class="image-container-help-screen">
-							<img class="" src="http://smart-games.org/images/squiggle_open_red.png"/>
-							<img class="" src="http://smart-games.org/images/squiggle_open_red.png"/>
-							<img class="" src="http://smart-games.org/images/squiggle_open_red.png"/>
+							<img class="" src="./shapes/squiggle_open_red.png"/>
+							<img class="" src="./shapes/squiggle_open_red.png"/>
+							<img class="" src="./shapes/squiggle_open_red.png"/>
 						</div>
 					</div>
 					<div id="" class="example-card example-card-centered">
 						<div class="image-container-help-screen">
-							<img class="" src="http://smart-games.org/images/oval_open_red.png"/>
-							<img class="" src="http://smart-games.org/images/oval_open_red.png"/>
-							<img class="" src="http://smart-games.org/images/oval_open_red.png"/>
+							<img class="" src="./shapes/oval_open_red.png"/>
+							<img class="" src="./shapes/oval_open_red.png"/>
+							<img class="" src="./shapes/oval_open_red.png"/>
 						</div>
 					</div>
 				</div>
@@ -501,20 +538,20 @@
 				<div id = "invalid-set-2-div" class = "">
 					<div id="" class="example-card example-card-centered">
 						<div class="image-container-help-screen">
-							<img class="" src="http://smart-games.org/images/diamond_open_green.png"/>
-							<img class="" src="http://smart-games.org/images/diamond_open_green.png"/>
+							<img class="" src="./shapes/diamond_open_green.png"/>
+							<img class="" src="./shapes/diamond_open_green.png"/>
 						</div>
 					</div>
 					<div id="" class="example-card example-card-centered">
 						<div class="image-container-help-screen">
-							<img class="" src="http://smart-games.org/images/oval_open_blue.png"/>
-							<img class="" src="http://smart-games.org/images/oval_open_blue.png"/>
+							<img class="" src="./shapes/oval_open_blue.png"/>
+							<img class="" src="./shapes/oval_open_blue.png"/>
 						</div>
 					</div>
 					<div id="" class="example-card example-card-centered">
 						<div class="image-container-help-screen">
-							<img class="" src="http://smart-games.org/images/squiggle_striped_red.png"/>
-							<img class="" src="http://smart-games.org/images/squiggle_striped_red.png"/>
+							<img class="" src="./shapes/squiggle_striped_red.png"/>
+							<img class="" src="./shapes/squiggle_striped_red.png"/>
 						</div>
 					</div>
 				</div>

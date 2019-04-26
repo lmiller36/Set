@@ -37,6 +37,7 @@ class Game {
         this.visibleCards = {};
         this.sets = [];
         this.gameType = gameType
+        this.cardsHighlighted = 0;
 
     }
 
@@ -93,6 +94,8 @@ startGame(){
    }
 
    highlightSet(highlightEntireSet) {
+    console.log(this);
+    console.log(highlightEntireSet);
     let attributes = this.randomize(["color", "shape", "shading", "number"]);
 
 
@@ -284,7 +287,7 @@ startGame(){
     }
 
     addSetToPastSets(set){
-        console.log(set);
+        // console.log(set);
 
         //check that set is valid and of length 3
         if(!set || set.length != 3) return;
@@ -325,7 +328,7 @@ startGame(){
             let card2 = this.selectedCards[cardIds[1]]
             let card3 = this.selectedCards[cardIds[2]]
             let isSet = this.checkSet(card1, card2, card3);
-            if (isSet | true) {
+            if (isSet) {
 
 
                 //if in multiplayer, inform other players this user has found a set
@@ -341,7 +344,7 @@ startGame(){
                 }
 
                 let setCardsIds = Object.keys(this.selectedCards);
-                console.log(setCardsIds);
+                //console.log(setCardsIds);
 
                 
                 this.performSetActions(setCardsIds);
@@ -361,8 +364,6 @@ startGame(){
       var cardID;
 
       this.selectedCards = {};
-      console.log(setCardsIDs);
-      console.log(this);
 
       let setCards = [this.visibleCards[setCardsIDs[0]],this.visibleCards[setCardsIDs[1]],this.visibleCards[setCardsIDs[2]]]
 
