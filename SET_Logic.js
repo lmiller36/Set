@@ -101,18 +101,23 @@ startGame(){
 
     let set = this.setFinder(attributes);
 
-        //Return if no set is found
-        if (!set) return;
+        //Return if no set is found or if cards are already highlighted
+
+        if (!set || this.cardsHighlighted != 0) return;
 
         //highlight entire set
-        if (highlightEntireSet)
+        if (highlightEntireSet){
             set.forEach((card) => {
                 card.toggleBorder('red', false);
             });
+            this.cardsHighlighted += 3;
+        }
 
         //highlight a single card
-        else
-            set[0].toggleBorder('pink', false);
+        else {
+            set[0].toggleBorder('red', false);
+            this.cardsHighlighted ++;
+        }
     }
 
     setFinder(attributes) {
@@ -376,9 +381,9 @@ startGame(){
 
          setCardsIDs.forEach((cardID) => {
             // let cardID = card.getID(true);
-           this.removeCardFromScreen(cardID, true);
-           this.visibleCardsCount--;
-       });
+            this.removeCardFromScreen(cardID, true);
+            this.visibleCardsCount--;
+        });
 
       // for (cardID in setCards) {
       //   console.log(cardID);
@@ -521,9 +526,15 @@ getCardImage() {
     }
 
     click() {
-        this.toggleBorder('blue', true);
-        document.game.addOrRemoveFromSelection(this, this.isSelected);
 
-    }
+        //check if card is currently highlighted as hint & decrement count if so
+        let cardDiv = document.getElementById(this.getID(true) + "_card");
+        if(cardDiv.style.border.indexOf("red") != -1) 
+           document.game.cardsHighlighted += -1;
+       
+       this.toggleBorder('blue', true);
+       document.game.addOrRemoveFromSelection(this, this.isSelected);
+
+   }
 
 }
