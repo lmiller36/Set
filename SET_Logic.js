@@ -59,10 +59,10 @@ return new Card(color,shape,shading,number);
   }
 
   getCardsInOrder(){
-   return this.cards.map(function (card) { return card.getID(true)});
-}
+     return this.cards.map(function (card) { return card.getID(true)});
+ }
 
-startGame(){
+ startGame(){
 
         //Hide Main Menu
         document.getElementById("MainMenu").style.display = "none";
@@ -87,8 +87,13 @@ startGame(){
     startTimer(startTime){
        // Update the count down every 1 second
        var x = setInterval(function() {
-        let now = Math.floor((Date.now() - startTime) / 1000 );
-        document.getElementById("timer").innerText = now
+        if(!document.isPaused) {
+            let now = Math.floor((Date.now() - startTime) / 1000 );
+            document.getElementById("timer").innerText = now
+        }
+        else{
+            startTime += 1000;
+        }
 
     }, 1000);
    }
@@ -530,11 +535,11 @@ getCardImage() {
         //check if card is currently highlighted as hint & decrement count if so
         let cardDiv = document.getElementById(this.getID(true) + "_card");
         if(cardDiv.style.border.indexOf("red") != -1) 
-           document.game.cardsHighlighted += -1;
-       
-       this.toggleBorder('blue', true);
-       document.game.addOrRemoveFromSelection(this, this.isSelected);
+         document.game.cardsHighlighted += -1;
 
-   }
+     this.toggleBorder('blue', true);
+     document.game.addOrRemoveFromSelection(this, this.isSelected);
+
+ }
 
 }

@@ -98,6 +98,9 @@
 					<button onclick="giveHint()" class="w3-bar-item w3-button">
 						Hint
 					</button>	
+					<button onclick="pause()" class="w3-bar-item w3-button">
+						Pause
+					</button>	
 				</div>
 				<div id = "onlineMenu">
 					<a href="#" onclick="addCards()" class="w3-bar-item w3-button">
@@ -113,6 +116,9 @@
 						<i class="fa fa-random" title="Shuffle cards"></i>
 					</a>
 					<a href="#" onclick="giveHint()" class="w3-bar-item w3-button">
+						<i class="fa fa-lightbulb-o" title="Hint"></i>
+					</a>
+						<a href="#" onclick="pause()" class="w3-bar-item w3-button">
 						<i class="fa fa-lightbulb-o" title="Hint"></i>
 					</a>
 				</div>
@@ -132,10 +138,16 @@
 	</script>
 	<script>
 
+		function pause(){
+			if(document.isPaused) document.isPaused = false;
+			else document.isPaused = true;
+
+			document.getElementById("Cards").style.display = document.isPaused ? "none" : "block";
+		}
 
 		function openHelpScreen(){
 			document.getElementById("MainMenu").style.display = "none";
-			document.getElementById("RulesScreen").style.display = "block";
+			document.getElementById("RulesScreen").style.display = "";
 
 		}
 
