@@ -10,6 +10,7 @@ var SessionAction = Object.freeze({
 
 class Session{
 
+	//#TODO: move keys to something a little more private
 	constructor(hostKey){
 		if(hostKey) this.key = hostKey;
 		else this.key = this.generateKey();
@@ -25,6 +26,7 @@ class Session{
 		console.log(this);
 	}
 
+	//generates a random alphanumberic string containing ['a-z','1-9']
 	generateKey(){
 		let key1 = Math.random().toString(36).slice(2);
 		let key2 = Math.random().toString(36).slice(2);
@@ -32,6 +34,7 @@ class Session{
 		return key1 + key2;
 	}
 
+	//async method triggered when a data package is received
 	receiveMessage(dataPackage){
 
 		let msg = dataPackage.message;
@@ -80,6 +83,7 @@ class Session{
 		}
 	}
 
+	//subscribes a user to the proper channel
 	subscribeSession(){
 		this.pubnub.addListener({
 			message: (msg) => {
@@ -92,6 +96,7 @@ class Session{
 		});
 	}
 
+	//sends a JSON msg to channel
 	sendMessage(msg){
 		msg.senderKey = this.userKey;
 		msg.senderName = "username";

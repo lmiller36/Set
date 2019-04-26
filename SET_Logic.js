@@ -67,8 +67,8 @@ class Game {
     //ONLY USED IN MULTIPLAYER
     //creates array of card ID's in matching order
     getCardsInOrder(){
-     return this.cards.map(function (card) { return card.getID(true)});
- }
+       return this.cards.map(function (card) { return card.getID(true)});
+   }
 
 //performs starting actions to begin gameplay
 startGame(){
@@ -165,36 +165,18 @@ startGame(){
             //check if sets are present where the set all share the same value for the first attribute
             for (var key in separated) {
 
-             let sameAttribute = separated[key]
+               let sameAttribute = separated[key]
 
-             let set = this.setFinder(sameAttribute,newAttributes)
-             if(set) return set;
-         }
+               let set = this.setFinder(sameAttribute,newAttributes)
+               if(set) return set;
+           }
 
         //no set found
         return null;
     }
 
-    permuteArr(arr){
-        if(arr.length < 3) return;
-
-        let cardPermutations = []
-
-        for(var i = 0; i < arr.length - 2; i++){
-            let card1 = arr[i];
-            for (var j = 1; j < arr.length - 1; j++){
-                let card2 = arr[j];
-                for(var k = 2; k < arr.length;k++){
-                    let card3 = arr[k];
-                    let cards = [card1,card2,card3];
-                    cardPermutations.push(cards);
-                }
-            }
-        }
-        console.log(cardPermutations);
-
-    }
-
+    //requires a dictionary with 3 keys
+    //will find all combinations with a single card from each attribute pool
     permuteDictionary(dict) {
         let keys = Object.keys(dict);
         var key;
@@ -202,11 +184,14 @@ startGame(){
         //for a set to be possible, there must be present all 3 different options in an attribute
         if (keys.length != 3) return null;
 
+        //possible keys in current attribute
         let key1, key2, key3;
         key1 = keys[0];
         key2 = keys[1];
         key3 = keys[2];
 
+        //grab one card from each list and check if it is a set
+        //if a set is found, return immediately and do not continue searching
         for (var i = 0; i < dict[key1].length; i++) {
             let card1 = dict[key1][i];
             for (var j = 0; j < dict[key2].length; j++) {
@@ -221,13 +206,12 @@ startGame(){
         }
     }
 
+    //separates an array of cards by a given attribute into a dictionary with each key mapping to a list of cards
     separateByAttribute(arr, attribute) {
-        let category1 = [];
-        let category2 = [];
-        let category3 = [];
 
-        let categories = [];
+        let categories = {};
 
+        //add each card in the array to the corresponding list, determined by the given attribute
         arr.forEach((card) => {
             let cardProperty = card[attribute];
             if (!categories[cardProperty]) categories[cardProperty] = [];
@@ -238,6 +222,7 @@ startGame(){
         return categories;
     }
 
+    //generates all possible Set cards with a randomized ordering
     generateCards() {
         let colors = Object.keys(Color);
         let shapes = Object.keys(Shape);
@@ -258,12 +243,14 @@ startGame(){
         return this.randomize(cards);
     }
 
+    //randomizes all elements in the provided list
     randomize(arr) {
         return arr.sort(function(a, b) {
             return 0.5 - Math.random()
         });;
     }
 
+    //removes a card from the page
     removeCardFromScreen(cardID, shouldRemoveFromVisibleCards) {
 
         if (shouldRemoveFromVisibleCards)
@@ -290,16 +277,19 @@ startGame(){
 
     }
 
-    addCardToScreen(card, shouldAddCardToVisibleCards) {
+    //adds a given card to the screen
+    addCardToScreen(card) {
 
-        if (shouldAddCardToVisibleCards)
-            this.visibleCards[card.getID(true)] = card;
+        //adds card to dictionary of all visible cards
+        this.visibleCards[card.getID(true)] = card;
 
+        //add to cards div
         let cards = document.getElementById("Cards")
         cards.appendChild(card.getCardImage());
 
     }
 
+    //adds additional cards to the screen, if possible
     addCards(numCards) {
 
         //A max of 24 cards on the screen will be imposed
@@ -307,10 +297,10 @@ startGame(){
 
         var count = 0;
 
-
+        //add numCards worth of cards, if new cards are still available
         while (count < numCards && this.usedCards < this.cards.length) {
-            let card = this.cards[this.usedCards];
 
+            let card = this.cards[this.usedCards];
             this.addCardToScreen(card, true);
 
             count++;
@@ -327,6 +317,7 @@ startGame(){
 
     }
 
+    //adjust width of div containing cards to ensure propering centering
     changeWidth() {
         let cards = document.getElementById("Cards")
 
@@ -341,8 +332,8 @@ startGame(){
         cards.setAttribute('style', attribute);
     }
 
+    //add a set to mini card display of past sets
     addSetToPastSets(set){
-        // console.log(set);
 
         //check that set is valid and of length 3
         if(!set || set.length != 3) return;
@@ -369,22 +360,26 @@ startGame(){
         pastSets.insertBefore(setDiv2,pastSets.childNodes[0]);
     }
 
+    //function triggered after a card is clicked
     addOrRemoveFromSelection(selectedCard, shouldAdd) {
 
+        //add or remove card in selected card dict
         let id = selectedCard.getID(true);
         if (shouldAdd)
             this.selectedCards[id] = selectedCard;
         else
             delete this.selectedCards[id];
 
-        if (Object.keys(this.selectedCards).length == 3) {
-            let cardIds = Object.keys(this.selectedCards);
-            let card1 = this.selectedCards[cardIds[0]]
-            let card2 = this.selectedCards[cardIds[1]]
-            let card3 = this.selectedCards[cardIds[2]]
+        //if 3 cards have been clicked, check if it is a proper set
+        let selectedCardIds = Object.keys(this.selectedCards);
+        if (selectedCardIds.length == 3) {
+            let card1 = this.selectedCards[selectedCardIds[0]]
+            let card2 = this.selectedCards[selectedCardIds[1]]
+            let card3 = this.selectedCards[selectedCardIds[2]]
             let isSet = this.checkSet(card1, card2, card3);
-            if (isSet) {
 
+            //the selected cards are indeed a set
+            if (isSet) {
 
                 //if in multiplayer, inform other players this user has found a set
                 if(this.gameType == GameType.multiplayer){
@@ -398,23 +393,24 @@ startGame(){
                     document.session.sendMessage(json);
                 }
 
-                let setCardsIds = Object.keys(this.selectedCards);
-                //console.log(setCardsIds);
-
-                
-                this.performSetActions(setCardsIds);
+                //see description of function
+                this.performSetActions(selectedCardIds);
 
 
-            } else
+            } 
+
+            //selected cards are NOT a set
+            else
+                //remove highlighting from selected cards 
             for (var cardID in this.selectedCards) this.selectedCards[cardID].toggleBorder();
 
-
-                this.selectedCards = {};
-
-
+                //empty selected cards dict
+            this.selectedCards = {};
         }
     }
 
+    //Actions performed when a set is found
+    //Adds set to mini past set display, removes cards from screen, and adds new cards to the screen if needed
     performSetActions(setCardsIDs){
       var cardID;
 
@@ -423,36 +419,22 @@ startGame(){
       let setCards = [this.visibleCards[setCardsIDs[0]],this.visibleCards[setCardsIDs[1]],this.visibleCards[setCardsIDs[2]]]
 
          //add set to past sets
-         // let set = 
-         // console.log(set);
-         // console.log(Object.values(this.selectedCards));
          this.sets.push(setCards);
          this.addSetToPastSets(setCards)
 
+         //removes cards in set from screen
          setCardsIDs.forEach((cardID) => {
-            // let cardID = card.getID(true);
             this.removeCardFromScreen(cardID, true);
             this.visibleCardsCount--;
         });
 
-      // for (cardID in setCards) {
-      //   console.log(cardID);
-      //   this.removeCardFromScreen(cardID, true);
-      //   this.visibleCardsCount--;
-
-      //   }
 
                 //only add cards if no extra cards are on the table
                 if (this.visibleCardsCount < 12)
                     this.addCards(3);
-
-                //readjust width
-                this.changeWidth();
-
-
             }
 
-    //In order to be a set, each attribute (color,shape,shading, & number) must differ or be the same
+    //In order to be a set, each individual attribute (color,shape,shading, & number) must differ or be the same
     checkSet(card1, card2, card3) {
 
         //Color
@@ -466,7 +448,6 @@ startGame(){
         let shapesDiffer = (card1.shape != card2.shape) && (card1.shape != card3.shape) && (card2.shape != card3.shape);
 
         if (!(shapesMatch || shapesDiffer)) return false;
-
 
         //Shading
         let shadingsMatch = (card1.shading == card2.shading) && (card2.shading == card3.shading);
@@ -486,6 +467,7 @@ startGame(){
 
 }
 
+
 class Card {
 
     constructor(color, shape, shading, number) {
@@ -496,16 +478,19 @@ class Card {
         this.isSelected = false;
     }
 
+    //returns id of card, with option to not include number, which is needed for card images
     getID(includeNumber) {
         let withoutNumber = this.shape + "_" + this.shading + "_" + this.color;
         if (!includeNumber) return withoutNumber;
         else return withoutNumber + "_" + this.number
     }
 
+//returns the relative path to the card's corresponding shape
 getImagePng() {
     return "./shapes/" + this.getID(false) + ".png";
 }
 
+//returns div of mini card
 getMiniCard(){
     let id = this.getID(true);
 
@@ -532,15 +517,13 @@ getMiniCard(){
     return miniCard;
 }
 
+//returns full sized div of card
+//#TODO change to remove svg
 getCardImage() {
 
     let id = this.getID(true);
     var img_div = document.createElement('div');
     img_div.id = id + "_div";
-    // img_div.className = "card-div";
-        //img_div.src = this.getImagePng();
-
-
 
 
         var svg =
@@ -565,9 +548,10 @@ getCardImage() {
     }
 
 
+    //sets border of card to corresponding color
+    //provides option to not toggle isSelected, which the set finding algorithm utilizes
     toggleBorder(color, toggleIsSelected) {
         let card = document.getElementById(this.getID(true) + "_card")
-        // card.style.background = "red;";
         let attribute = this.isSelected ? 'border: 3px solid black;' : 'border: 3px solid ' + color + ';';
         card.setAttribute('style', attribute);
 
@@ -575,16 +559,19 @@ getCardImage() {
             this.isSelected = !this.isSelected;
     }
 
+    //triggered when a card div is clicked
     click() {
 
         //check if card is currently highlighted as hint & decrement count if so
         let cardDiv = document.getElementById(this.getID(true) + "_card");
         if(cardDiv.style.border.indexOf("red") != -1) 
-         document.game.cardsHighlighted += -1;
+           document.game.cardsHighlighted += -1;
 
-     this.toggleBorder('blue', true);
-     document.game.addOrRemoveFromSelection(this, this.isSelected);
+       this.toggleBorder('blue', true);
 
- }
+       //provide game object with clicked card & check if a set has been found, if needed
+       document.game.addOrRemoveFromSelection(this, this.isSelected);
+
+   }
 
 }
