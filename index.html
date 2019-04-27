@@ -117,7 +117,7 @@
 						<i class="fa fa-lightbulb-o" title="Hint"></i>
 					</a>
 					<a href="#" onclick="pause()" class="w3-bar-item w3-button">
-						<i class="fa fa-lightbulb-o" title="Hint"></i>
+						<i id="pauseIcon" class="fa fa-pause" title="Hint"></i>
 					</a>
 				</div>
 				
@@ -141,7 +141,9 @@
 			if(document.isPaused) document.isPaused = false;
 			else document.isPaused = true;
 
-			document.getElementById("Cards").style.display = document.isPaused ? "none" : "block";
+				//toggle pause & play icons
+				document.getElementById("pauseIcon").className = document.isPaused ? "fa fa-play" : "fa fa-pause";
+				document.getElementById("Cards").style.display = document.isPaused ? "none" : "block";
 		}
 
 		//opens instructions of how to play game
