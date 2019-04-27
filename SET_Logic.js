@@ -432,6 +432,9 @@ startGame(){
                 //only add cards if no extra cards are on the table
                 if (this.visibleCardsCount < 12)
                     this.addCards(3);
+
+                //adjust width
+                this.this.changeWidth();
             }
 
     //In order to be a set, each individual attribute (color,shape,shading, & number) must differ or be the same
