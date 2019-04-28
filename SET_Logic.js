@@ -67,8 +67,8 @@ class Game {
     //ONLY USED IN MULTIPLAYER
     //creates array of card ID's in matching order
     getCardsInOrder(){
-       return this.cards.map(function (card) { return card.getID(true)});
-   }
+     return this.cards.map(function (card) { return card.getID(true)});
+ }
 
 //performs starting actions to begin gameplay
 startGame(){
@@ -165,11 +165,11 @@ startGame(){
             //check if sets are present where the set all share the same value for the first attribute
             for (var key in separated) {
 
-               let sameAttribute = separated[key]
+             let sameAttribute = separated[key]
 
-               let set = this.setFinder(sameAttribute,newAttributes)
-               if(set) return set;
-           }
+             let set = this.setFinder(sameAttribute,newAttributes)
+             if(set) return set;
+         }
 
         //no set found
         return null;
@@ -432,10 +432,10 @@ startGame(){
                 //only add cards if no extra cards are on the table
                 if (this.visibleCardsCount < 12)
                     this.addCards(3);
-
+                else
                 //adjust width
-                this.this.changeWidth();
-            }
+            this.changeWidth();
+        }
 
     //In order to be a set, each individual attribute (color,shape,shading, & number) must differ or be the same
     checkSet(card1, card2, card3) {
@@ -529,26 +529,26 @@ getCardImage() {
     img_div.id = id + "_div";
 
 
-        var svg =
-        `<div id="` + id + "_card" + `" class = "card">
-        <div class="image-container">
-        <img class="" src = "` + this.getImagePng() + `"/>` +
-        (this.number >= 2 ? `<img class="" src = "` + this.getImagePng() + `"/>` : "") +
-        (this.number == 3 ? `<img class="" src = "` + this.getImagePng() + `"/>` : "") +
+    var svg =
+    `<div id="` + id + "_card" + `" class = "card">
+    <div class="image-container">
+    <img class="" src = "` + this.getImagePng() + `"/>` +
+    (this.number >= 2 ? `<img class="" src = "` + this.getImagePng() + `"/>` : "") +
+    (this.number == 3 ? `<img class="" src = "` + this.getImagePng() + `"/>` : "") +
 
-        `</div>
+    `</div>
 
-        </div>`;
+    </div>`;
 
-        img_div.innerHTML = svg;
+    img_div.innerHTML = svg;
 
-        img_div.addEventListener("click", () => {
-            this.click();
-        });
+    img_div.addEventListener("click", () => {
+        this.click();
+    });
 
 
-        return img_div;
-    }
+    return img_div;
+}
 
 
     //sets border of card to corresponding color
@@ -568,9 +568,9 @@ getCardImage() {
         //check if card is currently highlighted as hint & decrement count if so
         let cardDiv = document.getElementById(this.getID(true) + "_card");
         if(cardDiv.style.border.indexOf("red") != -1) 
-           document.game.cardsHighlighted += -1;
+         document.game.cardsHighlighted += -1;
 
-       this.toggleBorder('blue', true);
+     this.toggleBorder('blue', true);
 
        //provide game object with clicked card & check if a set has been found, if needed
        document.game.addOrRemoveFromSelection(this, this.isSelected);
