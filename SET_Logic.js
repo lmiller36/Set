@@ -386,7 +386,7 @@ startGame(){
                     let json = {
                         "action": SessionAction.receivedSet,
                         "data" : {
-                            "cards" : cardIds
+                            "cards" : selectedCardIds
                         }
                     };
 
