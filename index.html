@@ -62,8 +62,8 @@
     		<a href="#" onclick="destroyGame()" class="w3-bar-item w3-button">
     			<i class="fa fa-home" title="Main Menu"></i> Main Menu
     		</a>
-    		<a href="#" class="w3-bar-item w3-button">
-    			<i class="fa fa-search"></i>
+    		<a href="#" onclick="hideSets()" class="w3-bar-item w3-button">
+    			<i class="fa fa-minus-square-o">Hide Sets</i>
     		</a>
     		<a href="#" class="w3-bar-item w3-button">
     			<i class="fa fa-envelope"></i>
@@ -79,7 +79,7 @@
 
     	</div>
     	<div id="past-sets-wrapper" class="past-sets">
-    		<p class="centered-past-sets">Past Sets</p>
+    		<p class="centered-past-sets"> Past Sets </p>
     		<div id="past-sets"></div>
     	</div>
     	<div id="CardsAndMenu" class="centeredDiv">
@@ -145,6 +145,16 @@
 	});
 </script>
 <script>
+
+		function hideSets(){
+
+			if (document.setsAreHidden) document.setsAreHidden = false;
+        	else document.setsAreHidden = true;
+
+           
+            document.getElementById("past-sets-wrapper").style.display = document.setsAreHidden ? "none" : "block";
+		}
+
         //toggles paused state, where timer is stopped and cards are hidden
         function pause() {
         	if (document.isPaused) document.isPaused = false;
@@ -153,6 +163,7 @@
             //toggle pause & play icons
             document.getElementById("pauseIcon").className = document.isPaused ? "fa fa-play" : "fa fa-pause";
             document.getElementById("Cards").style.display = document.isPaused ? "none" : "block";
+            document.getElementById("past-sets-wrapper").style.display = document.isPaused ? "none" : "block";
         }
 
         //opens instructions of how to play game
