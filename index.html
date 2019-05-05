@@ -4,15 +4,19 @@
 <head>
 	<meta charset="UTF-8" />
 	<title>Lorne's Set Game</title>
-	<script type="text/javascript" src="SET_Logic.js"></script>
-	<script src="jquery-3.4.0.js"></script>
+	<script type="text/javascript" src="./gameLogic/SET_Logic.js"></script>
+	<script type="text/javascript" src="./gameLogic/jquery-3.4.0.js"></script>
+	<script type="text/javascript" src="./gameLogic/pubnub.4.21.7.js"></script>
+	<script type="text/javascript" src="./gameLogic/Multiplayer.js"></script>
+	<script type="text/javascript" src="./googleSheets/googleSheets.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/d3js/5.7.0/d3.min.js"></script>
+
     <!-- 	<script type="text/javascript" src="./StartMenu/StartMenu.js"></script>
     -->
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="./style/style.css">
-    <script src="./pubnub.4.21.7.js"></script>
-    <script src="./Multiplayer.js"></script>
+
 </head>
 
 <body>
@@ -37,6 +41,11 @@
         	<button class="btn centered" onclick="openHelpScreen()">
         		<i class="fa fa-question-circle"></i> How to play
 
+        	</button>
+        </div>
+        <div>
+        	<button class="btn centered" onclick="openHighScores()">
+        		<i class="fa fa-question-circle"> High Scores </i>
         	</button>
         </div>
         <div>
@@ -183,6 +192,11 @@
 
         }
 
+        function openHighScores() {
+        	document.getElementById("MainMenu").style.display = "none";
+        	document.getElementById("High-Scores").style.display = "block";	
+        }
+
         //opens in-game menu
         function openLeftMenu() {
         	document.getElementById("leftMenu").style.display = "block";
@@ -302,7 +316,7 @@
 
     	<div id="players-div">
     		<p id="">Players in game:</p>
-    		<ul id="players-in-game">
+    		<ul id="">
     			<li>Coffee</li>
     			<li>Tea</li>
     			<li>Milk</li>
@@ -409,7 +423,27 @@
             // initializeSinglePlayerGame();
 
         </script>
+        <div id="players-div">
+        	<p id="">Players in game:</p>
+        	<ul id="players-in-game">
+        		<li>Coffee</li>
+        		<li>Tea</li>
+        		<li>Milk</li>
+        	</ul>
+        	<button onclick="startGame()">Start Game</button>
+        </div>
+    </div>
 
+    <div id = "High-Scores" style="display: none;">
+    	<div id="high-scores-container">
+    		<p id="">High Scores:</p>
+    		<ul id="high-scores">
+    			<li>Coffee</li>
+    			<li>Tea</li>
+    			<li>Milk</li>
+    		</ul>
+    		<button onclick="">Start Game</button>
+    	</div>
     </div>
 
     <div id="RulesScreen" class="rules">
