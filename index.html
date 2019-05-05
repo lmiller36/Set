@@ -60,10 +60,10 @@
     	<div id="leftMenu" class="w3-sidebar w3-bar-block w3-black w3-xxlarge w3-animate-left" style="display:none; width:300px;">
     		<button onclick="closeLeftMenu()" class="w3-bar-item w3-button w3-large">Close &times;</button>
     		<a href="#" onclick="destroyGame()" class="w3-bar-item w3-button">
-    			<i class="fa fa-home" title="Main Menu"></i> Main Menu
+    			<i class="fa fa-home" title="Main Menu"> Main Menu </i>
     		</a>
     		<a href="#" onclick="hideSets()" class="w3-bar-item w3-button">
-    			<i class="fa fa-minus-square-o">Hide Sets</i>
+    			<i class="fa fa-minus-square-o"> Hide Sets </i>
     		</a>
     		<a href="#" class="w3-bar-item w3-button">
     			<i class="fa fa-envelope"></i>
@@ -74,12 +74,13 @@
     		<a href="#" class="w3-bar-item w3-button">
     			<i class="fa fa-trash"></i>
     		</a>
-
-    		<button onclick="toggleOffline()">toggle offline</button>
+    		<a href="#" onclick="toggleOffline()" class="w3-bar-item w3-button">
+    			<i id="offline-icon" class="fa fa-square-o"> Toggle Offline </i>
+    		</a>
 
     	</div>
     	<div id="past-sets-wrapper" class="past-sets">
-    		<p class="centered-past-sets"> Past Sets </p>
+    		<p class="past-sets-text"> Past Sets </p>
     		<div id="past-sets"></div>
     	</div>
     	<div id="CardsAndMenu" class="centeredDiv">
@@ -134,6 +135,15 @@
     		<div id="Cards" class="cards" />
     	</div>
     </div>
+
+    <div id = "End-Game-Screen" class = "centeredDiv end-game-style" style="display:none;">
+    	<p id = "End-Game-Stats"></p>
+    	<div id="btn-container">
+    		<button class="btn centered" onclick="destroyGame()">
+    			<i class="fa fa-home"> Main Menu </i>
+    		</button>
+    	</div>
+    </div>
 </div>
 <script>
 	$(function() {
@@ -146,14 +156,14 @@
 </script>
 <script>
 
-		function hideSets(){
+	function hideSets(){
 
-			if (document.setsAreHidden) document.setsAreHidden = false;
-        	else document.setsAreHidden = true;
+		if (document.setsAreHidden) document.setsAreHidden = false;
+		else document.setsAreHidden = true;
 
-           
-            document.getElementById("past-sets-wrapper").style.display = document.setsAreHidden ? "none" : "block";
-		}
+
+		document.getElementById("past-sets-wrapper").style.display = document.setsAreHidden ? "none" : "block";
+	}
 
         //toggles paused state, where timer is stopped and cards are hidden
         function pause() {
@@ -195,6 +205,9 @@
         //opens a game in single player mode
         function initializeSinglePlayerGame() {
 
+        	document.getElementById("End-Game-Screen").style.display = "none";
+        	document.getElementById("CardsAndMenu").style.display = null;
+
             //Initialize game
             let game = new Game(GameType.single);
             document.game = game;
@@ -203,8 +216,27 @@
 
         }
 
-        //removes game from screen, clears game data, & returns to main menu
+        function removeAllChildren(node) {
+        	if(!node)return;
+
+        	while (node.firstChild) {
+        		node.removeChild(node.firstChild);
+        	}
+        }
+
+        //removes game from screen & past sets, clears game data, & returns to main menu
         function destroyGame() {
+
+        	//Remove Past Sets
+        	let pastSets = document.getElementById("past-sets");
+        	removeAllChildren(pastSets);
+
+        	//Remove any leftover cards
+        	let leftoverCards = document.getElementById("Cards");
+        	removeAllChildren(leftoverCards);
+
+
+        	document.doAutoPlayGame = false;
 
             //Hide Main Menu
             document.getElementById("MainMenu").style.display = "block";
@@ -252,6 +284,8 @@
             document.getElementById("MainMenu").style.display = "block";
 
         }
+
+
     </script>
 
 
@@ -282,6 +316,8 @@
     	<script type="text/javascript">
             //switch menu to buttons if offline (icons currently not available offline)
             function toggleOffline() {
+
+            	document.getElementById("offline-icon").className = document.offline ?  "fa fa-square-o" : "fa fa-check-square-o";
 
                 //toggle offline status
                 document.offline = document.offline != true;
@@ -369,6 +405,9 @@
                 };
                 document.session.sendMessage(json);
             }
+
+            // initializeSinglePlayerGame();
+
         </script>
 
     </div>
