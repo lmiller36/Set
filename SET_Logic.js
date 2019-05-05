@@ -24,6 +24,7 @@ var GameType = Object.freeze({
     'multiplayer': 'multiplayer'
 });
 
+//#TODO: add tags for instance variable's uses
 class Game {
 
     constructor(gameType,cardsOrder) {
@@ -45,7 +46,17 @@ class Game {
         this.gameType = gameType
         this.cardsHighlighted = 0;
 
-    }
+        this.isGameOver = false;
+
+        //Contains 3 visible cards comprising a set, if they are available.
+        this.hintSet = [];
+
+        //true if the current slate of visible cards has been checked if a set is avaiable
+        //set to false every time cards are added or removed
+       // this.hintSetHasBeenChecked = false;
+
+
+   }
 
     //ONLY USED IN MULTIPLAYER
     //create cards array to match ordering of host
@@ -67,8 +78,8 @@ class Game {
     //ONLY USED IN MULTIPLAYER
     //creates array of card ID's in matching order
     getCardsInOrder(){
-     return this.cards.map(function (card) { return card.getID(true)});
- }
+       return this.cards.map(function (card) { return card.getID(true)});
+   }
 
 //performs starting actions to begin gameplay
 startGame(){
@@ -90,40 +101,84 @@ startGame(){
         //start timer
         this.startTimer(Date.now());
 
-
     }
+
+
 
     //starts timer and ,if needed, pauses the timer
     startTimer(startTime){
-       // Update the count down every 1 second
-       var x = setInterval(function() {
-        if(!document.isPaused) {
+
+        //set to 1000 milliseconds (1 second)
+        let intervalInMilliseconds = 100;
+        let autoPlayGame = () => {
+
+
             let now = Math.floor((Date.now() - startTime) / 1000 );
+                        //auto play code
+                        if(now % 2 == 0 && now > 0){
+                            if(!document.game.hintSet || document.game.hintSet.length == 0) document.game.addCards(3);
+                            else {
+
+                              let ids = document.game.hintSet.map((card) => {
+                                return card.getID(true);
+                 // this.performSetActions()
+             })
+
+                              document.game.performSetActions(ids);
+                          }
+
+                      }
+                      else {
+                        document.game.highlightSet(true);
+                    }
+
+                }
+
+
+       // Update the count down every 1 second
+       var timer = setInterval(function() {
+        if(!(document.isPaused)) {
+            let now = Math.floor((Date.now() - startTime) / intervalInMilliseconds );
             document.getElementById("timer").innerText = now
+                autoPlayGame();
+
         }
         else{
-            startTime += 1000;
+            startTime += intervalInMilliseconds;
         }
 
-    }, 1000);
+    }, intervalInMilliseconds);
+
+       this.timer = timer;
+       
    }
+
+   stopTimer(){
+    clearInterval(this.timer);
+}
 
    //finds set and highlights a single card or the entire set
    highlightSet(highlightEntireSet) {
 
+    let setToHighlight = this.hintSet;
+
+    if(!setToHighlight || setToHighlight.length == 0) return;
+
     //randomizes order of attributes so a single property is not favored in set algorithm
             //number,color,shape,shading
-            let attributes = this.randomize(["color", "shape", "shading", "number"]);
+            // let attributes = this.randomize(["color", "shape", "shading", "number"]);
 
     //finds a set, if one is present
-    let set = this.setFinder(Object.values(this.visibleCards),attributes);
+   // let set = this.setFinder(Object.values(this.visibleCards),attributes);
+
+
 
         //Return if no set is found or if cards are already highlighted
-        if (!set || this.cardsHighlighted != 0) return;
+        // if (!set || this.cardsHighlighted != 0) return;
 
         //highlight entire set
         if (highlightEntireSet){
-            set.forEach((card) => {
+            setToHighlight.forEach((card) => {
                 card.toggleBorder('red', false);
             });
             this.cardsHighlighted += 3;
@@ -131,10 +186,36 @@ startGame(){
 
         //highlight a single card
         else {
-            set[0].toggleBorder('red', false);
+            setToHighlight[0].toggleBorder('red', false);
             this.cardsHighlighted ++;
         }
+
     }
+
+    hintSetStillAvailable(){
+        if(!this.hintSet || this.hintSet.length == 0) return false;
+
+        var cardNotInSet = true;
+        this.hintSet.forEach((card) => {
+            let cardID = card.getID(true);
+
+            //card is no longer visible, so exit for loop
+            if(!this.visibleCards[cardID]){
+                cardNotInSet = false;
+                return false;
+            } 
+
+        });
+
+        return cardNotInSet;
+    }
+
+    findSet(){
+     let attributes = this.randomize(["color", "shape", "shading", "number"]);
+     let set = this.setFinder(Object.values(this.visibleCards),attributes);
+
+     return set;
+ }
 
     //algorithm for finding a set
     //Note: The current implementation favors the first attribute being all different, i.e. if 
@@ -165,11 +246,11 @@ startGame(){
             //check if sets are present where the set all share the same value for the first attribute
             for (var key in separated) {
 
-             let sameAttribute = separated[key]
+               let sameAttribute = separated[key]
 
-             let set = this.setFinder(sameAttribute,newAttributes)
-             if(set) return set;
-         }
+               let set = this.setFinder(sameAttribute,newAttributes)
+               if(set) return set;
+           }
 
         //no set found
         return null;
@@ -253,14 +334,16 @@ startGame(){
     //removes a card from the page
     removeCardFromScreen(cardID, shouldRemoveFromVisibleCards) {
 
-        if (shouldRemoveFromVisibleCards)
-            delete this.visibleCards[cardID];
+       // this.hintSetHasBeenChecked = false;
 
-        let div_id = cardID + "_div";
-        let div = document.getElementById(div_id);
+       if (shouldRemoveFromVisibleCards)
+        delete this.visibleCards[cardID];
 
-        div.parentElement.removeChild(div);
-    }
+    let div_id = cardID + "_div";
+    let div = document.getElementById(div_id);
+
+    div.parentElement.removeChild(div);
+}
 
     //Randomizes order of cards on the screen
     shuffle() {
@@ -295,7 +378,10 @@ startGame(){
         //A max of 24 cards on the screen will be imposed
         if(this.visibleCardsCount >= 24) return;
 
-        var count = 0;
+      //  this.hintSetHasBeenChecked = false;
+
+
+      var count = 0;
 
         //add numCards worth of cards, if new cards are still available
         while (count < numCards && this.usedCards < this.cards.length) {
@@ -315,7 +401,40 @@ startGame(){
         //change cards remaining counter
         document.getElementById("cardsRemaining").innerText = "Cards Remaining: " + (this.cards.length - this.usedCards);
 
+        //Checks if a set is still possible, otherwise attempt to find a new set
+        this.addHintSet();
+
     }
+
+    //this function is called whenever cards are added or removed. A new set will only be found if the current hint set
+    //is no longer available
+    //this function also triggers the end of the game, if no sets are available and no more cards can be added
+    addHintSet(){
+     let isHintSetStillAvailable = this.hintSetStillAvailable();
+     if(!isHintSetStillAvailable){
+
+        let set = this.findSet();
+
+        if((!set || set.length == 0) && (this.cards.length - this.usedCards == 0) ) this.isGameOver = true;
+
+        if(this.isGameOver) this.endGame();
+
+        this.hintSet = set;
+
+    }
+
+}
+
+endGame(){
+    this.stopTimer();
+    document.getElementById("CardsAndMenu").style.display = "none";
+    document.getElementById("End-Game-Screen").style.display = "block";
+
+    let secondsTaken = document.getElementById("timer").innerText;
+    document.getElementById("End-Game-Stats").innerText = `Congratulations on completing your Set game! You took ${secondsTaken} seconds`
+
+}
+
 
     //adjust width of div containing cards to ensure propering centering
     changeWidth() {
@@ -430,12 +549,15 @@ startGame(){
 
 
                 //only add cards if no extra cards are on the table
-                if (this.visibleCardsCount < 12)
+                if (this.visibleCardsCount < 12){
                     this.addCards(3);
-                else
-                //adjust width
-            this.changeWidth();
-        }
+                }
+                  //adjust width
+                  else {
+                    this.changeWidth();
+                    this.addHintSet();
+                }
+            }
 
     //In order to be a set, each individual attribute (color,shape,shading, & number) must differ or be the same
     checkSet(card1, card2, card3) {
@@ -568,9 +690,9 @@ getCardImage() {
         //check if card is currently highlighted as hint & decrement count if so
         let cardDiv = document.getElementById(this.getID(true) + "_card");
         if(cardDiv.style.border.indexOf("red") != -1) 
-         document.game.cardsHighlighted += -1;
+           document.game.cardsHighlighted += -1;
 
-     this.toggleBorder('blue', true);
+       this.toggleBorder('blue', true);
 
        //provide game object with clicked card & check if a set has been found, if needed
        document.game.addOrRemoveFromSelection(this, this.isSelected);

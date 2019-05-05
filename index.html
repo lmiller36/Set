@@ -79,7 +79,7 @@
 
     	</div>
     	<div id="past-sets-wrapper" class="past-sets">
-    		<p class="centered-past-sets"> Past Sets </p>
+    		<p class="past-sets-text"> Past Sets </p>
     		<div id="past-sets"></div>
     	</div>
     	<div id="CardsAndMenu" class="centeredDiv">
@@ -134,6 +134,15 @@
     		<div id="Cards" class="cards" />
     	</div>
     </div>
+
+    <div id = "End-Game-Screen" class = "centeredDiv end-game-style" style="display:none;">
+    	<p id = "End-Game-Stats"></p>
+    	<div id="btn-container">
+    		<button class="btn centered" onclick="destroyGame()">
+    			<i class="fa fa-home"> Main Menu </i>
+    		</button>
+    	</div>
+    </div>
 </div>
 <script>
 	$(function() {
@@ -146,14 +155,14 @@
 </script>
 <script>
 
-		function hideSets(){
+	function hideSets(){
 
-			if (document.setsAreHidden) document.setsAreHidden = false;
-        	else document.setsAreHidden = true;
+		if (document.setsAreHidden) document.setsAreHidden = false;
+		else document.setsAreHidden = true;
 
-           
-            document.getElementById("past-sets-wrapper").style.display = document.setsAreHidden ? "none" : "block";
-		}
+
+		document.getElementById("past-sets-wrapper").style.display = document.setsAreHidden ? "none" : "block";
+	}
 
         //toggles paused state, where timer is stopped and cards are hidden
         function pause() {
@@ -195,6 +204,9 @@
         //opens a game in single player mode
         function initializeSinglePlayerGame() {
 
+        	document.getElementById("End-Game-Screen").style.display = "none";
+        	document.getElementById("CardsAndMenu").style.display = null;
+
             //Initialize game
             let game = new Game(GameType.single);
             document.game = game;
@@ -203,8 +215,19 @@
 
         }
 
-        //removes game from screen, clears game data, & returns to main menu
+        //removes game from screen & past sets, clears game data, & returns to main menu
         function destroyGame() {
+
+        	//Remove Past Sets
+        	let pastSets = document.getElementById("past-sets");
+        	console.log(pastSets)
+        	console.log(pastSets.children)
+        	while (pastSets.firstChild) {
+        		pastSets.removeChild(pastSets.firstChild);
+        	}
+
+
+
 
             //Hide Main Menu
             document.getElementById("MainMenu").style.display = "block";
@@ -252,6 +275,8 @@
             document.getElementById("MainMenu").style.display = "block";
 
         }
+
+
     </script>
 
 
@@ -369,6 +394,9 @@
                 };
                 document.session.sendMessage(json);
             }
+
+            initializeSinglePlayerGame();
+
         </script>
 
     </div>

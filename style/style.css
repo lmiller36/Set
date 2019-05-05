@@ -66,11 +66,15 @@
 	/*	display:inline-block*/
 }
 
-.centered-past-sets{
+.past-sets-text{
 	text-align: center;
 	/*display: block;*/
 	padding-bottom: 10px;
-	padding-top: 10px;
+	padding-top: 0px;
+
+	font-family:georgia,garamond,serif;
+	font-size: 40px;
+	font-style: bold;
 }
 
 .centered-mini-card-set{
@@ -234,6 +238,13 @@ background-size: cover;
   display: inline-block;
 }
 
+.end-game-style{
+	font-family:georgia,garamond,serif;
+	font-size: 80px;
+	font-style: bold;
+	text-align: center;
+}
+
 .btn {
 	background-color: DodgerBlue;
 	border: none;
@@ -299,7 +310,8 @@ background-size: cover;
 }
 
 .title{
-	font-family:georgia,garamond,serif;font-size:16px;
+	font-family:georgia,garamond,serif;
+	font-size:16px;
 	font-style:bold;
 	text-align: center;
 	vertical-align: top;
