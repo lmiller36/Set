@@ -60,10 +60,10 @@
     	<div id="leftMenu" class="w3-sidebar w3-bar-block w3-black w3-xxlarge w3-animate-left" style="display:none; width:300px;">
     		<button onclick="closeLeftMenu()" class="w3-bar-item w3-button w3-large">Close &times;</button>
     		<a href="#" onclick="destroyGame()" class="w3-bar-item w3-button">
-    			<i class="fa fa-home" title="Main Menu"></i> Main Menu
+    			<i class="fa fa-home" title="Main Menu"> Main Menu </i>
     		</a>
     		<a href="#" onclick="hideSets()" class="w3-bar-item w3-button">
-    			<i class="fa fa-minus-square-o">Hide Sets</i>
+    			<i class="fa fa-minus-square-o"> Hide Sets </i>
     		</a>
     		<a href="#" class="w3-bar-item w3-button">
     			<i class="fa fa-envelope"></i>
@@ -74,8 +74,9 @@
     		<a href="#" class="w3-bar-item w3-button">
     			<i class="fa fa-trash"></i>
     		</a>
-
-    		<button onclick="toggleOffline()">toggle offline</button>
+    		<a href="#" onclick="toggleOffline()" class="w3-bar-item w3-button">
+    			<i id="offline-icon" class="fa fa-square-o"> Toggle Offline </i>
+    		</a>
 
     	</div>
     	<div id="past-sets-wrapper" class="past-sets">
@@ -215,19 +216,27 @@
 
         }
 
+        function removeAllChildren(node) {
+        	if(!node)return;
+
+        	while (node.firstChild) {
+        		node.removeChild(node.firstChild);
+        	}
+        }
+
         //removes game from screen & past sets, clears game data, & returns to main menu
         function destroyGame() {
 
         	//Remove Past Sets
         	let pastSets = document.getElementById("past-sets");
-        	console.log(pastSets)
-        	console.log(pastSets.children)
-        	while (pastSets.firstChild) {
-        		pastSets.removeChild(pastSets.firstChild);
-        	}
+        	removeAllChildren(pastSets);
+
+        	//Remove any leftover cards
+        	let leftoverCards = document.getElementById("Cards");
+        	removeAllChildren(leftoverCards);
 
 
-
+        	document.doAutoPlayGame = false;
 
             //Hide Main Menu
             document.getElementById("MainMenu").style.display = "block";
@@ -307,6 +316,8 @@
     	<script type="text/javascript">
             //switch menu to buttons if offline (icons currently not available offline)
             function toggleOffline() {
+
+            	document.getElementById("offline-icon").className = document.offline ?  "fa fa-square-o" : "fa fa-check-square-o";
 
                 //toggle offline status
                 document.offline = document.offline != true;
@@ -395,7 +406,7 @@
                 document.session.sendMessage(json);
             }
 
-            initializeSinglePlayerGame();
+            // initializeSinglePlayerGame();
 
         </script>
 

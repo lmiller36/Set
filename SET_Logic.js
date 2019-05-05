@@ -103,15 +103,8 @@ startGame(){
 
     }
 
-
-
-    //starts timer and ,if needed, pauses the timer
-    startTimer(startTime){
-
-        //set to 1000 milliseconds (1 second)
-        let intervalInMilliseconds = 100;
-        let autoPlayGame = () => {
-
+    // a debugging tool to reach end game quickly
+    autoPlayGame (startTime) {
 
             let now = Math.floor((Date.now() - startTime) / 1000 );
                         //auto play code
@@ -135,12 +128,21 @@ startGame(){
                 }
 
 
+    //starts timer and ,if needed, pauses the timer
+    startTimer(startTime){
+
+        //set to 1000 milliseconds (1 second) or 100 if in autoplay mode
+        let intervalInMilliseconds = document.doAutoPlayGame ? 100 : 1000;
+       
+
+
        // Update the count down every 1 second
        var timer = setInterval(function() {
         if(!(document.isPaused)) {
             let now = Math.floor((Date.now() - startTime) / intervalInMilliseconds );
             document.getElementById("timer").innerText = now
-                autoPlayGame();
+            if(document.doAutoPlayGame)
+                document.game.autoPlayGame(startTime);
 
         }
         else{
@@ -375,6 +377,8 @@ startGame(){
     //adds additional cards to the screen, if possible
     addCards(numCards) {
 
+        console.log(`add :${numCards} cards`)
+
         //A max of 24 cards on the screen will be imposed
         if(this.visibleCardsCount >= 24) return;
 
@@ -385,7 +389,7 @@ startGame(){
 
         //add numCards worth of cards, if new cards are still available
         while (count < numCards && this.usedCards < this.cards.length) {
-
+                console.log(count)
             let card = this.cards[this.usedCards];
             this.addCardToScreen(card, true);
 
