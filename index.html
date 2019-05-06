@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="./style/style.css">
+    <link rel="stylesheet" href="./style/tutorialStyle.css">
+
     <script src="./pubnub.4.21.7.js"></script>
     <script src="./Multiplayer.js"></script>
 </head>
@@ -50,7 +52,7 @@
         	</button>
         </div>
 
-    </div>
+    </div> 
     <div id="Game" class="game">
     	<div>
     		<button class="w3-button w3-teal w3-xlarge w3-left" onclick="openLeftMenu()">
@@ -179,7 +181,7 @@
         //opens instructions of how to play game
         function openHelpScreen() {
         	document.getElementById("MainMenu").style.display = "none";
-        	document.getElementById("RulesScreen").style.display = "";
+        	document.getElementById("Tutorial").style.display = "block";
 
         }
 
@@ -278,7 +280,7 @@
         //removes rule screen from screen and returns to main menu
         function hideRules() {
             //hide rules screen
-            document.getElementById("RulesScreen").style.display = "none";
+            document.getElementById("Tutorial").style.display = "none";
 
             //shows main menu
             document.getElementById("MainMenu").style.display = "block";
@@ -406,253 +408,478 @@
                 document.session.sendMessage(json);
             }
 
-            // initializeSinglePlayerGame();
-
         </script>
 
     </div>
 
-    <div id="RulesScreen" class="rules">
-    	<h1 class="title-help-screen centered-help-screen"> How to Play Set
-    		<h1 />
+    <div id="Tutorial" class=" rules">
+    	<span class="title-help-screen centered-help-screen"> How to Play Set
+    	</span>
+    	<br/><br/>
+    	<div class = "">
+    		<div id = "Attributes" class="container">
+	<!-- <h1 class="title-help-screen centered-help-screen"> How to Play Set
+		<h1 /> -->
+		<div id = "Shape" class="step">
+			<div class="additional">
+				<div class="user-card">
+					<div class="level center">
+						Step 1
+					</div>
+					<div class="points center">
+						Part A
+					</div>
+				</div>
+				<div class="more-info">
+					<h1>Shapes</h1>
+					<div class="stats">
+						<div class = "item">
+							<div class="title">Oval</div>
+							<img class="value" src="http://smart-games.org/images/oval_open_blue.png" />
+						</div>
+						<div class = "item">
+							<div class="title">Squiggle</div>
+							<img class="value" src="http://smart-games.org/images/squiggle_open_blue.png" />
+						</div>
+						<div class = "item">
+							<div class="title">Diamond</div>
+							<img class="value" src="http://smart-games.org/images/diamond_open_blue.png" />
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="general">
+				<h1>Shapes</h1>
+				<p>In Set there are 3 different types of shapes: </p>
+				<span class="more">Mouse over the step for more info</span>
+			</div>
+		</div>
+		<br/>
+		<div id = "Color" class="step lime">
+			<div class="additional">
+				<div class="user-card">
+					<div class="level center">
+						Step 1
+					</div>
+					<div class="points center">
+						Part B
+					</div>
+				</div>
+				<div class="more-info">
+					<h1>Color</h1>
+					<div class="stats">
+						<div class = "item">
+							<div class="title">Red</div>
+							<img class="value" src="http://smart-games.org/images/squiggle_solid_red.png" />
+						</div>
+						<div class = "item">
+							<div class="title">Blue</div>
+							<img class="value" src="http://smart-games.org/images/squiggle_solid_blue.png" />
+						</div>
+						<div class = "item">
+							<div class="title"> Green </div>
+							<img class="value" src="http://smart-games.org/images/squiggle_solid_green.png" />
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="general">
+				<h1>Color</h1>
+				<p>Each step can be one of 3 colors: </p>
+				<span class="more">Mouse over the step for more info</span>
+			</div>
+		</div>
+		<br/>
+		<div id = "Shading" class="step blue">
+			<div class="additional">
+				<div class="user-card">
+					<div class="level center">
+						Step 1
+					</div>
+					<div class="points center">
+						Part C
+					</div>
+				</div>
+				<div class="more-info">
+					<h1>Shading</h1>
+					<div class="stats">
+						<div class = "item">
+							<div class="title">Open</div>
+							<img class="value" src="http://smart-games.org/images/oval_open_green.png" />
+						</div>
+						<div class = "item">
+							<div class="title">Striped</div>
+							<img class="value" src="http://smart-games.org/images/oval_striped_green.png" />
+						</div>
+						<div class = "item">
+							<div class="title">Solid</div>
+							<img class="value" src="http://smart-games.org/images/oval_solid_green.png" />
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="general">
+				<h1>Shading</h1>
+				<p>Similarly, there are 3 different shadings: </p>
+				<span class="more">Mouse over the step for more info</span>
+			</div>
+		</div>
+		<br/>
+		<div id = "Number" class="step orange">
+			<div class="additional">
+				<div class="user-card">
+					<div class="level center">
+						Step 1
+					</div>
+					<div class="points center">
+						Part D
+					</div>
+				</div>
+				<div class="more-info">
+					<h1>Number</h1>
+					<div class="stats">
+						<div class = "item">
+							<div class="title">One</div>
+							<img class="value" src="http://smart-games.org/images/oval_open_green.png" />
+						</div>
+						<div class = "item">
+							<div class="title">Two</div>
+							<img class="value" src="http://smart-games.org/images/oval_striped_green.png" />
+						</div>
+						<div class = "item">
+							<div class="title">Three</div>
+							<img class="value" src="http://smart-games.org/images/oval_solid_green.png" />
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="general">
+				<h1>Number</h1>
+				<p>Each step will have 1, 2, or 3 items: </p>
+				<span class="more">Mouse over the step for more info</span>
+			</div>
+		</div>
+		<br/>
+	</div>
 
-    		<a href="#" class="w3-bar-item w3-button" onclick="hideRules()">
-    			<i class="fa fa-arrow-left"> Main Menu </i>
-    		</a>
+	<br/><br/><br/><br/><br/><br/><br/><br/><br/>
 
-    		<div id="instructions" class="centered-help-screen">
-    			<p> In this game, the goal is to find sets as quickly as possible. In Set, there are four attributes:
-    			</p>
-    			<div id="shape">
-    				<p> Shape </p>
-    				<div id="shapes examples">
-    					<div class="example-card example-card-centered">
-    						<div class="image-container-help-screen">
-    							<img class="" src="./shapes/diamond_open_blue.png" />
-    							<img class="" src="./shapes/diamond_open_blue.png" />
-    							<img class="" src="./shapes/diamond_open_blue.png" />
-    						</div>
-    					</div>
-    					<div class="example-card example-card-centered">
-    						<div class="image-container-help-screen">
-    							<img class="" src="./shapes/squiggle_open_blue.png" />
-    							<img class="" src="./shapes/squiggle_open_blue.png" />
-    							<img class="" src="./shapes/squiggle_open_blue.png" />
-    						</div>
-    					</div>
-    					<div class="example-card example-card-centered">
-    						<div class="image-container-help-screen">
-    							<img class="" src="./shapes/oval_open_blue.png" />
-    							<img class="" src="./shapes/oval_open_blue.png" />
-    							<img class="" src="./shapes/oval_open_blue.png" />
-    						</div>
-    					</div>
-    				</div>
-    			</div>
-    			<br />
-    			<div id="color">
-    				<p> Color </p>
-    				<div id="color examples">
-    					<div class="example-card example-card-centered">
-    						<div class="image-container-help-screen">
-    							<img class="" src="./shapes/diamond_solid_red.png" />
-    						</div>
-    					</div>
-    					<div class="example-card example-card-centered">
-    						<div class="image-container-help-screen">
-    							<img class="" src="./shapes/diamond_solid_blue.png" />
-    						</div>
-    					</div>
-    					<div class="example-card example-card-centered">
-    						<div class="image-container-help-screen">
-    							<img class="" src="./shapes/diamond_solid_green.png" />
-    						</div>
-    					</div>
-    				</div>
-    			</div>
-    			<br />
-    			<div id="number">
-    				<p> Number </p>
-    				<div id="number examples">
-    					<div class="example-card example-card-centered">
-    						<div class="image-container-help-screen">
-    							<img class="" src="./shapes/diamond_striped_red.png" />
-    							<img class="hidden" src="./shapes/diamond_striped_red.png" />
-    							<img class="" src="./shapes/diamond_striped_red.png" />
-    						</div>
-    					</div>
-    					<div class="example-card example-card-centered">
-    						<div class="image-container-help-screen">
-    							<img class="hidden" src="./shapes/diamond_striped_red.png" />
-    							<img class="" src="./shapes/diamond_striped_red.png" />
-    							<img class="hidden" src="./shapes/diamond_striped_red.png" />
-    						</div>
-    					</div>
-    					<div class="example-card example-card-centered">
-    						<div class="image-container-help-screen">
-    							<img class="" src="./shapes/diamond_striped_red.png" />
-    							<img class="" src="./shapes/diamond_striped_red.png" />
-    							<img class="" src="./shapes/diamond_striped_red.png" />
-    						</div>
-    					</div>
-    				</div>
-    			</div>
-    			<br />
-    			<div id="shading">
-    				<p> Shading </p>
-    				<div id="shading examples">
-    					<div class="example-card example-card-centered">
-    						<div class="image-container-help-screen">
-    							<img class="" src="./shapes/oval_open_green.png" />
-    							<img class="" src="./shapes/oval_open_green.png" />
-    						</div>
-    					</div>
-    					<div class="example-card example-card-centered">
-    						<div class="image-container-help-screen">
-    							<img class="" src="./shapes/oval_striped_green.png" />
-    							<img class="" src="./shapes/oval_striped_green.png" />
-    						</div>
-    					</div>
-    					<div class="example-card example-card-centered">
-    						<div class="image-container-help-screen">
-    							<img class="" src="./shapes/oval_solid_green.png" />
-    							<img class="" src="./shapes/oval_solid_green.png" />
-    						</div>
-    					</div>
-    				</div>
-    			</div>
-    			<br />
-    			<h1 class="centered-help-screen"> How to spot sets </h1>
-    			<p> A set is made of three cards. For a set to be valid, each attribute must either be all different or all the same.</p>
-    			<div id="valid-set-1">
-    				<div id="valid-set-1-div">
-    					<div class="example-card example-card-centered">
-    						<div class="image-container-help-screen">
-    							<img class="" src="./shapes/diamond_open_blue.png" />
-    						</div>
-    					</div>
-    					<div class="example-card example-card-centered">
-    						<div class="image-container-help-screen">
-    							<img class="" src="./shapes/squiggle_open_green.png" />
-    						</div>
-    					</div>
-    					<div class="example-card example-card-centered">
-    						<div class="image-container-help-screen">
-    							<img class="" src="./shapes/oval_open_red.png" />
-    						</div>
-    					</div>
-    				</div>
-    				<p> This set is valid as all cards have the same number & shading, while differing in shape and color. </p>
-    			</div>
-    			<br />
-    			<div id="valid-set-2">
-    				<div id="valid-set-2-div">
-    					<div class="example-card example-card-centered">
-    						<div class="image-container-help-screen">
-    							<img class="hidden" src="./shapes/oval_striped_green.png" />
-    							<img class="" src="./shapes/oval_striped_green.png" />
-    							<img class="hidden" src="./shapes/oval_striped_green.png" />
-    						</div>
-    					</div>
-    					<div class="example-card example-card-centered">
-    						<div class="image-container-help-screen">
-    							<img class="" src="./shapes/oval_striped_green.png" />
-    							<img class="hidden" src="./shapes/oval_striped_green.png" />
-    							<img class="" src="./shapes/oval_striped_green.png" />
-    						</div>
-    					</div>
-    					<div class="example-card example-card-centered">
-    						<div class="image-container-help-screen">
-    							<img class="" src="./shapes/oval_striped_green.png" />
-    							<img class="" src="./shapes/oval_striped_green.png" />
-    							<img class="" src="./shapes/oval_striped_green.png" />
-    						</div>
-    					</div>
-    				</div>
-    				<p> This set is also valid. </p>
-    			</div>
-    			<br />
-    			<p> Here are some more examples</p>
-    			<br />
-    			<div id="valid-set-1">
-    				<div id="valid-set-1-div">
-    					<div class="example-card example-card-centered">
-    						<div class="image-container-help-screen">
-    							<img class="" src="./shapes/diamond_open_blue.png" />
-    						</div>
-    					</div>
-    					<div class="example-card example-card-centered">
-    						<div class="image-container-help-screen">
-    							<img class="" src="./shapes/squiggle_open_green.png" />
-    						</div>
-    					</div>
-    					<div class="example-card example-card-centered">
-    						<div class="image-container-help-screen">
-    							<img class="" src="./shapes/oval_open_red.png" />
-    						</div>
-    					</div>
-    				</div>
-    				<p> This set is valid as all cards have the same number & shading, while differing in shape and color. </p>
-    			</div>
-    			<br />
-    			<div id="invalid-set-1">
-    				<div id="invalid-set--div">
-    					<div class="example-card example-card-centered">
-    						<div class="image-container-help-screen">
-    							<img class="" src="./shapes/oval_open_red.png" />
-    							<img class="" src="./shapes/oval_open_red.png" />
-    							<img class="" src="./shapes/oval_open_red.png" />
-    						</div>
-    					</div>
-    					<div class="example-card example-card-centered">
-    						<div class="image-container-help-screen">
-    							<img class="" src="./shapes/squiggle_open_red.png" />
-    							<img class="" src="./shapes/squiggle_open_red.png" />
-    							<img class="" src="./shapes/squiggle_open_red.png" />
-    						</div>
-    					</div>
-    					<div class="example-card example-card-centered">
-    						<div class="image-container-help-screen">
-    							<img class="" src="./shapes/oval_open_red.png" />
-    							<img class="" src="./shapes/oval_open_red.png" />
-    							<img class="" src="./shapes/oval_open_red.png" />
-    						</div>
-    					</div>
-    				</div>
-    				<p> Not a valid set (Shapes do not all match or differ). </p>
-    			</div>
-    			<br />
-    			<div id="invalid-set-2">
-    				<div id="invalid-set-2-div">
-    					<div class="example-card example-card-centered">
-    						<div class="image-container-help-screen">
-    							<img class="" src="./shapes/diamond_open_green.png" />
-    							<img class="" src="./shapes/diamond_open_green.png" />
-    						</div>
-    					</div>
-    					<div class="example-card example-card-centered">
-    						<div class="image-container-help-screen">
-    							<img class="" src="./shapes/oval_open_blue.png" />
-    							<img class="" src="./shapes/oval_open_blue.png" />
-    						</div>
-    					</div>
-    					<div class="example-card example-card-centered">
-    						<div class="image-container-help-screen">
-    							<img class="" src="./shapes/squiggle_striped_red.png" />
-    							<img class="" src="./shapes/squiggle_striped_red.png" />
-    						</div>
-    					</div>
-    				</div>
-    				<p> This set is not valid (see shading). </p>
-    			</div>
-    		</div>
+	<span class="title-help-screen centered-help-screen"> What is a set?
+	</span>
 
-    	</div>
+	<div id = "Set-Definition" class="container">
+	<!-- <h1 class="title-help-screen centered-help-screen"> How to Play Set
+		<h1 /> -->
+		<div id = "Shape" class="step">
+			<div class="additional">
+				<div class="user-card">
+					<div class="level center">
+						Step 1
+					</div>
+					<div class="points center">
+						Part A
+					</div>
+				</div>
+				<div class="more-info">
+					<h1>Shapes</h1>
+					<div class="stats">
+						<div class = "item">
+							<div class="title">Oval</div>
+							<img class="value" src="http://smart-games.org/images/oval_open_blue.png" />
+						</div>
+						<div class = "item">
+							<div class="title">Squiggle</div>
+							<img class="value" src="http://smart-games.org/images/squiggle_open_blue.png" />
+						</div>
+						<div class = "item">
+							<div class="title">Diamond</div>
+							<img class="value" src="http://smart-games.org/images/diamond_open_blue.png" />
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="general">
+				<h1>Shapes</h1>
+				<p>In Set there are 3 different types of shapes: </p>
+				<span class="more">Mouse over the step for more info</span>
+			</div>
+		</div>
+		<br/>
+		<div id = "Color" class="step lime">
+			<div class="additional">
+				<div class="user-card">
+					<div class="level center">
+						Step 1
+					</div>
+					<div class="points center">
+						Part B
+					</div>
+				</div>
+				<div class="more-info">
+					<h1>Color</h1>
+					<div class="stats">
+						<div class = "item">
+							<div class="title">Red</div>
+							<img class="value" src="http://smart-games.org/images/squiggle_solid_red.png" />
+						</div>
+						<div class = "item">
+							<div class="title">Blue</div>
+							<img class="value" src="http://smart-games.org/images/squiggle_solid_blue.png" />
+						</div>
+						<div class = "item">
+							<div class="title"> Green </div>
+							<img class="value" src="http://smart-games.org/images/squiggle_solid_green.png" />
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="general">
+				<h1>Color</h1>
+				<p>Each step can be one of 3 colors: </p>
+				<span class="more">Mouse over the step for more info</span>
+			</div>
+		</div>
+		<br/>
+		<div id = "Shading" class="step blue">
+			<div class="additional">
+				<div class="user-card">
+					<div class="level center">
+						Step 1
+					</div>
+					<div class="points center">
+						Part C
+					</div>
+				</div>
+				<div class="more-info">
+					<h1>Shading</h1>
+					<div class="stats">
+						<div class = "item">
+							<div class="title">Open</div>
+							<img class="value" src="http://smart-games.org/images/oval_open_green.png" />
+						</div>
+						<div class = "item">
+							<div class="title">Striped</div>
+							<img class="value" src="http://smart-games.org/images/oval_striped_green.png" />
+						</div>
+						<div class = "item">
+							<div class="title">Solid</div>
+							<img class="value" src="http://smart-games.org/images/oval_solid_green.png" />
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="general">
+				<h1>Shading</h1>
+				<p>Similarly, there are 3 different shadings: </p>
+				<span class="more">Mouse over the step for more info</span>
+			</div>
+		</div>
+		<br/>
+		<div id = "Number" class="step orange">
+			<div class="additional">
+				<div class="user-card">
+					<div class="level center">
+						Step 1
+					</div>
+					<div class="points center">
+						Part D
+					</div>
+				</div>
+				<div class="more-info">
+					<h1>Number</h1>
+					<div class="stats">
+						<div class = "item">
+							<div class="title">One</div>
+							<img class="value" src="http://smart-games.org/images/oval_open_green.png" />
+						</div>
+						<div class = "item">
+							<div class="title">Two</div>
+							<img class="value" src="http://smart-games.org/images/oval_striped_green.png" />
+						</div>
+						<div class = "item">
+							<div class="title">Three</div>
+							<img class="value" src="http://smart-games.org/images/oval_solid_green.png" />
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="general">
+				<h1>Number</h1>
+				<p>Each step will have 1, 2, or 3 items: </p>
+				<span class="more">Mouse over the step for more info</span>
+			</div>
+		</div>
+		<br/>
+	</div>
 
 
+	<br/><br/><br/><br/><br/><br/><br/><br/><br/>
 
+	<span class="title-help-screen centered-help-screen"> Let's see if you can find sets!
+	</span>
 
+	<div id = "Set-Examples" class="container">
+	<!-- <h1 class="title-help-screen centered-help-screen"> How to Play Set
+		<h1 /> -->
+		<div id = "Shape" class="step">
+			<div class="additional">
+				<div class="user-card">
+					<div class="level center">
+						Step 1
+					</div>
+					<div class="points center">
+						Part A
+					</div>
+				</div>
+				<div class="more-info">
+					<h1>Shapes</h1>
+					<div class="stats">
+						<div class = "item">
+							<div class="title">Oval</div>
+							<img class="value" src="http://smart-games.org/images/oval_open_blue.png" />
+						</div>
+						<div class = "item">
+							<div class="title">Squiggle</div>
+							<img class="value" src="http://smart-games.org/images/squiggle_open_blue.png" />
+						</div>
+						<div class = "item">
+							<div class="title">Diamond</div>
+							<img class="value" src="http://smart-games.org/images/diamond_open_blue.png" />
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="general">
+				<h1>Shapes</h1>
+				<p>In Set there are 3 different types of shapes: </p>
+				<span class="more">Mouse over the step for more info</span>
+			</div>
+		</div>
+		<br/>
+		<div id = "Color" class="step lime">
+			<div class="additional">
+				<div class="user-card">
+					<div class="level center">
+						Step 1
+					</div>
+					<div class="points center">
+						Part B
+					</div>
+				</div>
+				<div class="more-info">
+					<h1>Color</h1>
+					<div class="stats">
+						<div class = "item">
+							<div class="title">Red</div>
+							<img class="value" src="http://smart-games.org/images/squiggle_solid_red.png" />
+						</div>
+						<div class = "item">
+							<div class="title">Blue</div>
+							<img class="value" src="http://smart-games.org/images/squiggle_solid_blue.png" />
+						</div>
+						<div class = "item">
+							<div class="title"> Green </div>
+							<img class="value" src="http://smart-games.org/images/squiggle_solid_green.png" />
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="general">
+				<h1>Color</h1>
+				<p>Each step can be one of 3 colors: </p>
+				<span class="more">Mouse over the step for more info</span>
+			</div>
+		</div>
+		<br/>
+		<div id = "Shading" class="step blue">
+			<div class="additional">
+				<div class="user-card">
+					<div class="level center">
+						Step 1
+					</div>
+					<div class="points center">
+						Part C
+					</div>
+				</div>
+				<div class="more-info">
+					<h1>Shading</h1>
+					<div class="stats">
+						<div class = "item">
+							<div class="title">Open</div>
+							<img class="value" src="http://smart-games.org/images/oval_open_green.png" />
+						</div>
+						<div class = "item">
+							<div class="title">Striped</div>
+							<img class="value" src="http://smart-games.org/images/oval_striped_green.png" />
+						</div>
+						<div class = "item">
+							<div class="title">Solid</div>
+							<img class="value" src="http://smart-games.org/images/oval_solid_green.png" />
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="general">
+				<h1>Shading</h1>
+				<p>Similarly, there are 3 different shadings: </p>
+				<span class="more">Mouse over the step for more info</span>
+			</div>
+		</div>
+		<br/>
+		<div id = "Number" class="step orange">
+			<div class="additional">
+				<div class="user-card">
+					<div class="level center">
+						Step 1
+					</div>
+					<div class="points center">
+						Part D
+					</div>
+				</div>
+				<div class="more-info">
+					<h1>Number</h1>
+					<div class="stats">
+						<div class = "item">
+							<div class="title">One</div>
+							<img class="value" src="http://smart-games.org/images/oval_open_green.png" />
+						</div>
+						<div class = "item">
+							<div class="title">Two</div>
+							<img class="value" src="http://smart-games.org/images/oval_striped_green.png" />
+						</div>
+						<div class = "item">
+							<div class="title">Three</div>
+							<img class="value" src="http://smart-games.org/images/oval_solid_green.png" />
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="general">
+				<h1>Number</h1>
+				<p>Each step will have 1, 2, or 3 items: </p>
+				<span class="more">Mouse over the step for more info</span>
+			</div>
+		</div>
+		<br/>
+	</div>
 
-    </body>
+	<br/><br/><br/><br/><br/><br/><br/><br/><br/>
+	<span class="title-help-screen centered-help-screen"> You're ready to play Set now!
+	</span>
+	<a href="#" class="w3-bar-item w3-button centered-help-screen" onclick="hideRules()">
+		<i class="fa fa-arrow-left" style = "    font-size: 40px;"> Main Menu </i>
+	</a>
+	<br/><br/><br/><br/><br/><br/><br/><br/><br/>
 
-    </html>
+</div>
+</div> 
+
+</body>
+
+<script type="text/javascript">
+	
+	            openHelpScreen();
+
+</script>
+
+</html>

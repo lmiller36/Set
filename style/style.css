@@ -1,5 +1,7 @@
 .rules{
-	display: none
+	display: none;
+	text-align: -webkit-center;
+	background: #FCEEB5;
 }
 
 .title-help-screen{
@@ -239,7 +241,7 @@ background-size: cover;
 }
 
 .end-game-style{
-	font-family:georgia,garamond,serif;
+	font-family	mily:georgia,garamond,serif;
 	font-size: 80px;
 	font-style: bold;
 	text-align: center;
