@@ -1,0 +1,341 @@
+<html>
+<style>
+@import url('https://fonts.googleapis.com/css?family=Abel');
+
+html, body {
+	background: #FCEEB5;
+	font-family: Abel, Arial, Verdana, sans-serif;
+}
+
+.container{
+	height:100%;
+	overflow: scroll;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	-webkit-transform: translate(-50%, -50%);
+}
+
+.center {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	-webkit-transform: translate(-50%, -50%);
+}
+
+.step {
+	width: 450px;
+	height: 250px;
+	background-color: #fff;
+	background: linear-gradient(#f8f8f8, #fff);
+	box-shadow: 0 8px 16px -8px rgba(0,0,0,0.4);
+	border-radius: 6px;
+	overflow: hidden;
+	position: relative;
+	margin: 1.5rem;
+}
+
+.step h1 {
+	text-align: center;
+}
+
+.step .additional {
+	position: absolute;
+	width: 150px;
+	height: 100%;
+	background: linear-gradient(#dE685E, #EE786E);
+	transition: width 0.4s;
+	overflow: hidden;
+	z-index: 2;
+}
+
+.step.lime .additional {
+	background: linear-gradient(#92bCa6, #A2CCB6);
+}
+
+.step.blue .additional {
+	background: linear-gradient(#415c77, #597088);
+}
+
+.step.orange .additional {
+	background: linear-gradient(#E99C26, #d18c22);
+}
+
+
+.step:hover .additional {
+	width: 100%;
+	border-radius: 0 5px 5px 0;
+}
+
+.step .additional .user-card {
+	width: 150px;
+	height: 100%;
+	position: relative;
+	float: left;
+}
+
+.step .additional .user-card::after {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 10%;
+	right: -2px;
+	height: 80%;
+	border-left: 2px solid rgba(0,0,0,0.025);*/
+}
+
+.step .additional .user-card .level,
+.step .additional .user-card .points {
+	top: 15%;
+	color: #fff;
+	text-transform: uppercase;
+	font-size: 0.75em;
+	font-weight: bold;
+	background: rgba(0,0,0,0.15);
+	padding: 0.125rem 0.75rem;
+	border-radius: 100px;
+	white-space: nowrap;
+}
+
+.step .additional .user-card .points {
+	top: 85%;
+}
+
+.step .additional .user-card svg {
+	top: 50%;
+}
+
+.step .additional .more-info {
+	width: 300px;
+	float: left;
+	position: absolute;
+	left: 150px;
+	height: 100%;
+}
+
+.step .additional .more-info h1 {
+	color: #fff;
+	margin-bottom: 0;
+}
+
+.step.lime .additional .more-info h1 {
+	color: #224C36;
+}
+
+.step .additional .coords {
+	margin: 0 1rem;
+	color: #fff;
+	font-size: 1rem;
+}
+
+.step.lime .additional .coords {
+	color: #325C46;
+}
+
+.step .additional .coords span + span {
+	float: right;
+}
+
+.step .additional .stats {
+	font-size: 2rem;
+	display: flex;
+	position: absolute;
+	bottom: 1rem;
+	left: 1rem;
+	right: 1rem;
+	top: auto;
+	color: #fff;
+}
+
+.step.lime .additional .stats {
+	color: #325C46;
+
+}
+
+.step .additional .stats > div {
+	flex: 1;
+	text-align: center;
+	display:absolute;
+}
+
+.step .additional .stats i {
+	display: block;
+}
+
+.step .additional .stats div.title {
+	font-size: 0.75rem;
+	font-weight: bold;
+	text-transform: uppercase;
+}
+
+.step .additional .stats div.value {
+	font-size: 1.5rem;
+	font-weight: bold;
+	line-height: 1.5rem;
+}
+
+/* .step .additional .stats div.value.infinity {
+  font-size: 2.5rem;
+  } */
+
+  .step .general {
+  	width: 300px;
+  	height: 100%;
+  	position: absolute;
+  	top: 0;
+  	right: 0;
+  	z-index: 1;
+  	box-sizing: border-box;
+  	padding: 1rem;
+  	padding-top: 0;
+  }
+
+  .step .general .more {
+  	position: absolute;
+  	bottom: 1rem;
+  	right: 1rem;
+  	font-size: 0.9em;
+  }
+</style>
+<div class="container">
+	<div id = "Shape" class="step">
+		<div class="additional">
+			<div class="user-card">
+				<div class="level center">
+					Step 1
+				</div>
+				<div class="points center">
+					Part A
+				</div>
+			</div>
+			<div class="more-info">
+				<h1>Shapes</h1>
+				<div class="stats">
+					<div class = "item">
+						<div class="title">Oval</div>
+						<i class="fa fa-gamepad"></i>
+						<img class="value" src="http://smart-games.org/images/oval_open_blue.png" />
+					</div>
+					<div class = "item">
+						<div class="title">Squiggle</div>
+						<i class="fa fa-group"></i>
+						<img class="value" src="http://smart-games.org/images/squiggle_open_blue.png" />
+					</div>
+					<div class = "item">
+						<div class="title">Diamond</div>
+						<i class="fa fa-coffee"></i>
+						<img class="value" src="http://smart-games.org/images/diamond_open_blue.png" />
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="general">
+			<h1>Shapes</h1>
+			<p>In Set there are 3 different types of shapes: </p>
+			<span class="more">Mouse over the step for more info</span>
+		</div>
+	</div>
+	<div id = "Color" class="step lime">
+		<div class="additional">
+			<div class="user-card">
+				<div class="level center">
+					Step 1
+				</div>
+				<div class="points center">
+					Part B
+				</div>
+			</div>
+			<div class="more-info">
+				<h1>Color</h1>
+				<div class="stats">
+					<div class = "item">
+						<div class="title">Red</div>
+						<img class="value" src="http://smart-games.org/images/squiggle_solid_red.png" />
+					</div>
+					<div class = "item">
+						<div class="title">Blue</div>
+						<img class="value" src="http://smart-games.org/images/squiggle_solid_blue.png" />
+					</div>
+					<div class = "item">
+						<div class="title"> Green </div>
+						<img class="value" src="http://smart-games.org/images/squiggle_solid_green.png" />
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="general">
+			<h1>Color</h1>
+			<p>Each step can be one of 3 colors: </p>
+			<span class="more">Mouse over the step for more info</span>
+		</div>
+	</div>
+	<div id = "Shading" class="step blue">
+		<div class="additional">
+			<div class="user-card">
+				<div class="level center">
+					Step 1
+				</div>
+				<div class="points center">
+					Part C
+				</div>
+			</div>
+			<div class="more-info">
+				<h1>Shading</h1>
+				<div class="stats">
+					<div class = "item">
+						<div class="title">Open</div>
+						<img class="value" src="http://smart-games.org/images/oval_open_green.png" />
+					</div>
+					<div class = "item">
+						<div class="title">Striped</div>
+						<img class="value" src="http://smart-games.org/images/oval_striped_green.png" />
+					</div>
+					<div class = "item">
+						<div class="title">Solid</div>
+						<img class="value" src="http://smart-games.org/images/oval_solid_green.png" />
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="general">
+			<h1>Shading</h1>
+			<p>Similarly, there are 3 different shadings: </p>
+			<span class="more">Mouse over the step for more info</span>
+		</div>
+	</div>
+	<div id = "Number" class="step orange">
+		<div class="additional">
+			<div class="user-card">
+				<div class="level center">
+					Step 1
+				</div>
+				<div class="points center">
+					Part D
+				</div>
+			</div>
+			<div class="more-info">
+				<h1>Number</h1>
+				<div class="stats">
+					<div class = "item">
+						<div class="title">One</div>
+						<img class="value" src="http://smart-games.org/images/oval_open_green.png" />
+					</div>
+					<div class = "item">
+						<div class="title">Two</div>
+						<img class="value" src="http://smart-games.org/images/oval_striped_green.png" />
+					</div>
+					<div class = "item">
+						<div class="title">Three</div>
+						<img class="value" src="http://smart-games.org/images/oval_solid_green.png" />
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="general">
+			<h1>Number</h1>
+			<p>Each step will have 1, 2, or 3 items: </p>
+			<span class="more">Mouse over the step for more info</span>
+		</div>
+	</div>
+</div>
+</html>
