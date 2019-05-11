@@ -188,3 +188,7 @@
     right: 1rem;
     font-size: 0.9em;
   }
+
+  .example-cards{
+    display:inline-flex;
+  }
