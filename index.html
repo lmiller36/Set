@@ -1,840 +1,106 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-	<meta charset="UTF-8" />
-	<title>Lorne's Set Game</title>
-	<script type="text/javascript" src="SET_Logic.js"></script>
-	<script src="jquery-3.4.0.js"></script>
-    <!-- 	<script type="text/javascript" src="./StartMenu/StartMenu.js"></script>
-    -->
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="./style/style.css">
-    <link rel="stylesheet" href="./style/tutorialStyle.css">
+  <meta charset="UTF-8" />
+  <title>Lorne's Set Game</title>
+  <script type="text/javascript" src="SET_Logic.js"></script>
+  <script src="jquery-3.4.0.js"></script>
+      <!--  <script type="text/javascript" src="./StartMenu/StartMenu.js"></script>
+      -->
+      <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+      <link rel="stylesheet" href="./style/style.css">
+      <link rel="stylesheet" href="./style/tutorialStyle.css">
+      <link rel="stylesheet" href="./style/MultiplayerSetupStyle.css">
 
-    <script src="./pubnub.4.21.7.js"></script>
-    <script src="./Multiplayer.js"></script>
-</head>
+      <script src = "./pubnub.4.21.7.js"></script>
+      <script src = "./Multiplayer.js"></script>
+      <script src = "./Page.js"></script>
+      <script src = "./pages/MainMenu.js"></script>
+      <script src = "./pages/Tutorial.js"></script>
+      <script src = "./pages/Game.js"></script>
+      <script src = "./pages/MultiplayerSetup.js"></script>
 
-<body>
-	<div id = "title-container" class = "title-container">
-		<div class = "title-background"><p id = "title" class="title"> Lorne's Set Game </p></div>
-		
-	</div>
-	<div id="MainMenu" class="mainMenu centeredDiv">
-        <!-- 		<img id = "background-img" class = "background-img" src = "./set_box.png"/>
-        -->
-        <div id="btn-container">
-        	<button class="btn centered" onclick="initializeSinglePlayerGame()">
-        		<i class="fa fa-user"></i> Single
-        	</button>
+
+  </head>
+  <body class = "unselectable">
+      <div id = "title-container" class = "title-container">
+         <div class = "title-background">
+            <p id = "title" class="title"> Lorne's Set Game </p>
         </div>
-        <div>
-        	<button class="btn centered" onclick="openMultiplayerSetup()">
-        		<i class="fa fa-users"></i> Multiplayer
-        	</button>
-        </div>
-        <div>
-        	<button class="btn centered" onclick="openHelpScreen()">
-        		<i class="fa fa-question-circle"></i> How to play
-
-        	</button>
-        </div>
-        <div>
-        	<button class="btn centered">
-        		<i class="fa fa-info-circle"></i> Contributions
-        	</button>
-        </div>
-        <div>
-        	<button class="btn centered" onclick="closeTab()"">
-        		<i class=" fa fa-times"></i> Exit
-        	</button>
-        </div>
-
-    </div> 
-    <div id="Game" class="game">
-    	<div>
-    		<button class="w3-button w3-teal w3-xlarge w3-left" onclick="openLeftMenu()">
-    			<i class="fa fa-bars"></i> Menu
-    		</button>
-    	</div>
-    	<div id="leftMenu" class="w3-sidebar w3-bar-block w3-black w3-xxlarge w3-animate-left" style="display:none; width:300px;">
-    		<button onclick="closeLeftMenu()" class="w3-bar-item w3-button w3-large">Close &times;</button>
-    		<a href="#" onclick="destroyGame()" class="w3-bar-item w3-button">
-    			<i class="fa fa-home" title="Main Menu"> Main Menu </i>
-    		</a>
-    		<a href="#" onclick="hideSets()" class="w3-bar-item w3-button">
-    			<i class="fa fa-minus-square-o"> Hide Sets </i>
-    		</a>
-    		<a href="#" class="w3-bar-item w3-button">
-    			<i class="fa fa-envelope"></i>
-    		</a>
-    		<a href="#" class="w3-bar-item w3-button">
-    			<i class="fa fa-globe"></i>
-    		</a>
-    		<a href="#" class="w3-bar-item w3-button">
-    			<i class="fa fa-trash"></i>
-    		</a>
-    		<a href="#" onclick="toggleOffline()" class="w3-bar-item w3-button">
-    			<i id="offline-icon" class="fa fa-square-o"> Toggle Offline </i>
-    		</a>
-
-    	</div>
-    	<div id="past-sets-wrapper" class="past-sets">
-    		<p class="past-sets-text"> Past Sets </p>
-    		<div id="past-sets"></div>
-    	</div>
-    	<div id="CardsAndMenu" class="centeredDiv">
-    		<div id='page'>
-    			<!-- style='width: 600px' -->
-    			<h1 id="cardsRemaining" style=' font-size:42px; width:fit-content; width:-webkit-fit-content; width:-moz-fit-content;'></h1>
-    			<h1 id="timer" style=' font-size:42px; width:fit-content; width:-webkit-fit-content; width:-moz-fit-content;'>0</h1>
-    		</div>
-    		<div class="w3-bar w3-light-grey w3-border centered w3-xxlarge" style="width:100%">
-    			<div id="offlineMenu" style="display: none;" class="">
-    				<button onclick="addCards()" class="w3-bar-item w3-button">
-    					Add cards
-    				</button>
-    				<button onclick="" class="w3-bar-item w3-button">
-    					Help
-    				</button>
-    				<button onclick="showSet()" class="w3-bar-item w3-button">
-    					Show Set
-    				</button>
-    				<button onclick="shuffleCards()" class="w3-bar-item w3-button">
-    					Shuffle
-    				</button>
-    				<button onclick="giveHint()" class="w3-bar-item w3-button">
-    					Hint
-    				</button>
-    				<button onclick="pause()" class="w3-bar-item w3-button">
-    					Pause
-    				</button>
-    			</div>
-    			<div id="onlineMenu">
-    				<a href="#" onclick="addCards()" class="w3-bar-item w3-button">
-    					<i class="fa fa-plus" title="Add 3 cards"></i>
-    				</a>
-    				<a href="#" class="w3-bar-item w3-button">
-    					<i class="fa fa-question-circle" title="Help"></i>
-    				</a>
-    				<a href="#" class="w3-bar-item w3-button" onclick="showSet()">
-    					<i class="fa fa-search" title="Show Set"></i>
-    				</a>
-    				<a href="#" onclick="shuffleCards()" class="w3-bar-item w3-button">
-    					<i class="fa fa-random" title="Shuffle cards"></i>
-    				</a>
-    				<a href="#" onclick="giveHint()" class="w3-bar-item w3-button">
-    					<i class="fa fa-lightbulb-o" title="Hint"></i>
-    				</a>
-    				<a href="#" onclick="pause()" class="w3-bar-item w3-button">
-    					<i id="pauseIcon" class="fa fa-pause" title="Hint"></i>
-    				</a>
-    			</div>
-
-    		</div>
-    		<div id="Cards" class="cards" />
-    	</div>
     </div>
-
-    <div id = "End-Game-Screen" class = "centeredDiv end-game-style" style="display:none;">
-    	<p id = "End-Game-Stats"></p>
-    	<div id="btn-container">
-    		<button class="btn centered" onclick="destroyGame()">
-    			<i class="fa fa-home"> Main Menu </i>
-    		</button>
-    	</div>
-    </div>
-</div>
-<script>
-	$(function() {
-		var includes = $('[data-include]');
-		jQuery.each(includes, function() {
-			var file = 'views/' + $(this).data('include') + '.html';
-			$(this).load(file);
-		});
-	});
+    <div id = "pages" > </div>
+    <script>
+     $(function() {
+        var includes = $('[data-include]');
+        jQuery.each(includes, function() {
+            var file = 'views/' + $(this).data('include') + '.html';
+            $(this).load(file);
+        });
+    });
 </script>
 <script>
 
-	function hideSets(){
+                /** In-Game Functions **/
 
-		if (document.setsAreHidden) document.setsAreHidden = false;
-		else document.setsAreHidden = true;
+                //opens a game in single player mode
+                function initializeSinglePlayerGame() {
 
+                    document.getElementById("End-Game-Screen").style.display = "none";
+                    document.getElementById("CardsAndMenu").style.display = null;
 
-		document.getElementById("past-sets-wrapper").style.display = document.setsAreHidden ? "none" : "block";
-	}
+                    //Initialize game
+                    let game = new Game(GameType.single);
+                    document.game = game;
 
-        //toggles paused state, where timer is stopped and cards are hidden
-        function pause() {
-        	if (document.isPaused) document.isPaused = false;
-        	else document.isPaused = true;
+                    game.startGame();
 
-            //toggle pause & play icons
-            document.getElementById("pauseIcon").className = document.isPaused ? "fa fa-play" : "fa fa-pause";
-            document.getElementById("Cards").style.display = document.isPaused ? "none" : "block";
-            document.getElementById("past-sets-wrapper").style.display = document.isPaused ? "none" : "block";
-        }
-
-        //opens instructions of how to play game
-        function openHelpScreen() {
-        	document.getElementById("MainMenu").style.display = "none";
-        	document.getElementById("Tutorial").style.display = "block";
-
-        }
-
-        //opens in-game menu
-        function openLeftMenu() {
-        	document.getElementById("leftMenu").style.display = "block";
-        }
-
-        //closes in-game menu
-        function closeLeftMenu() {
-        	document.getElementById("leftMenu").style.display = "none";
-        }
-
-        //opens setup screen for multiplayer game
-        function openMultiplayerSetup() {
-        	let session = new Session();
-        	document.getElementById("MainMenu").style.display = "none";
-        	document.getElementById("InitalizingMultiplayer").style.display = "block";
-        }
-
-        /** In-Game Functions **/
-
-        //opens a game in single player mode
-        function initializeSinglePlayerGame() {
-
-        	document.getElementById("End-Game-Screen").style.display = "none";
-        	document.getElementById("CardsAndMenu").style.display = null;
-
-            //Initialize game
-            let game = new Game(GameType.single);
-            document.game = game;
-
-            game.startGame();
-
-        }
-
-        function removeAllChildren(node) {
-        	if(!node)return;
-
-        	while (node.firstChild) {
-        		node.removeChild(node.firstChild);
-        	}
-        }
-
-        //removes game from screen & past sets, clears game data, & returns to main menu
-        function destroyGame() {
-
-        	//Remove Past Sets
-        	let pastSets = document.getElementById("past-sets");
-        	removeAllChildren(pastSets);
-
-        	//Remove any leftover cards
-        	let leftoverCards = document.getElementById("Cards");
-        	removeAllChildren(leftoverCards);
-
-
-        	document.doAutoPlayGame = false;
-
-            //Hide Main Menu
-            document.getElementById("MainMenu").style.display = "block";
-
-            //Show Game
-            document.getElementById("Game").style.display = "none";
-
-            //Initialize game
-            document.game = null;
-
-        }
-
-        //randomizes order of cards on screen
-        function shuffleCards() {
-        	document.game.shuffle();
-        }
-
-        //adds 3 additional cards to the screen
-        function addCards() {
-        	document.game.addCards(3);
-        }
-
-        //highlights a card part of a known set
-        function giveHint() {
-        	document.game.highlightSet(false);
-        }
-
-        //highlights an entire set found
-        function showSet() {
-        	document.game.highlightSet(true);
-        }
-
-        //closes window of game
-        function closeTab() {
-        	window.open('', '_self', '');
-        	window.close();
-        }
-
-        //removes rule screen from screen and returns to main menu
-        function hideRules() {
-            //hide rules screen
-            document.getElementById("Tutorial").style.display = "none";
-
-            //shows main menu
-            document.getElementById("MainMenu").style.display = "block";
-
-        }
-
-
-    </script>
-
-
-    <div id="InitalizingMultiplayer" style="display: none" class="centered-help-screen">
-
-    	<input type="radio" name="sessionState" value="Create Game" onclick="initalizeAsHost()"> Create Game<br>
-    	<input type="radio" name="sessionState" value="Join Game" onclick="initalizeAsGuest()"> Join Game<br>
-    	<br><br>
-    	<p id="linkText">Enter link:</p>
-    	<input id="link" type="text" name="link" value="">
-    	<button onclick="joinHost()">submit</button>
-
-    	<br /><br />
-
-    	<div id="players-div">
-    		<p id="">Players in game:</p>
-    		<ul id="players-in-game">
-    			<li>Coffee</li>
-    			<li>Tea</li>
-    			<li>Milk</li>
-    		</ul>
-    		<button onclick="startGame()">Start Game</button>
-    	</div>
-
-
-
-
-    	<script type="text/javascript">
-            //switch menu to buttons if offline (icons currently not available offline)
-            function toggleOffline() {
-
-            	document.getElementById("offline-icon").className = document.offline ?  "fa fa-square-o" : "fa fa-check-square-o";
-
-                //toggle offline status
-                document.offline = document.offline != true;
-
-                //toggle offline & online menus
-                document.getElementById("offlineMenu").style.display = document.offline ? "block" : "none";
-                document.getElementById("onlineMenu").style.display = !document.offline ? "block" : "none";
-            }
-
-            /** Multiplayer Functions **/
-
-            //creates a session with unique link to enter same lobby as host
-            function initalizeAsHost() {
-
-                //initialize new session
-                let session = new Session();
-                document.session = session;
-
-                //subscribe to session to receives updates in game flow
-                session.subscribeSession();
-
-                //show unique link
-                let link = document.getElementById("link")
-                link.value = session.key
-
-                //change instructions to host setting
-                document.getElementById("linkText").innerText = "Send link to other players"
-
-            }
-
-            //removes link if present and provides instructions to join host
-            function initalizeAsGuest() {
-
-                //clears link field
-                let link = document.getElementById("link")
-                link.value = ""
-
-                //change instructions to guest setting
-                document.getElementById("linkText").innerText = "Paste Link Here:"
-
-            }
-
-            //attempts to join host & sends message if the host's lobby can be joined
-            //#TODO check if session available
-            function joinHost() {
-
-                //get session ID
-                let link = document.getElementById("link")
-                let key = link.value;
-
-                //create session in same lobby as host
-                let session = new Session(key);
-                document.session = session;
-
-                //subscribes to receive updates from other player(s) in the lobby
-                session.subscribeSession();
-
-                //sends player's unique identifier to other players
-                //#TODO pubnub may already have unique key names & can possibly delete
-                let json = {
-                	"username": "name",
-                	"userKey": session.keyName
                 }
-                session.sendMessage(json);
+
+                function removeAllChildren(node) {
+                    if(!node)return;
+
+                    while (node.firstChild) {
+                        node.removeChild(node.firstChild);
+                    }
+                }
 
 
-            }
 
-            //Host creates a new game & sends game data to other player's in lobby
-            function startGame() {
+                //closes window of game
+                function closeTab() {
+                    window.open('', '_self', '');
+                    window.close();
+                }
 
-                //create new game
-                let game = new Game(GameType.multiplayer);
-                document.game = game;
-
-                //close left menu (opens on switch to new game if not turned off)
-                closeLeftMenu();
-
-                //sends game data package
-                let json = {
-                	"action": SessionAction.startGame,
-                	"data": {
-                		"cards": game.getCardsInOrder()
-                	}
-                };
-                document.session.sendMessage(json);
-            }
-
-        </script>
-
-    </div>
-
-    <div id="Tutorial" class=" rules">
-    	<span class="title-help-screen centered-help-screen"> How to Play Set
-    	</span>
-    	<br/><br/>
-    	<div class = "">
-         <div id = "Attributes" class="container">
-          <div id = "Shape" class="step">
-           <div class="additional">
-            <div class="user-card">
-             <div class="level center">
-              Step 1
-          </div>
-          <div class="points center">
-              Part A
-          </div>
-      </div>
-      <div class="more-info">
-         <h1>Shape</h1>
-         <div class="stats">
-          <div class = "item">
-           <div class="title">Oval</div>
-           <img class="value" src="./shapes/oval_open_blue.png" />
-       </div>
-       <div class = "item">
-           <div class="title">Squiggle</div>
-           <img class="value" src="./shapes/squiggle_open_blue.png" />
-       </div>
-       <div class = "item">
-           <div class="title">Diamond</div>
-           <img class="value" src="./shapes/diamond_open_blue.png" />
-       </div>
-   </div>
-</div>
-</div>
-<div class="general">
-    <h1>Shape</h1>
-    <p>In Set there are 3 different types of shapes: </p>
-    <span class="more">Mouse over the step for more info</span>
-</div>
-</div>
-<br/>
-<div id = "Color" class="step blue">
-   <div class="additional">
-    <div class="user-card">
-     <div class="level center">
-      Step 1
-  </div>
-  <div class="points center">
-      Part B
-  </div>
-</div>
-<div class="more-info">
- <h1>Color</h1>
- <div class="stats">
-  <div class = "item">
-   <div class="title">Red</div>
-   <img class="value" src="./shapes/squiggle_solid_red.png" />
-</div>
-<div class = "item">
-   <div class="title">Blue</div>
-   <img class="value" src="./shapes/squiggle_solid_blue.png" />
-</div>
-<div class = "item">
-   <div class="title"> Green </div>
-   <img class="value" src="./shapes/squiggle_solid_green.png" />
-</div>
-</div>
-</div>
-</div>
-<div class="general">
-    <h1>Color</h1>
-    <p>Each card can be one of 3 colors: </p>
-    <span class="more">Mouse over the step for more info</span>
-</div>
-</div>
-<br/>
-<div id = "Shading" class="step lime">
-   <div class="additional">
-    <div class="user-card">
-     <div class="level center">
-      Step 1
-  </div>
-  <div class="points center">
-      Part C
-  </div>
-</div>
-<div class="more-info">
- <h1>Shading</h1>
- <div class="stats">
-  <div class = "item">
-   <div class="title">Open</div>
-   <img class="value" src="./shapes/oval_open_red.png" />
-</div>
-<div class = "item">
-   <div class="title">Striped</div>
-   <img class="value" src="./shapes/oval_striped_red.png" />
-</div>
-<div class = "item">
-   <div class="title">Solid</div>
-   <img class="value" src="./shapes/oval_solid_red.png" />
-</div>
-</div>
-</div>
-</div>
-<div class="general">
-    <h1>Shading</h1>
-    <p>Similarly, there are 3 different shadings: </p>
-    <span class="more">Mouse over the step for more info</span>
-</div>
-</div>
-<br/>
-<div id = "Number" class="step orange">
-   <div class="additional">
-    <div class="user-card">
-     <div class="level center">
-      Step 1
-  </div>
-  <div class="points center">
-      Part D
-  </div>
-</div>
-<div class="more-info">
- <h1>Number</h1>
- <div class="stats">
-  <div class = "item">
-   <div class="title">One</div>
-   <img class="value" src="./shapes/oval_open_green.png" />
-</div>
-<div class = "item">
-   <div class="title">Two</div>
-   <img class="value" src="./shapes/oval_striped_green.png" />
-</div>
-<div class = "item">
-   <div class="title">Three</div>
-   <img class="value" src="./shapes/oval_solid_green.png" />
-</div>
-</div>
-</div>
-</div>
-<div class="general">
-    <h1>Number</h1>
-    <p>Each card will have 1, 2, or 3 items: </p>
-    <span class="more">Mouse over the step for more info</span>
-</div>
-</div>
-<br/>
-</div>
-
-<br/><br/><br/><br/><br/><br/><br/><br/><br/>
-
-<span class="title-help-screen centered-help-screen"> What is a set?
-</span>
-
-<div id = "Set-Definition" class="container">
-  <div id = "Set-Definition-Part-A" class="step">
-   <div class="additional">
-    <div class="user-card">
-     <div class="level center">
-      Step 2
-  </div>
-  <div class="points center">
-      Part A
-  </div>
-</div>
-<div class="more-info">
- <h1>Cards</h1>
- Add example card with arrows
-		<!-- 			<div class="stats">
-						<div class = "item">
-							<div class="title">Oval</div>
-							<img class="value" src="./shapes/oval_open_blue.png" />
-						</div>
-						<div class = "item">
-							<div class="title">Squiggle</div>
-							<img class="value" src="./shapes/squiggle_open_blue.png" />
-						</div>
-						<div class = "item">
-							<div class="title">Diamond</div>
-							<img class="value" src="./shapes/diamond_open_blue.png" />
-						</div>
-					</div> -->
-				</div>
-			</div>
-			<div class="general">
-				<h1>Cards</h1>
-				<p>Each card will be comprised of some configuration of Shape, Color, Shading, & Number </p>
-				<span class="more">Mouse over the step for more info</span>
-			</div>
-		</div>
-		<br/>
-		<div id = "Set-Definition-Part-B" class="step blue">
-			<div class="additional">
-				<div class="user-card">
-					<div class="level center">
-						Step 2
-					</div>
-					<div class="points center">
-						Part B
-					</div>
-				</div>
-				<div class="more-info">
-					<h1>Set Definition</h1>
-					<div class="stats">
-						<div class = "item">
-							<div class="title">
-                                Each individual attribute, i.e. Shape, Color, Shading, & Number, must contain all three options or a singular option.
-                            </div>
-                        </div>
-<!-- 						<div class = "item">
-							<div class="title">Blue</div>
-							<img class="value" src="./shapes/squiggle_solid_blue.png" />
-						</div>
-						<div class = "item">
-							<div class="title"> Green </div>
-							<img 
-                            class="value" src="./shapes/squiggle_solid_green.png" />
-						</div> -->
-					</div>
-				</div>
-			</div>
-			<div class="general">
-				<h1>Set Definition</h1>
-				<p>A set will contain three cards, but not any three cards are a set! </p>
-				<span class="more">Mouse over the step for more info</span>
-			</div>
-		</div>
-		<br/>
-		<div id = "Set-Definition-Part-C" class="step lime">
-			<div class="additional">
-				<div class="user-card">
-					<div class="level center">
-						Step 2
-					</div>
-					<div class="points center">
-						Part C
-					</div>
-				</div>
-				<div class="more-info">
-					<h1>Shading</h1>
-					<div class="stats">
-						<div class = "item">
-							<div class="title">Open</div>
-							<img class="value" src="./shapes/oval_open_green.png" />
-						</div>
-						<div class = "item">
-							<div class="title">Striped</div>
-							<img class="value" src="./shapes/oval_striped_green.png" />
-						</div>
-						<div class = "item">
-							<div class="title">Solid</div>
-							<img class="value" src="./shapes/oval_solid_green.png" />
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="general">
-				<h1>Shading</h1>
-				<p>Each individual attribute, i.e. Shape, Color, Shading, & Number, must contain all three options or a singular option.  </p>
-				<span class="more">Mouse over the step for more info</span>
-			</div>
-		</div>
-		<br/>
-		<div id = "Set-Definition-Part-D" class="step orange">
-			<div class="additional">
-				<div class="user-card">
-					<div class="level center">
-						Step 2
-					</div>
-					<div class="points center">
-						Part D
-					</div>
-				</div>
-				<div class="more-info">
-					<h1>Fun Fact</h1>
-					<div class="stats">
-						<div class = "item">
-							<div class="title">There are 81 Set Cards</div>
-						</div>
-						<div class = "item">
-							<div class="title">In Set, there are 1000 distinct sets</div>
-						</div>
-					</div>
-
-				</div>
-			</div>
-			<div class="general">
-				<h1>Fun Facts</h1>
-				<p>Let's see if can answer these trivia questions about Set! How many cards are there in Set? How many distinct sets are in Set?</p>
-				<span class="more">Mouse over the step for more info</span>
-			</div>
-		</div>
-		<br/>
-	</div>
-
-
-	<br/><br/><br/><br/><br/><br/><br/><br/><br/>
-
-	<span class="title-help-screen centered-help-screen"> Let's see if you can find sets!
-	</span>
-
-	<div id = "Set-Examples" class="container">
-		<div id = "example-1" class="step">
-			<div class="additional">
-				<div class="user-card">
-					<div class="level center">
-						Step 3
-					</div>
-					<div class="points center">
-						Part A
-					</div>
-				</div>
-				<div class="more-info">
-					<h1>Yes!</h1>
-					<div id = "example1-answer" class="stats">
-						<div class = "item">
-							<div class="title">Shape</div>
-							<i class="fa fa-check-square-o" ></i>
-						</div>
-						<div class = "item">
-							<div class="title">Shading</div>
-							<i class="fa fa-check-square-o" ></i>
-						</div>
-                        <div class = "item">
-                            <div class="title">Color</div>
-                            <i class="fa fa-check-square-o" ></i>
-                        </div>
-
-                        <div class = "item">
-                            <div class="title">Number</div>
-                            <i class="fa fa-check-square-o" ></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="general">
-                <h1>Is this a set?</h1>
-                <div id ="example1-cards" class="more example-cards"></div>
-
-                <script>
-
-                  let example1_card1 = new Card(Color.red,Shape.oval,Shading.striped,3);
-                  let example1_card2 = new Card(Color.blue,Shape.oval,Shading.striped,2);
-                  let example1_card3 = new Card(Color.green,Shape.oval,Shading.striped,1);
-
-                  document.getElementById("example1-cards").appendChild(example1_card1.getMiniCard());
-                  document.getElementById("example1-cards").appendChild(example1_card2.getMiniCard());
-                  document.getElementById("example1-cards").appendChild(example1_card3.getMiniCard());
-
-              </script>
-
-          </div>
-      </div>
-
-      <div id = "example-2" class="step">
-        <div class="additional">
-            <div class="user-card">
-                <div class="level center">
-                    Step 3
-                </div>
-                <div class="points center">
-                    Part B
-                </div>
-            </div>
-            <div class="more-info">
-                <h1>No!</h1>
-                <div id = "example2-answer" class="stats">
-                    <div class = "item">
-                        <div class="title">Shape</div>
-                        <i class="fa fa-check-square-o" ></i>
-                    </div>
-                    <div class = "item">
-                        <div class="title">Shading</div>
-                        <i class="fa fa-minus-square-o" ></i>
-                    </div>
-                    <div class = "item">
-                        <div class="title">Color</div>
-                        <i class="fa fa-check-square-o" ></i>
-                    </div>
-
-                    <div class = "item">
-                        <div class="title">Number</div>
-                        <i class="fa fa-check-square-o" ></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="general">
-            <h1>Is this a set?</h1>
-            <div id ="example2-cards" class="more example-cards"></div>
-
-            <script>
-
-              let example2_card1 = new Card(Color.blue,Shape.oval,Shading.striped,1);
-              let example2_card2 = new Card(Color.blue,Shape.squiggle,Shading.open,1);
-              let example2_card3 = new Card(Color.blue,Shape.diamond,Shading.striped,1);
-
-              document.getElementById("example2-cards").appendChild(example2_card1.getMiniCard());
-              document.getElementById("example2-cards").appendChild(example2_card2.getMiniCard());
-              document.getElementById("example2-cards").appendChild(example2_card3.getMiniCard());
-
-          </script>
-
-      </div>
-  </div>
-
-  <br/>
-</div>
-
-<br/><br/><br/><br/><br/><br/><br/><br/><br/>
-<span class="title-help-screen centered-help-screen"> You're ready to play Set now!
-</span>
-<a href="#" class="w3-bar-item w3-button centered-help-screen" onclick="hideRules()">
-    <i class="fa fa-arrow-left" style = "    font-size: 40px;"> Main Menu </i>
-</a>
-<br/><br/><br/><br/><br/><br/><br/><br/><br/>
-
-</div>
-</div> 
+            </script>
+    
 
 </body>
-
 <script type="text/javascript">
-	
-</script>
 
-</html>
+  var pages = Object.freeze({
+    'mainMenu': mainMenu,
+    'tutorial': tutorial,
+    'game' : game,
+    'multiplayerSetup':multiplayerSetup
+});
+  document.pageStack = [];
+
+
+    //initializeScreen
+
+    //add pages to DOM, to be easily hidden or shown
+    for (pageName in pages) {
+        let page = pages[pageName];
+        let div = document.createElement('div');
+        div.id = page.id;
+        div.style.display = "none";
+        div.innerHTML = page.html;
+        document.getElementById("pages").appendChild(div);
+    };
+
+    pages.mainMenu.open();
+
+  </script>
+  </html>

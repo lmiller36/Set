@@ -51,9 +51,6 @@ class Game {
         //Contains 3 visible cards comprising a set, if they are available.
         this.hintSet = [];
 
-        //true if the current slate of visible cards has been checked if a set is avaiable
-        //set to false every time cards are added or removed
-       // this.hintSetHasBeenChecked = false;
 
 
    }
@@ -84,22 +81,22 @@ class Game {
 //performs starting actions to begin gameplay
 startGame(){
 
-        //Hide Main Menu
-        document.getElementById("MainMenu").style.display = "none";
+        // //Hide Main Menu
+        // document.getElementById("MainMenu").style.display = "none";
 
-        //Hide Multiplayer screen
-        document.getElementById("InitalizingMultiplayer").style.display = "none";
+        // //Hide Multiplayer screen
+        // document.getElementById("InitalizingMultiplayer").style.display = "none";
 
-        //Show Game
-        document.getElementById("Game").style.display = "block";
+        // //Show Game
+        // document.getElementById("Game").style.display = "block";
 
-        closeLeftMenu();
+        // closeLeftMenu();
 
         //intialize with twelve cards
         this.addCards(12);
 
         //start timer
-        this.startTimer(Date.now());
+        this.toggleTimer();
 
     }
 
@@ -125,21 +122,55 @@ startGame(){
                         document.game.highlightSet(true);
                     }
 
-                }
+    }
+
+toggleTimer() {
+    let shouldPlay = !this.isPaused;
+  
+    if(!this.timeElapsed) this.timeElapsed = 0;
+
+    let startTime = Date.now();
+
+    //set to 1000 milliseconds (1 second) or 100 if in autoplay mode
+    let intervalInMilliseconds = document.doAutoPlayGame ? 100 : 1000;
+
+    if (!this.timer) {
+        this.timer = setInterval(()=> {
+    
+            if (!(document.isPaused)) {
+                this.timeElapsed ++;
+                document.getElementById("timer").innerText = (this.timeElapsed+"")
+                if (document.doAutoPlayGame)
+                    document.game.autoPlayGame(startTime);
+
+            } else {
+                startTime += intervalInMilliseconds;
+            }
+
+        }, intervalInMilliseconds);
+    } else {
+
+        clearInterval(this.timer);
+        this.timer = null;
+    }
+
+    this.isPaused = !shouldPlay;
+
+}
 
 
     //starts timer and ,if needed, pauses the timer
-    startTimer(startTime){
-
+    startTimer(){
+        let startTime = Date.now();
         //set to 1000 milliseconds (1 second) or 100 if in autoplay mode
         let intervalInMilliseconds = document.doAutoPlayGame ? 100 : 1000;
        
-
-
        // Update the count down every 1 second
        var timer = setInterval(function() {
+        console.log('interval')
         if(!(document.isPaused)) {
             let now = Math.floor((Date.now() - startTime) / intervalInMilliseconds );
+            this.timeElapsed = now;
             document.getElementById("timer").innerText = now
             if(document.doAutoPlayGame)
                 document.game.autoPlayGame(startTime);

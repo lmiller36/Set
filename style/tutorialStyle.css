@@ -155,9 +155,8 @@
 }
 
 .step .additional .stats div.title {
-  font-size: 0.75rem;
+  font-size: 1.15rem;
   font-weight: bold;
-  text-transform: uppercase;
 }
 
 .step .additional .stats div.value {
@@ -166,9 +165,9 @@
   line-height: 1.5rem;
 }
 
-/* .step .additional .stats div.value.infinity {
+ .step .additional .stats div.value.infinity {
   font-size: 2.5rem;
-  } */
+  } 
 
   .step .general {
     width: 300px;
@@ -191,4 +190,5 @@
 
   .example-cards{
     display:inline-flex;
+
   }
