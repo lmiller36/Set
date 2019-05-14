@@ -8,7 +8,7 @@ let mainMenuHTML =
             </button>
          </div>
          <div>
-            <button class="btn centered" onclick="openMultiplayerSetup()">
+            <button class="btn centered" onclick="pages.multiplayerSetup.open()">
             <i class="fa fa-users"></i> Multiplayer
             </button>
          </div>

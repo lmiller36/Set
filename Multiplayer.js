@@ -4,6 +4,8 @@ var SessionState = Object.freeze({
 });
 
 var SessionAction = Object.freeze({
+	'joinGame' : 'joinGame',
+	'acknowledgePlayer':'acknowledgePlayer',
 	'startGame': 'startGame',
 	'receivedSet' : 'receivedSet'
 });
@@ -11,9 +13,12 @@ var SessionAction = Object.freeze({
 class Session{
 
 	//#TODO: move keys to something a little more private
-	constructor(hostKey){
+	constructor(username,isLeader,hostKey){
 		if(hostKey) this.key = hostKey;
 		else this.key = this.generateKey();
+
+		this.isLeader = isLeader;
+		this.username = username;
 
 		this.userKey = this.generateKey();
 		this.sessionState = SessionState.initialization;
@@ -22,6 +27,10 @@ class Session{
 			publishKey: 'pub-c-1cfbf4f3-4f57-47eb-b09a-5dd39873601a',
 			subscribeKey: 'sub-c-64b4a468-6755-11e9-9ea7-ba8f97af5780'
 		});
+
+		this.playersInLobby = {};
+		this.playersInLobby[this.userKey] = this.username;
+
 
 		console.log(this);
 	}
@@ -43,10 +52,54 @@ class Session{
 		let sender = msg.senderKey;
 		let data = msg.data;
 
+		console.log(dataPackage);
 		console.log(msg);
 		console.log(action);
 
 		switch(action){
+
+			case(SessionAction.joinGame):
+
+				//if user sent message, ignore
+				if(sender == this.userKey) break;
+
+				//if user is not the leader, they are done
+				if(!this.isLeader) break;
+
+				let username = msg.username;
+				console.log(username)
+				receivedLobbyMember(username);
+
+				this.playersInLobby[sender] = username;
+				console.log(this.playersInLobby);
+
+				//update other players of current lobby loadout
+				 let json = {
+                    "lobby": this.playersInLobby,
+                    "userKey": this.userKey,
+                    "action": SessionAction.acknowledgePlayer
+                }
+                this.sendMessage(json);
+
+				break;
+
+			case(SessionAction.acknowledgePlayer):
+
+				//leader already knows all players in game
+				if(this.isLeader) break;
+
+				let lobby = msg.lobby;
+
+				for (var userkey in lobby){
+					if(!this.playersInLobby[userkey]){
+						this.playersInLobby[userkey] = lobby[userkey]
+						receivedLobbyMember(lobby[userkey])
+					}
+
+				}
+
+				break;
+					
 
 			case(SessionAction.startGame):
 

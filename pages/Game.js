@@ -62,7 +62,7 @@ let gameHTML =
          </div>
          <div id="onlineMenu">
             <a href="#" onclick="addCards()" class="w3-bar-item w3-button">
-            <i class="fa fa-plus" title="Add 3 cards"></i>
+            <i class="fa fa-plus" e="Add 3 cartitlds"></i>
             </a>
             <a href="#" onclick ="pages.tutorial.open()" class="w3-bar-item w3-button">
             <i class="fa fa-question-circle" title="Help"></i>
@@ -160,4 +160,63 @@ function createGame() {
     document.game = game;
 
     game.startGame();
+}
+
+
+    function hideSets(){
+
+        if (document.setsAreHidden) document.setsAreHidden = false;
+        else document.setsAreHidden = true;
+
+
+        document.getElementById("past-sets-wrapper").style.display = document.setsAreHidden ? "none" : "block";
+    }
+
+     //toggles paused state, where timer is stopped and cards are hidden
+function pause() {
+
+	document.isPaused = !(document.isPaused)
+
+	document.game.toggleTimer();
+
+    //toggle pause & play icon
+    document.getElementById("pauseIcon").className = document.isPaused ? "fa fa-play" : "fa fa-pause";
+
+    //toggle cards
+    document.getElementById("Cards").style.display = document.isPaused ? "none" : "block";
+
+    //toggle past
+    document.getElementById("past-sets-wrapper").style.display = document.isPaused ? "none" : "block";
+}
+
+//randomizes order of cards on screen
+function shuffleCards() {
+    document.game.shuffle();
+}
+
+//adds 3 additional cards to the screen
+function addCards() {
+    document.game.addCards(3);
+}
+
+//highlights a card part of a known set
+function giveHint() {
+    document.game.highlightSet(false);
+}
+
+//highlights an entire set found
+function showSet() {
+    document.game.highlightSet(true);
+}
+
+function toggleOffline() {
+
+    document.getElementById("offline-icon").className = document.offline ?  "fa fa-square-o" : "fa fa-check-square-o";
+
+    //toggle offline status
+    document.offline = document.offline != true;
+
+    //toggle offline & online menus
+    document.getElementById("offlineMenu").style.display = document.offline ? "block" : "none";
+    document.getElementById("onlineMenu").style.display = !document.offline ? "block" : "none";
 }

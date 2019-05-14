@@ -11,16 +11,19 @@
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
       <link rel="stylesheet" href="./style/style.css">
       <link rel="stylesheet" href="./style/tutorialStyle.css">
+      <link rel="stylesheet" href="./style/MultiplayerSetupStyle.css">
+
       <script src = "./pubnub.4.21.7.js"></script>
       <script src = "./Multiplayer.js"></script>
       <script src = "./Page.js"></script>
-      <script src = "./MainMenu.js"></script>
-      <script src = "./Tutorial.js"></script>
-      <script src = "./Game.js"></script>
+      <script src = "./pages/MainMenu.js"></script>
+      <script src = "./pages/Tutorial.js"></script>
+      <script src = "./pages/Game.js"></script>
+      <script src = "./pages/MultiplayerSetup.js"></script>
 
 
   </head>
-  <body>
+  <body class = "unselectable">
       <div id = "title-container" class = "title-container">
          <div class = "title-background">
             <p id = "title" class="title"> Lorne's Set Game </p>
@@ -37,34 +40,6 @@
     });
 </script>
 <script>
-
-
-    function hideSets(){
-
-        if (document.setsAreHidden) document.setsAreHidden = false;
-        else document.setsAreHidden = true;
-
-
-        document.getElementById("past-sets-wrapper").style.display = document.setsAreHidden ? "none" : "block";
-    }
-
-                //toggles paused state, where timer is stopped and cards are hidden
-                function pause() {
-                    if (document.isPaused) document.isPaused = false;
-                    else document.isPaused = true;
-
-                    //toggle pause & play icons
-                    document.getElementById("pauseIcon").className = document.isPaused ? "fa fa-play" : "fa fa-pause";
-                    document.getElementById("Cards").style.display = document.isPaused ? "none" : "block";
-                    document.getElementById("past-sets-wrapper").style.display = document.isPaused ? "none" : "block";
-                }
-
-                //opens setup screen for multiplayer game
-                function openMultiplayerSetup() {
-                    let session = new Session();
-                    document.getElementById("MainMenu").style.display = "none";
-                    document.getElementById("InitalizingMultiplayer").style.display = "block";
-                }
 
                 /** In-Game Functions **/
 
@@ -90,50 +65,7 @@
                     }
                 }
 
-                // //removes game from screen & past sets, clears game data, & returns to main menu
-                // function destroyGame() {
 
-                //     //Remove Past Sets
-                //     let pastSets = document.getElementById("past-sets");
-                //     removeAllChildren(pastSets);
-
-                //     //Remove any leftover cards
-                //     let leftoverCards = document.getElementById("Cards");
-                //     removeAllChildren(leftoverCards);
-
-
-                //     document.doAutoPlayGame = false;
-
-                //     //Hide Main Menu
-                //     document.getElementById("MainMenu").style.display = "block";
-
-                //     //Show Game
-                //     document.getElementById("Game").style.display = "none";
-
-                //     //Initialize game
-                //     document.game = null;
-
-                // }
-
-                //randomizes order of cards on screen
-                function shuffleCards() {
-                    document.game.shuffle();
-                }
-
-                //adds 3 additional cards to the screen
-                function addCards() {
-                    document.game.addCards(3);
-                }
-
-                //highlights a card part of a known set
-                function giveHint() {
-                    document.game.highlightSet(false);
-                }
-
-                //highlights an entire set found
-                function showSet() {
-                    document.game.highlightSet(true);
-                }
 
                 //closes window of game
                 function closeTab() {
@@ -141,131 +73,8 @@
                     window.close();
                 }
 
-                //removes rule screen from screen and returns to main menu
-                function hideRules() {
-                    //hide rules screen
-                    document.getElementById("Tutorial").style.display = "none";
-
-                    //shows main menu
-                    document.getElementById("MainMenu").style.display = "block";
-
-                }
-
-
-
             </script>
-            <div id="InitalizingMultiplayer" style="display: none" class="centered-help-screen">
-             <input type="radio" name="sessionState" value="Create Game" onclick="initalizeAsHost()"> Create Game<br>
-             <input type="radio" name="sessionState" value="Join Game" onclick="initalizeAsGuest()"> Join Game<br>
-             <br><br>
-             <p id="linkText">Enter link:</p>
-             <input id="link" type="text" name="link" value="">
-             <button onclick="joinHost()">submit</button>
-             <br /><br />
-             <div id="players-div">
-                <p id="">Players in game:</p>
-                <ul id="players-in-game">
-                   <li>Coffee</li>
-                   <li>Tea</li>
-                   <li>Milk</li>
-               </ul>
-               <button onclick="startGame()">Start Game</button>
-           </div>
-           <script type="text/javascript">
-            //switch menu to buttons if offline (icons currently not available offline)
-            function toggleOffline() {
-
-                document.getElementById("offline-icon").className = document.offline ?  "fa fa-square-o" : "fa fa-check-square-o";
-
-                //toggle offline status
-                document.offline = document.offline != true;
-
-                //toggle offline & online menus
-                document.getElementById("offlineMenu").style.display = document.offline ? "block" : "none";
-                document.getElementById("onlineMenu").style.display = !document.offline ? "block" : "none";
-            }
-            
-            /** Multiplayer Functions **/
-            
-            //creates a session with unique link to enter same lobby as host
-            function initalizeAsHost() {
-
-                //initialize new session
-                let session = new Session();
-                document.session = session;
-
-                //subscribe to session to receives updates in game flow
-                session.subscribeSession();
-
-                //show unique link
-                let link = document.getElementById("link")
-                link.value = session.key
-
-                //change instructions to host setting
-                document.getElementById("linkText").innerText = "Send link to other players"
-
-            }
-            
-            //removes link if present and provides instructions to join host
-            function initalizeAsGuest() {
-
-                //clears link field
-                let link = document.getElementById("link")
-                link.value = ""
-
-                //change instructions to guest setting
-                document.getElementById("linkText").innerText = "Paste Link Here:"
-
-            }
-            
-            //attempts to join host & sends message if the host's lobby can be joined
-            //#TODO check if session available
-            function joinHost() {
-
-                //get session ID
-                let link = document.getElementById("link")
-                let key = link.value;
-
-                //create session in same lobby as host
-                let session = new Session(key);
-                document.session = session;
-
-                //subscribes to receive updates from other player(s) in the lobby
-                session.subscribeSession();
-
-                //sends player's unique identifier to other players
-                //#TODO pubnub may already have unique key names & can possibly delete
-                let json = {
-                    "username": "name",
-                    "userKey": session.keyName
-                }
-                session.sendMessage(json);
-
-
-            }
-            
-            //Host creates a new game & sends game data to other player's in lobby
-            function startGame() {
-
-                //create new game
-                let game = new Game(GameType.multiplayer);
-                document.game = game;
-
-                //close left menu (opens on switch to new game if not turned off)
-                closeLeftMenu();
-
-                //sends game data package
-                let json = {
-                    "action": SessionAction.startGame,
-                    "data": {
-                        "cards": game.getCardsInOrder()
-                    }
-                };
-                document.session.sendMessage(json);
-            }
-            
-        </script>
-    </div>
+    
 
 </body>
 <script type="text/javascript">
@@ -273,7 +82,8 @@
   var pages = Object.freeze({
     'mainMenu': mainMenu,
     'tutorial': tutorial,
-    'game' : game
+    'game' : game,
+    'multiplayerSetup':multiplayerSetup
 });
   document.pageStack = [];
 
@@ -291,7 +101,6 @@
     };
 
     pages.mainMenu.open();
-    //console.log(mainMenu)
-      // openHelpScreen();
+
   </script>
   </html>
