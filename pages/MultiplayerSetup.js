@@ -116,7 +116,7 @@ let multiplayerSetupHTML =
    <br/>
    <br/>
    <div id = "multiplayer-setup-start-game-button" class="w3-xxlarge start-game-button" style = " display: none;">
-      <a href="#" onclick="" class="w3-black w3-bar-item w3-button">
+      <a href="#" onclick="startGame()" class="w3-black w3-bar-item w3-button">
       <i id = "multiplayer-setup-start-game-icon" class="fa fa-play-circle" title="Start Game"></i>
       </a>
    </div>
@@ -152,9 +152,7 @@ function localGame(){
 }
 
 function onlineGame(){
-    let startMsg = " Online Game "
     document.getElementById("online-game").style.display = "flex";
-    showStartGameButton(startMsg);
 }
 
 function copyLink(){
@@ -221,6 +219,10 @@ listItem.appendChild(link);
                 document.getElementById("submit-link").style.display = "none";
                 document.getElementById("copy-clipboard").style.display = "-webkit-inline-box";
 
+                let startMsg = " Online Game "
+                showStartGameButton(startMsg);
+
+
             }
             
             //removes link if present and provides instructions to join host
@@ -285,6 +287,8 @@ listItem.appendChild(link);
                     }
                 };
                 document.session.sendMessage(json);
+
+                pages.game.open();
             }
             
 //         </script>

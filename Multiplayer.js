@@ -111,6 +111,7 @@ class Session{
 						let game = new Game(GameType.multiplayer,cards);
 						game.startGame();
 						document.game = game;
+						pages.game.open()
 					}
 				//user is host
 				else{
