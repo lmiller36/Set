@@ -20,35 +20,78 @@
       <script src = "./pages/Tutorial.js"></script>
       <script src = "./pages/Game.js"></script>
       <script src = "./pages/MultiplayerSetup.js"></script>
+      <script src="https://apis.google.com/js/platform.js" async defer></script>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="google-signin-client_id" content="968840994510-d1gefhobjq4be9ofad0v81ek2qlmdo8u.apps.googleusercontent.com">
+    </head>
 
 
-  </head>
-  <body class = "unselectable">
+    <body class = "unselectable">
       <div id = "title-container" class = "title-container">
-         <div class = "title-background">
-            <p id = "title" class="title"> Lorne's Set Game </p>
+       <div class = "title-background">
+        <p id = "title" class="title"> Lorne's Set Game </p>
+      </div>
+      <div id = "google-login" style="overflow:auto;">
+        <div id = "google-sign-in" class="g-signin2" data-onsuccess="onSignIn" style="float:right;"></div>
+        <div class="dropdown" style="float:right;  overflow-x: hidden;">
+          <img id = "google-user-image-url" style="float:right; display: none; cursor: pointer;" title="Sign Out" class=""></img>
+          <div class="dropdown-content">
+            <div><a href="#">Link 1</a></div>
+            <div><a href="#">Link 2</a></div>
+            <div><a href="#" onclick="signOut()">Sign Out</a></div>
+          </div>
         </div>
+      </div>
     </div>
-    <div id = "pages" > </div>
+
     <script>
-     $(function() {
-        var includes = $('[data-include]');
-        jQuery.each(includes, function() {
-            var file = 'views/' + $(this).data('include') + '.html';
-            $(this).load(file);
-        });
+      function onSignIn(googleUser) {
+        var profile = googleUser.getBasicProfile();
+    console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+    console.log('Name: ' + profile.getName());
+    console.log('Image URL: ' + profile.getImageUrl());
+    console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+
+    let image_url = profile.getImageUrl();
+    if(image_url){
+      document.getElementById("google-sign-in").style.display = "none";
+      document.getElementById("google-user-image-url").style.display = "block";
+      document.getElementById("google-user-image-url").src = image_url;
+
+    } 
+  }
+  function signOut() {
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+      console.log('User signed out.');
     });
+
+    document.getElementById("google-sign-in").style.display = "block";
+    document.getElementById("google-user-image-url").style.display = "none";
+    document.getElementById("google-user-image-url").removeAttribute('src');
+
+  }
+</script>
+<div id = "pages" > </div>
+<script>
+ $(function() {
+  var includes = $('[data-include]');
+  jQuery.each(includes, function() {
+    var file = 'views/' + $(this).data('include') + '.html';
+    $(this).load(file);
+  });
+});
 </script>
 <script>
-    console.log('shownie')
+  console.log('shownie')
 
-                /** In-Game Functions **/
+  /** In-Game Functions **/
 
                 //opens a game in single player mode
                 function initializeSinglePlayerGame() {
 
-                    document.getElementById("End-Game-Screen").style.display = "none";
-                    document.getElementById("CardsAndMenu").style.display = null;
+                  document.getElementById("End-Game-Screen").style.display = "none";
+                  document.getElementById("CardsAndMenu").style.display = null;
 
                     //Initialize game
                     let game = new Game(GameType.single);
@@ -56,49 +99,49 @@
 
                     game.startGame();
 
-                }
+                  }
 
-                function removeAllChildren(node) {
+                  function removeAllChildren(node) {
                     if(!node)return;
 
                     while (node.firstChild) {
-                        node.removeChild(node.firstChild);
+                      node.removeChild(node.firstChild);
                     }
-                }
+                  }
 
 
 
                 //closes window of game
                 function closeTab() {
-                    window.open('', '_self', '');
-                    window.close();
+                  window.open('', '_self', '');
+                  window.close();
                 }
 
-            </script>
-    
+              </script>
 
-</body>
-<script type="text/javascript">
 
-  var pages = Object.freeze({
-    'mainMenu': mainMenu,
-    'tutorial': tutorial,
-    'game' : game,
-    'multiplayerSetup':multiplayerSetup
-});
-  document.pageStack = [];
+            </body>
+            <script type="text/javascript">
+
+              var pages = Object.freeze({
+                'mainMenu': mainMenu,
+                'tutorial': tutorial,
+                'game' : game,
+                'multiplayerSetup':multiplayerSetup
+              });
+              document.pageStack = [];
 
 
     //initializeScreen
 
     //add pages to DOM, to be easily hidden or shown
     for (pageName in pages) {
-        let page = pages[pageName];
-        let div = document.createElement('div');
-        div.id = page.id;
-        div.style.display = "none";
-        div.innerHTML = page.html;
-        document.getElementById("pages").appendChild(div);
+      let page = pages[pageName];
+      let div = document.createElement('div');
+      div.id = page.id;
+      div.style.display = "none";
+      div.innerHTML = page.html;
+      document.getElementById("pages").appendChild(div);
     };
 
     pages.mainMenu.open();
