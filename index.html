@@ -21,6 +21,8 @@
       <script src = "./pages/Tutorial.js"></script>
       <script src = "./pages/Game.js"></script>
       <script src = "./pages/MultiplayerSetup.js"></script>
+      <script src = "./AvatarUrls.js"></script>
+
       <script src="https://apis.google.com/js/platform.js" async defer></script>
           <script async defer src="https://apis.google.com/js/api.js"
     onload="this.onload=function(){};handleClientLoad()"
@@ -99,6 +101,10 @@
     console.log('Image URL: ' + profile.getImageUrl());
     console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
 
+    document.username = profile.getEmail().substring(0,profile.getEmail().indexOf("@"));
+    document.avatar = profile.getImageUrl();
+
+
     let image_url = profile.getImageUrl();
     if(image_url){
       document.getElementById("google-sign-in").style.display = "none";
@@ -120,17 +126,8 @@
   }
 </script>
 <div id = "pages" > </div>
+
 <script>
- $(function() {
-  var includes = $('[data-include]');
-  jQuery.each(includes, function() {
-    var file = 'views/' + $(this).data('include') + '.html';
-    $(this).load(file);
-  });
-});
-</script>
-<script>
-  console.log('shownie')
 
   /** In-Game Functions **/
 

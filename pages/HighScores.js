@@ -55,7 +55,7 @@ let highScoresHTML =
                    <th>Date</th>
                </tr>
            </thead>
-           <tbody>
+           <tbody id = "highscores-rows">
            </tbody>
        </table>
    </div>
@@ -68,6 +68,12 @@ highScores.show = function (){
    document.getElementById("high-scores").style.display = "block";
    loadHighScores();
 };
+
+highScores.hide = function(){
+      removeAllChildren(document.getElementById("highscores-rows"))
+      document.getElementById("high-scores").style.display = "none";
+};
+
 
 
 
@@ -85,9 +91,8 @@ function loadHighScores(){
           scores.forEach( (entry) => {
             let username = entry[0];
             let score = entry[1];
-            let location = entry[2];
-            let timeOfPlay = entry[3];
-            let avatarUrl = entry[4];
+            let timeOfPlay = entry[2];
+            let avatarUrl = entry[3];
 
             let date = new Date(parseInt(timeOfPlay)).toLocaleDateString("en-US")
 

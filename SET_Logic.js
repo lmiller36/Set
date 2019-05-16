@@ -468,6 +468,63 @@ endGame(){
     let secondsTaken = document.getElementById("timer").innerText;
     document.getElementById("End-Game-Stats").innerText = `Congratulations on completing your Set game! You took ${secondsTaken} seconds`
 
+    //post to high scores
+    this.postHighScore(secondsTaken);
+
+}
+
+postHighScore(secondsTaken){
+
+
+
+        var username = "anonymous";
+        let seconds = secondsTaken;
+        let timeInUTC = new Date(Date.now()).getTime();
+        var avatar = avatar_urls[Math.floor(Math.random()*avatar_urls.length)];
+
+        //user is signed in
+        if(gapi.auth2.getAuthInstance().isSignedIn.get()){
+            username = document.username;
+            avatar = document.avatar;
+        }
+        //FIX SO ANONYMOUSE scores can be
+        else return;
+
+        let values = [
+        [
+        username,seconds,timeInUTC,avatar
+        ],
+
+        ];
+        const resource = {
+          values:values,
+          majorDimension: "ROWS"
+        };
+
+
+        console.log(values);
+
+        gapi.client.sheets.spreadsheets.values.append({
+          spreadsheetId: '14icWT4vA_GirySo4aqvYCzzLytl7Xe21httwMLPDn48',
+          range: 'Sheet1!A:D'
+          ,
+          valueInputOption:"USER_ENTERED",
+          resource:resource
+        }).then(function(response) {
+          console.log(response)
+          // var range = response.result;
+          // if (range.values.length > 0) {
+          //   appendPre('Name, Major:');
+          //   for (i = 0; i < range.values.length; i++) {
+          //     var row = range.values[i];
+          //     // Print columns A and E, which correspond to indices 0 and 4.
+          //     appendPre(row[0] + ', ' + row[4]);
+          //   }   
+          // } else {
+          //   appendPre('No data found.');
+          // }
+        }, function(response) {
+        });
 }
 
 
