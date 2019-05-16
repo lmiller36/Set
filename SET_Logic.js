@@ -487,7 +487,6 @@ postHighScore(secondsTaken){
             username = document.username;
             avatar = document.avatar;
         }
-        //FIX SO ANONYMOUSE scores can be
         else return;
 
         let values = [
@@ -512,17 +511,6 @@ postHighScore(secondsTaken){
           resource:resource
         }).then(function(response) {
           console.log(response)
-          // var range = response.result;
-          // if (range.values.length > 0) {
-          //   appendPre('Name, Major:');
-          //   for (i = 0; i < range.values.length; i++) {
-          //     var row = range.values[i];
-          //     // Print columns A and E, which correspond to indices 0 and 4.
-          //     appendPre(row[0] + ', ' + row[4]);
-          //   }   
-          // } else {
-          //   appendPre('No data found.');
-          // }
         }, function(response) {
         });
 }

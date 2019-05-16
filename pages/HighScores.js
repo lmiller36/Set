@@ -84,11 +84,16 @@ function loadHighScores(){
         }).then(function(response) {
           console.log(response)
           let scores = response.result.values;
+
           if(!scores) return;
 
+       let scoresSorted = scores.sort(function(a, b){
+        return parseInt(a[1]) - parseInt(b[1]);
+      });
+       console.log(scoresSorted);
 
           let count = 1;
-          scores.forEach( (entry) => {
+          scoresSorted.forEach( (entry) => {
             let username = entry[0];
             let score = entry[1];
             let timeOfPlay = entry[2];
