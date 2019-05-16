@@ -23,6 +23,11 @@ let mainMenuHTML =
             </button>
          </div>
          <div>
+            <button class="btn centered" onclick="pages.highScores.open()">
+            <i class="fa fa-list-ol"></i> High Scores
+            </button>
+         </div>
+         <div>
             <button class="btn centered" onclick="closeTab()"">
             <i class=" fa fa-times"></i> Exit
             </button>

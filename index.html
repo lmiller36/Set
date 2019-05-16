@@ -17,10 +17,15 @@
       <script src = "./Multiplayer.js"></script>
       <script src = "./Page.js"></script>
       <script src = "./pages/MainMenu.js"></script>
+      <script src = "./pages/HighScores.js"></script>
       <script src = "./pages/Tutorial.js"></script>
       <script src = "./pages/Game.js"></script>
       <script src = "./pages/MultiplayerSetup.js"></script>
       <script src="https://apis.google.com/js/platform.js" async defer></script>
+          <script async defer src="https://apis.google.com/js/api.js"
+    onload="this.onload=function(){};handleClientLoad()"
+    onreadystatechange="if (this.readyState === 'complete') this.onload()">
+  </script>
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="google-signin-client_id" content="968840994510-d1gefhobjq4be9ofad0v81ek2qlmdo8u.apps.googleusercontent.com">
     </head>
@@ -34,7 +39,7 @@
       <div id = "google-login" style="overflow:auto;">
         <div id = "google-sign-in" class="g-signin2" data-onsuccess="onSignIn" style="float:right;"></div>
         <div class="dropdown" style="float:right;  overflow-x: hidden;">
-          <img id = "google-user-image-url" style="float:right; display: none; cursor: pointer;" title="Sign Out" class=""></img>
+          <img id = "google-user-image-url" src = "./imgs/default_logo.jpg" style="float:right; display: none; cursor: pointer;" title="Sign Out" class=""></img>
           <div class="dropdown-content">
             <div><a href="#">Link 1</a></div>
             <div><a href="#">Link 2</a></div>
@@ -45,6 +50,48 @@
     </div>
 
     <script>
+
+            var CLIENT_ID = '968840994510-d1gefhobjq4be9ofad0v81ek2qlmdo8u.apps.googleusercontent.com';
+      var API_KEY = 'AIzaSyAwb096dzp9ykl-v46KBA0ZPGF8OoAV_pE';
+
+      // Array of API discovery doc URLs for APIs used by the quickstart
+      var DISCOVERY_DOCS = ["https://sheets.googleapis.com/$discovery/rest?version=v4"];
+
+      // Authorization scopes required by the API; multiple scopes can be
+      // included, separated by spaces.
+      var SCOPES = "https://www.googleapis.com/auth/spreadsheets";
+
+      var authorizeButton = document.getElementById('authorize_button');
+      var signoutButton = document.getElementById('signout_button');
+
+             function handleClientLoad() {
+         gapi.load('client:auth2', initClient);
+      }
+
+             function updateSigninStatus(isSignedIn) {
+ console.log(isSignedIn)
+      }
+
+
+  function initClient() {
+        gapi.client.init({
+          apiKey: API_KEY,
+          clientId: CLIENT_ID,
+          discoveryDocs: DISCOVERY_DOCS,
+          scope: SCOPES
+        }).then(function () {
+          // Listen for sign-in state changes.
+          gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
+
+          // Handle the initial sign-in state.
+          updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
+          // authorizeButton.onclick = handleAuthClick;
+          // signoutButton.onclick = handleSignoutClick;
+        }, function(error) {
+          appendPre(JSON.stringify(error, null, 2));
+        });
+      }
+// 
       function onSignIn(googleUser) {
         var profile = googleUser.getBasicProfile();
     console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
@@ -125,6 +172,7 @@
 
               var pages = Object.freeze({
                 'mainMenu': mainMenu,
+                'highScores' : highScores,
                 'tutorial': tutorial,
                 'game' : game,
                 'multiplayerSetup':multiplayerSetup
@@ -145,6 +193,6 @@
     };
 
     pages.mainMenu.open();
-
+//pages.highScores.open();
   </script>
   </html>
